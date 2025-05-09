@@ -1,10 +1,16 @@
 import { Link } from 'react-router-dom';
+import styles from './Navbar.module.css';
+import logo from '../../assets/LOGO HS.jpg';
+
 
 export default function Navbar() {
     return (
-        <nav className="bg-red-600 text-white p-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold">Mi Tienda</h1>
-        <ul className="flex space-x-4">
+        <nav className={styles.navbar}>
+        <div className={styles.logo}>
+        <img src={logo} alt="Logo de la empresa" className={styles.logoImg} />
+    
+        </div>
+        <ul className={styles.links}>
             <li><Link to="/">Inicio</Link></li>
             <li><Link to="/nosotros">Nosotros</Link></li>
             <li><Link to="/productos">Productos</Link></li>
