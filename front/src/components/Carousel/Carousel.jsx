@@ -1,0 +1,35 @@
+import React from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import styles from './Carousel.module.css';
+
+const products = [
+    { id: 1, name: 'Bomba Hidráulica', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1746567434/product/bombaparatractorpng.png' },
+    { id: 2, name: 'Válvula de control', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1746567434/product/bombaparatractorpng.png' },
+    { id: 3, name: 'Cilindro hidráulico', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1746567434/product/bombaparatractorpng.png' },
+    ];
+
+export default function Carousel() {
+    const settings = {
+    dots: true,
+    infinite: true,
+    speed: 800,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+        autoplay: true,
+    };
+
+    return (
+        <div className={styles.carouselContainer}>
+        <Slider {...settings}>
+            {products.map(product => (
+            <div key={product.id} className={styles.slide}>
+                <img src={product.image} alt={product.name} />
+                <h3>{product.name}</h3>
+            </div>
+            ))}
+        </Slider>
+        </div>
+    );
+    }

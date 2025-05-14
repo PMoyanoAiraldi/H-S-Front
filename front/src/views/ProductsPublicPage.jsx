@@ -10,8 +10,8 @@ import CategoryFilter from '../components/CategoryFilter';
     useEffect(() => {
         // 🔁 Reemplazar con fetch a tu API
         const data = [
-        { id: 1, name: "Cerveza Roja", category: "Bebidas", price: 500, imageUrl: "https://via.placeholder.com/300" },
-        { id: 2, name: "Pan Casero", category: "Panadería", price: 300, imageUrl: "https://via.placeholder.com/300" }
+        { id: 1, name: "Bombas a engranajes para cosechadoras", category: "Cosechadoras", imageUrl: "https://res.cloudinary.com/dl7hjkrhq/image/upload/v1746567434/product/bombaparatractorpng.png" },
+        
         ];
         setProducts(data);
         setFiltered(data);
