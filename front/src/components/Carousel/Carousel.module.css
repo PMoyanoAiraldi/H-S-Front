@@ -1,15 +1,16 @@
 .carouselContainer {
-    max-width: 900px;
-    margin: 2rem auto;
+    max-width: 500px;
+    margin: 1rem auto;
     text-align: center;
+    background-color: #e9f2f9;
     }
 
     .slide img {
     width: 100%;
     height: auto;
-    border-radius: 10px;
-    }
+    border-radius: 5px;
+}
 
     .slide h3 {
     margin-top: 0.5rem;
-    }
+}
