@@ -1,8 +1,10 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import Navbar from './components/Navbar/Navbar';
+import { Routes, Route } from "react-router-dom";
 import LandingPage from './views/LandingPage';
 import ProductsPublicPage from './views/ProductsPublicPage';
-import Carousel from "./components/Carousel/Carousel";
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
+import AboutPage from "./views/AboutPage/AboutPage";
+
 
 
 function App() {
@@ -11,12 +13,14 @@ function App() {
   return (
     <>
       
-      <Navbar />
-      <Carousel />
+      <Navbar/>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/productos" element={<ProductsPublicPage />} />
-      </Routes>
+        <Route path="/products" element={<ProductsPublicPage />} />
+        <Route path="/aboutPage" element={<AboutPage />} />
+    </Routes>
+    <Footer/>
+      
       
         
     </>

@@ -1,22 +1,29 @@
 import { Link } from 'react-router-dom';
 import styles from './Navbar.module.css';
 import logo from '../../assets/LOGO HS.png';
+import { FaUser } from 'react-icons/fa'
 
 
 export default function Navbar() {
     return (
         <nav className={styles.navbar}>
         <div className={styles.logo}>
-        <img src={logo} alt="Logo de la empresa" className={styles.logoImg} />
+        <Link to='/'><img src={logo} alt="Logo de la empresa" className={styles.logoImg} /></Link>
     
         </div>
         <ul className={styles.links}>
-            <li><Link to="/" className={styles.links}>Inicio</Link></li>
-            <li><Link to="/nosotros" className={styles.links}>Nosotros</Link></li>
-            <li><Link to="/productos" className={styles.links}>Productos</Link></li>
-            <li><Link to="/ubicacion" className={styles.links}>Ubicación</Link></li>
-            <li><Link to="/login" className={styles.links}>Iniciar sesión</Link></li>
+            <li><Link to="/" className={styles.links}>INICIO</Link></li>
+            <li><Link to="/aboutPage" className={styles.links}>NOSOTROS</Link></li>
+            <li><Link to="/products" className={styles.links}>PRODUCTOS</Link></li>
+            <li><Link to="/contact" className={styles.links}>CONTACTO</Link></li>
+            
         </ul>
+
+        <div className={styles.loginAccess}>
+                <Link to="/login" className={styles.loginLink} title="Acceso Clientes">
+                    <FaUser />
+                </Link>
+            </div>
         </nav>
     );
     }
