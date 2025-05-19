@@ -8,7 +8,7 @@ export default function Navbar() {
     return (
         <nav className={styles.navbar}>
         <div className={styles.logo}>
-        <Link to='/'><img src={logo} alt="Logo de la empresa" className={styles.logoImg} /></Link>
+        <Link to='/' ><img src={logo} alt="Logo de la empresa" className={styles.logoImg} /></Link>
     
         </div>
         <ul className={styles.links}>
