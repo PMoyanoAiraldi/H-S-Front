@@ -3,18 +3,18 @@
         justify-content: space-between;
         align-items: center;
         padding: 1rem 3rem;
-        width: 100%;
+        width: 100vw;
         background-color: #e9f2f9; 
         position: sticky; /* o fixed si querés que quede arriba al scrollear */
         top: 0;
         z-index: 10;
-        
+        box-sizing: border-box;
         
     }
     
     .links {
         display: flex;
-        flex: 3;
+        flex: 1;
         justify-content: center;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         gap: 3rem;
@@ -22,30 +22,48 @@
         margin: 0;
         padding: 0;
         text-decoration: none;
-        font-weight: 500;
-        color: #3c8dbc;
+        font-weight: bold;
+        color: #00ADEF;
         transition: all 0.2s ease-in-out;
+        font-size: 20px;
         
     }
     
     .links li {
         cursor: pointer;
-        font-weight: 500;
-        color: #3c8dbc;
+        font-weight: bold;
+        color: #00ADEF;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         text-decoration: none;
-        transition: all 0.2s ease-in-out;
+        transition: all 0.3s ease;
+        padding: 0.5rem 1rem;
+        border-radius: 8px 8px 0 0;
+        user-select: none;
     }
     
-    .links li:hover {
-        opacity: 0.8;
-        color: #21618c
+    .links li.active {
+        position: relative;
+        background-color: #00ADEF;
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 4px 10px rgba(0, 173, 239, 0.5);
+        transform: translateY(-8px);
+        font-weight: 700;
     }
 
+    .links li:hover:not(.active) {
+    color: #07abec;
+    opacity: 1;
+    transform: translateY(-4px);
+    cursor: pointer;
+}
+
     .logo {
-        flex: 1;
+        flex: 0 0 auto; /* Que no crezca ni se encoja, tamaño natural */
         display: flex;
-        justify-content: flex-end; 
+        justify-content: flex-start; 
+        align-items: center;
     }
     
     .logoImg {
@@ -54,13 +72,14 @@
     }
 
     .loginAccess {
-    flex: 1;
+    flex: 0 0 auto; /* No crece ni se encoje */
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-end; /* Pegado a la derecha */
+    align-items: center;
 }
 .loginLink {
     font-size: 1.1rem;
-    color: #52595f;
+    color: #00ADEF;
     text-decoration: none;
     font-weight: 500;
     display: flex;

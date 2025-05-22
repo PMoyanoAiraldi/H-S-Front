@@ -17,7 +17,11 @@ export default function Carousel() {
     speed: 800,
     slidesToShow: 1,
     slidesToScroll: 1,
-        autoplay: true,
+    autoplay: true,          // que pase solo
+    autoplaySpeed: 4000,     // cada 4 segundos (ajustable)
+    pauseOnHover: true,      // pausa si paso el mouse encima
+    pauseOnFocus: true,      // pausa si hago foco en los botones
+    arrows: true             // para que los botones prev/next estén visibles y funcionen
     };
 
     return (

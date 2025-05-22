@@ -8,7 +8,7 @@ export default function AboutPage() {
         Nuestro principal objetivo es brindar a nuestros clientes soluciones rápidas, eficientes y al mejor precio. Para lograrlo, ofrecemos una atención personalizada, una logística ágil y un amplio stock que nos permite responder de forma inmediata a sus necesidades.
         Trabajamos constantemente en la innovación y mejora de nuestros procesos, con el compromiso de superar las expectativas de quienes nos eligen. Porque para nosotros, la confianza de nuestros clientes es nuestro mayor logro.</p> 
 
-        <h2 className={styles.title}>Nuestra ubicación</h2>
+        
         <div className={styles.mapContainer}>
         <iframe
             title="Ubicación de Hidráulica HS SRL"
