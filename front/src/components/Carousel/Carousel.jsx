@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import styles from './Carousel.module.css';
 
 const products = [
-    { id: 1, name: 'Bomba Hidráulica', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1746567434/product/bombaparatractorpng.png' },
+    { id: 1, name: 'Soluciones hidráulicas para cada necesidad', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1748295738/soluciones_hidraulicas_r8vath.png' },
     { id: 2, name: 'Válvula de control', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1746567434/product/bombaparatractorpng.png' },
     { id: 3, name: 'Cilindro hidráulico', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1746567434/product/bombaparatractorpng.png' },
     ];
