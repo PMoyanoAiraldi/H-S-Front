@@ -6,8 +6,8 @@ import styles from './Carousel.module.css';
 
 const products = [
     { id: 1, name: 'Soluciones hidráulicas para cada necesidad', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1748557815/soluciones_hidraulicas_ynxygl.png' },
-    { id: 2, name: 'Comprometidos con el agro, la industria y la movilidad', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1748561207/Comprometidos_con_el_agro_alto_500_talwib.png' },
-    { id: 3, name: 'Cilindro hidráulico', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1746567434/product/bombaparatractorpng.png' },
+    { id: 2, name: 'Comprometidos con el agro, la industria y la movilidad', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1748642844/comprometidos_con_el_agro_-_separadas_t4bpyx.png' },
+    { id: 3, name: 'Productos importados, calidad garantizada', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1748646548/importado_cy32ps.png' },
     ];
 
 export default function Carousel() {
