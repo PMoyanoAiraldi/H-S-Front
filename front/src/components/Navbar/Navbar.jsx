@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './Navbar.module.css';
-import logo from '../../assets/LOGO HS.png';
+import logo from '../../assets/LOGOHS.png';
 import { FaUser } from 'react-icons/fa'
 
 
@@ -12,10 +12,10 @@ export default function Navbar() {
     
         </div>
         <ul className={styles.links}>
-            <li><Link to="/" className={styles.links}>INICIO</Link></li>
-            <li><Link to="/aboutPage" className={styles.links}>NOSOTROS</Link></li>
-            <li><Link to="/products" className={styles.links}>PRODUCTOS</Link></li>
-            <li><Link to="/contact" className={styles.links}>CONTACTO</Link></li>
+            <li><Link to="/" className={styles.navLink}>INICIO</Link></li>
+            <li><Link to="/aboutPage" className={styles.navLink}>NOSOTROS</Link></li>
+            <li><Link to="/products" className={styles.navLink}>PRODUCTOS</Link></li>
+            <li><Link to="/contact" className={styles.navLink}>CONTACTO</Link></li>
             
         </ul>
 
@@ -27,3 +27,4 @@ export default function Navbar() {
         </nav>
     );
     }
+
