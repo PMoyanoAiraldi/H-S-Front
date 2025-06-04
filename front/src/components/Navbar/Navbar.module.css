@@ -2,31 +2,41 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 2rem;
+    padding: 1rem 3rem;
     background-color: #ffffff;
-    border-bottom: 1px solid #dbe9f4;
+    box-sizing: border-box;
     position: sticky;
     top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 5px rgba(0, 173, 239, 0.1);
+    z-index: 10;
+    width: 100vw;
+    
     }
 
     .logo {
+    flex: 0 0 auto; /* Que no crezca ni se encoja, tamaño natural */
     display: flex;
+    justify-content: flex-start; 
     align-items: center;
     }
 
     .logoImg {
-    height: 60px;
+    width: 150px;
     object-fit: contain;
+
     }
 
     .links {
     display: flex;
-    gap: 2rem;
+    gap: 3rem;
     list-style: none;
+    justify-content: center;
     margin: 0;
     padding: 0;
+    text-decoration: none;
+    font-weight: bold;
+    color: #00ADEF;
+    transition: all 0.2s ease-in-out;
+    font-size: 20px;
     }
 
     .links li a {
@@ -34,12 +44,33 @@
     font-weight: 600;
     font-size: 1rem;
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 8px 8px 0 0;
+    user-select: none;
     }
 
     .links li a:hover {
     color: #007bbd;
     }
+
+    .links li.active {
+        position: relative;
+        background-color: #00ADEF;
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 4px 10px rgba(0, 173, 239, 0.5);
+        transform: translateY(-8px);
+        font-weight: 700;
+    }
+
+    .links li:hover:not(.active) {
+    color: #07abec;
+    opacity: 1;
+    transform: translateY(-4px);
+    cursor: pointer;
+}
 
     .loginAccess {
     display: flex;
