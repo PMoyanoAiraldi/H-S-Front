@@ -4,6 +4,7 @@ import ProductsPublicPage from './views/ProductsPublicPage';
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import AboutPage from "./views/AboutPage/AboutPage";
+import styles from "./App.module.css"
 
 
 
@@ -11,7 +12,7 @@ function App() {
 
 
   return (
-    <>
+    <div className={styles.app}>
       
       <Navbar/>
       <Routes>
@@ -23,7 +24,7 @@ function App() {
       
       
         
-    </>
+    </div>
   )
 }
 

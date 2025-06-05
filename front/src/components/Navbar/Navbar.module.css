@@ -3,12 +3,13 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem 3rem;
-    background-color: #ffffff;
+    background-color: #f0f2f5;
     box-sizing: border-box;
     position: sticky;
     top: 0;
     z-index: 10;
     width: 100vw;
+    font-family: 'Poppins', sans-serif;
     
     }
 
