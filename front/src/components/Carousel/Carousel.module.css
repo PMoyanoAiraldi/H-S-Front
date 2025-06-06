@@ -1,23 +1,75 @@
     .carouselContainer {
-    max-width: 900px;
-    margin: 1rem auto;
-    text-align: center;
-    background-color: #e9f2f9;
-    border-radius: 6px;
-    padding: 0.7rem;
-    box-shadow: 0 6px 15px rgba(0, 173, 239, 0.15);
+        width: 100vw;
+        margin: 0 auto;
+        overflow: visible;
+        position: relative;
+        text-align: center;
+        z-index: 1;
+        padding: 0.7rem;
+
+        /*background-color: #e9f2f9;
+        border-radius: 6px;
+        
+        box-shadow: 0 6px 15px rgba(0, 173, 239, 0.15); */
+    }
+
+    .backgroundImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.85);
+    transition: transform 1s ease;
+}
+
+    .slide:hover .backgroundImage {
+    transform: scale(1.05); /* leve zoom al hacer hover */
     }
 
     
+    .overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5); /* fondo oscuro semi */
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    max-width: 90%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    opacity: 1; /* aseguramos que se vea siempre */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    text-align: center;
+}
+
+
+
+    .slide:hover .overlay {
+    opacity: 1;
+    transform: translateY(0);
+    }
+
+    /* .overlay h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    } */
+
+
 
     .slide img {
     width: 100%;
-    height: 400px;
-    object-fit: contain;
+    height: 500px;
+    object-fit: cover;
     border-radius: 5px;
     user-select: none;
     pointer-events: none;
-    background-color: white; 
+    background-color: transparent; 
     }
 
     .slide h3 {
