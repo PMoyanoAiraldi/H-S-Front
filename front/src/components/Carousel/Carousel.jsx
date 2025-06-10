@@ -3,12 +3,13 @@ import styles from './Carousel.module.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import '../../styles/global.css'
 
 const products = [
-    { id: 1, name: 'Soluciones hidráulicas para cada necesidad', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1749508909/soluciones_hidraulicas_j9n2h0.png' },
-    { id: 2, name: 'Comprometidos con el agro, la industria y la movilidad', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1749510343/comprometidos_con_el_agro_vrvoee.png' },
+    { id: 1, name: 'Soluciones hidráulicas para cada necesidad', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1749589620/soluciones_hidraulicas_kbbpxx.png' },
+    { id: 2, name: 'Comprometidos con el agro, la industria y la movilidad', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1749589859/comprometidos_con_el_agro_xyixz4.png' },
     { id: 3, name: 'Productos importados, calidad garantizada', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1749510535/importado_q9qb3m.png' },
-    { id: 4, name: 'Cobertura en todo el país, envíos ágiles y seguros', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1748900750/camion-logistica-edb_ilyy6w.png' },
+    { id: 4, name: 'Cobertura en todo el país, envíos ágiles y seguros', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1749589079/envio_a_todo_el_pais_mih7sy.png' },
     ];
 
 
