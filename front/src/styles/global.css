@@ -2,11 +2,17 @@
     .slick-prev,
     .slick-next {
     position: absolute;
-    top: 50%;
+    top: 35%;
     transform: translateY(-50%);
-    z-index: 10;
+    z-index: 5;
     font-size: 2rem;
-    color: black;
+    color: black !important;
+    opacity: 1 !important;
+    padding: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
     }
 
     .slick-prev {
@@ -16,30 +22,20 @@
     right: 10px;
     }
 
-    /* ICONOS DENTRO DE LAS FLECHAS */
-    /* .slick-prev:before,
-    .slick-next:before {
-    font-family: 'slick';
-    font-size: 30px;
-    line-height: 1;
-    opacity: 0.75;
-    color: black;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    .slick-prev:hover,
+    .slick-next:hover {
+    transform: translateY(-50%) scale(1.1); /* sobresale un poquito */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    background-color: #f4f3f3;
+    color: black !important;
+    opacity: 1 !important;
     }
 
-    .slick-prev:before {
-    content: '<'; 
-    }
-
-    .slick-next:before {
-    content: '>'; 
-    } */
 
     /* ----- PUNTOS DEL CARRUSEL ----- */
     .slick-dots {
     position: absolute;
-    bottom: 15px;
+    bottom: 170px;
     display: flex !important;
     width: 100%;
     padding: 0;
@@ -85,23 +81,3 @@
     }
 
 
-    .custom-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-  font-size: 2rem;
-  color: white;
-  background: rgba(218, 23, 23, 0.3);
-  padding: 8px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.custom-arrow.prev {
-  left: 10px;
-}
-
-.custom-arrow.next {
-  right: 10px;
-}

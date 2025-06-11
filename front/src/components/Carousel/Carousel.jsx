@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Carousel.module.css';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Slider from 'react-slick';
 
 
@@ -25,8 +25,8 @@ const Carousel = () => {
         pauseOnHover: true,      // pausa si paso el mouse encima
         pauseOnFocus: true,      // pausa si hago foco en los botones
         arrows: true ,            // para que los botones prev/next estén visibles y funcionen
-        prevArrow: <FaArrowLeft className="custom-arrow prev" />,
-        nextArrow: <FaArrowRight className="custom-arrow next" />
+        prevArrow: <ChevronLeft className="custom-arrow prev" />,
+        nextArrow: <ChevronRight className="custom-arrow next" />,
     };
 
 
