@@ -1,44 +1,107 @@
-    /* src/styles/global.css */
+    /* ----- FLECHAS DEL CARRUSEL ----- */
+    .slick-prev,
+    .slick-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    font-size: 2rem;
+    color: black;
+    }
+
+    .slick-prev {
+    left: 10px;
+    }
+    .slick-next {
+    right: 10px;
+    }
+
+    /* ICONOS DENTRO DE LAS FLECHAS */
+    /* .slick-prev:before,
+    .slick-next:before {
+    font-family: 'slick';
+    font-size: 30px;
+    line-height: 1;
+    opacity: 0.75;
+    color: black;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    }
+
+    .slick-prev:before {
+    content: '<'; 
+    }
+
+    .slick-next:before {
+    content: '>'; 
+    } */
+
+    /* ----- PUNTOS DEL CARRUSEL ----- */
+    .slick-dots {
+    position: absolute;
+    bottom: 15px;
+    display: flex !important;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+    list-style: none;
+    }
+
+    .slick-dots li {
+    display: inline-block;
+    margin: 0 5px;
+    }
+
+    .slick-dots li button {
+    font-size: 0;
+    line-height: 0;
+    display: block;
+    width: 10px;
+    height: 10px;
+    padding: 5px;
+    cursor: pointer;
+    color: transparent;
+    border: 0;
+    outline: none;
+    background: transparent;
+    }
 
     .slick-dots li button:before {
+    content: '•';
     font-size: 12px;
-    color: #00ADEF;
-    opacity: 0.6;
+    color: #000;
+    opacity: 0.5;
     }
 
     .slick-dots li.slick-active button:before {
-    color: #007fa9;
     opacity: 1;
+    color: #000;
     }
 
-    .slick-prev:before,
-    .slick-next:before {
-    color: #00ADEF;
-    font-size: 30px;
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
+    /* ----- TRANSICIÓN DE SLIDES ----- */
+    .slick-slide {
+    transition: all 0.3s ease-in-out;
     }
 
-    .slick-prev:hover:before,
-    .slick-next:hover:before {
-    color: #007fa9;
-    opacity: 1;
-    }
 
-    @media (max-width: 768px) {
-    .slick-prev:before,
-    .slick-next:before {
-        font-size: 24px;
-    }
-    }
+    .custom-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  font-size: 2rem;
+  color: white;
+  background: rgba(218, 23, 23, 0.3);
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+}
 
-    @media (max-width: 480px) {
-    .slick-dots li button:before {
-        font-size: 10px;
-    }
+.custom-arrow.prev {
+  left: 10px;
+}
 
-    .slick-prev:before,
-    .slick-next:before {
-        font-size: 20px;
-    }
+.custom-arrow.next {
+  right: 10px;
 }

@@ -1,9 +1,8 @@
 import React from 'react';
 import styles from './Carousel.module.css';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import '../../styles/global.css'
+
 
 const products = [
     { id: 1, name: 'Soluciones hidráulicas para cada necesidad', image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1749589620/soluciones_hidraulicas_kbbpxx.png' },
@@ -26,8 +25,8 @@ const Carousel = () => {
         pauseOnHover: true,      // pausa si paso el mouse encima
         pauseOnFocus: true,      // pausa si hago foco en los botones
         arrows: true ,            // para que los botones prev/next estén visibles y funcionen
-        //centerMode: true,           // para mostrar parte del siguiente slide
-        //centerPadding: '10%',       // "piquito" del siguiente
+        prevArrow: <FaArrowLeft className="custom-arrow prev" />,
+        nextArrow: <FaArrowRight className="custom-arrow next" />
     };
 
 
@@ -45,9 +44,6 @@ const Carousel = () => {
             
             ))}
         </Slider>
-        {/* <div className={styles.placeholder}>
-            Carrusel de productos aquí
-        </div> */}
         </section>
     );
 };
