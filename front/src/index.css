@@ -2,14 +2,9 @@
 
 body {
   margin: 0;
-  display: flex;
-  overflow-x: hidden;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-   background-color: #e9f2f9; /* blanco muy suave tirando a gris */
-  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-  
+  padding: 0;
+  background-color: #e9f2f9; 
+
 }
 
 

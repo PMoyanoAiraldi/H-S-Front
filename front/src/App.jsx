@@ -20,11 +20,14 @@ function App() {
     <div className={styles.app}>
       
       <Navbar/>
+
+      <div className={styles.routesWrapper}>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/products" element={<ProductsPublicPage />} />
         <Route path="/aboutPage" element={<AboutPage />} /> 
     </Routes>
+    </div>
     <Footer/>
       
       

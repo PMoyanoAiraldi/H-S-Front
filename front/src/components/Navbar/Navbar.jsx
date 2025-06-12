@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import styles from './Navbar.module.css';
 import logo from '../../assets/LOGOHS.png';
 import { FaUser } from 'react-icons/fa'
+import { NavLink } from 'react-router-dom';
 
 
 export default function Navbar() {
@@ -12,10 +13,10 @@ export default function Navbar() {
     
         </div>
         <ul className={styles.links}>
-            <li><Link to="/" className={styles.navLink}>INICIO</Link></li>
-            <li><Link to="/aboutPage" className={styles.navLink}>NOSOTROS</Link></li>
-            <li><Link to="/products" className={styles.navLink}>PRODUCTOS</Link></li>
-            <li><Link to="/contact" className={styles.navLink}>CONTACTO</Link></li>
+            <li><NavLink to="/" className={({ isActive }) =>isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}>INICIO</NavLink></li>
+            <li><NavLink to="/aboutPage" className={({ isActive }) =>isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}>NOSOTROS</NavLink></li>
+            <li><NavLink to="/products" className={({ isActive }) =>isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}>PRODUCTOS</NavLink></li>
+            <li><NavLink to="/contact" className={({ isActive }) =>isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}>CONTACTO</NavLink></li>
             
         </ul>
 
