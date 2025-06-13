@@ -1,8 +1,73 @@
-.footer {
-    background-color: #8DD7F7;
-    color: black;
-    padding: 1.5rem 0;
-    text-align: center;
-    margin-top: 4rem;
+
+    /* .footer {
+    background-color: #f8f8f8;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    color: #333;
     width: 100%;
+    overflow-x: hidden;
+    }
+
+    .footerInner {
+    
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    box-sizing: border-box; 
+    width: 100%;            
+    overflow-x: hidden;
 }
+
+    .infoSection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    }
+
+    .infoSection h4 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #222;
+    }
+
+
+
+    .contactSection {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+
+    .infoSection p,
+    .contactSection p {
+        margin: 0.3rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .divider {
+        border: none;
+        border-top: 1px solid #ccc;
+        width: 100%;
+        margin: 1rem 0;
+    }
+
+    .bottom {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+
+@media (max-width: 480px) {
+    .infoSection {
+        grid-template-columns: 1fr; /* una sola columna en móviles muy pequeños */
+    /* } */
+
+/* } */ 

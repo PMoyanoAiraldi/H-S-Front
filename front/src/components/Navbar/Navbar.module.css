@@ -3,7 +3,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem 3rem;
-    background-color: #e9f2f9;;
+    background-color: #F4F5F5;
     box-sizing: border-box;
     position: sticky;
     top: 0;
@@ -52,7 +52,7 @@
     }
 
     .links li a:hover {
-    background-color: #8DD7F7;
+    background-color: #00ADEF;
     color: #ece9ea;
     }
 
