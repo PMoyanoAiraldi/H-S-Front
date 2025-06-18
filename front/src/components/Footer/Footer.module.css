@@ -1,90 +1,112 @@
-.footer {
-    background-color: #F4F5F5;
+    .footer {
+    background-color: #d6ef8b;
     font-family: 'Lato', sans-serif;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #333;
-    width: 100%;
-    overflow-x: hidden;
-    
+    padding: 1rem 0 ;
     }
 
-    .footerInner {    
+    .footerInner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 1100px;
+    align-items: center;
     margin: 0 auto;
-    padding: 2rem 1.5rem;
+    padding: 1.2rem 1rem;;
+    }
+
+    /* ---------- CADA COLUMNA ---------- */
+    .column {
     display: flex;
     flex-direction: column;
-    align-items: center; 
-    box-sizing: border-box; 
-    width: 100%;            
-    overflow-x: hidden;
-    
-}
+    justify-content: flex-start;
+    }
 
-    .infoSection {
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 2fr));
-    gap: 2rem;
-    width: 100%;
+    /* Logo + frase como bloque compacto */
+    .brandBlock {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;                      /* espacio entre logo y texto */
     margin-bottom: 1rem;
-    
     }
 
-    .infoSection h4 {
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
+    .logo {
+    height: 47px;
+    flex-shrink: 0;
+    /* margin-bottom: 0.5rem; */
+    }
+
+
+    .message {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    line-height: 1.4;
+    margin-top: 0.2rem;
+    }
+
+
+    /* Títulos (“VENTAS”, “LOGÍSTICA”… ) */
+    .column h4 {
+    margin: 0.5rem 0 0.3rem;
+    font-size: 0.95rem;
+    font-weight: 700;
     color: #222;
+    /* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
+    padding-bottom: 0.2rem;
     }
 
-
-
-    .contactSection {
-        width: 100%;
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-
-
-    .infoSection p,
-    .contactSection p {
-        /* margin: 0.3rem 0; */
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
+    /* Ítems de texto */
+    .column p {
+    font-size: 0.85rem;
+    margin: 0.18rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
     }
 
     a {
-        color: inherit;
-        text-decoration: none;
+    color: inherit;
+    text-decoration: none;
     }
 
-    a:hover {
-        color: #007bff;
-        text-decoration: underline;
-}
+    .column a:hover {
+    text-decoration: underline;
+    color: #007bff;
+    }
+
+    .brand {
+    text-align: center;
+    margin-bottom: 2rem;
+    }
 
 
+
+    /* Línea fina + copyright */
     .divider {
-        border: none;
-        border-top: 3px solid #ddd;
-        width: 100%;
-        margin: 1rem 0;
+    border: none;
+    border-top: 1px solid #c4d97a;
+    margin: 0.8rem auto 0.6rem;
+    width: 90%;
     }
 
     .bottom {
     text-align: center;
-    font-size: 0.85rem;
-    color: #666;
-}
-
-
-@media (max-width: 480px) {
-    .infoSection {
-        grid-template-columns: 1fr; /* una sola columna en móviles muy pequeños */
-        gap: 1.25rem;
+    font-size: 0.80rem;
+    color: #555;
     }
 
-    .contactSection {
-        font-size: 0.9rem;
+    /* Responsive */
+    @media (max-width: 768px) {
+    .footerInner {
+        grid-template-columns: 1fr;
+        text-align: center;
     }
-    } 
 
+    .brandBlock {
+        justify-content: center;
+    }
+    .column p { justify-content: center; }
+    .column h4 { margin-top: 1rem; }
+    }
