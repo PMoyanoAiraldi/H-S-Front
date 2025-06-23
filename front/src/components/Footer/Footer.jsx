@@ -8,9 +8,9 @@
     return (
         <footer className={styles.footer}>
         <div className={styles.footerInner}>
-        <div className={styles.column}>
+        <div className={`${styles.column} ${styles.brandColumn}`}>
         
-        <div className={styles.brandBlock}>
+            <div className={styles.brandBlock}>
             <img src={logo} alt="Logo Hidráulica HS" className={styles.logo} />
             <p className={styles.message}>
                 Comprometidos con la eficiencia<br /> y calidad
@@ -26,7 +26,7 @@
             </div>
 
             {/* Columna 2 */}
-            <div className={styles.column}>
+            <div className={`${styles.column} ${styles.infoColumn}`}>
             <h4>VENTAS</h4>
             <p><FontAwesomeIcon icon={faWhatsapp} /> (03404) 15535056</p>
             <p><FontAwesomeIcon icon={faWhatsapp} /> (03404) 15535060</p>
@@ -37,7 +37,7 @@
             </div>
 
             {/* Columna 3 */}
-            <div className={styles.column}>
+            <div className={`${styles.column} ${styles.infoColumn}`}>
             <h4>LOGÍSTICA</h4>
             <p><FontAwesomeIcon icon={faWhatsapp} /> (03404) 15579700</p>
 

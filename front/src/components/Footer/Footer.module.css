@@ -1,112 +1,104 @@
-    .footer {
-    background-color: #d6ef8b;
-    font-family: 'Lato', sans-serif;
-    font-size: 0.9rem;
-    color: #333;
-    padding: 1rem 0 ;
-    }
+/* ---------- FOOTER WRAPPER ---------- */
+.footer {
+  background: #d6ef8b;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.9rem;
+  color: #333;
+  padding-block: 1rem;
+  
+  
+}
 
-    .footerInner {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    max-width: 1100px;
-    align-items: center;
-    margin: 0 auto;
-    padding: 1.2rem 1rem;;
-    }
+/* ---------- CONTENEDOR INTERNO ---------- */
+.footerInner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  flex-wrap: wrap;
+}
 
-    /* ---------- CADA COLUMNA ---------- */
-    .column {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    }
+/* ---------- CADA COLUMNA ---------- */
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
 
-    /* Logo + frase como bloque compacto */
-    .brandBlock {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.6rem;                      /* espacio entre logo y texto */
-    margin-bottom: 1rem;
-    }
+/* Primera columna más ancha */
+.column.brandColumn {
+  flex:  1 1 320px;
+  max-width: 360px;
+}
 
-    .logo {
-    height: 47px;
-    flex-shrink: 0;
-    /* margin-bottom: 0.5rem; */
-    }
+/* Otras columnas */
+.column.infoColumn {
+  flex: 1 1 220px;
+  max-width: 260px;
+}
 
+/* ---------- BLOQUE LOGO + TEXTO ---------- */
+.brandBlock {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
 
-    .message {
-    font-size: 0.88rem;
-    font-weight: 500;
-    color: #1a1a1a;
-    line-height: 1.4;
-    margin-top: 0.2rem;
-    }
+.logo {
+  width: 60px;                     /* fija el tamaño para no deformar */
+  flex-shrink: 0;
+}
 
+/* ---------- HEADING DE CADA COLUMNA ---------- */
+.column h4 {
+  margin: 0.8rem 0 0.3rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #222;
+}
 
-    /* Títulos (“VENTAS”, “LOGÍSTICA”… ) */
-    .column h4 {
-    margin: 0.5rem 0 0.3rem;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #222;
-    /* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
-    padding-bottom: 0.2rem;
-    }
+/* ---------- PARRAFO / ITEM ---------- */
+.column p {
+  margin: 0;                       /* quita márgenes inconsistentes */
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  line-height: 1.3;
+}
 
-    /* Ítems de texto */
-    .column p {
-    font-size: 0.85rem;
-    margin: 0.18rem 0;
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    }
+/* ---------- LINK ---------- */
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-    a {
-    color: inherit;
-    text-decoration: none;
-    }
+.column a:hover {
+  text-decoration: underline;
+  color: #007bff;
+}
 
-    .column a:hover {
-    text-decoration: underline;
-    color: #007bff;
-    }
+/* ---------- DIVISOR + COPYRIGHT ---------- */
+.divider {
+  border: none;
+  border-top: 1px solid #a4c867;
+  margin: 1.5rem auto 1rem;
+  width: min(95%, 960px);          /*coincide con el ancho máximo */
+}
 
-    .brand {
-    text-align: center;
-    margin-bottom: 2rem;
-    }
+.bottom {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #555;
+}
 
-
-
-    /* Línea fina + copyright */
-    .divider {
-    border: none;
-    border-top: 1px solid #c4d97a;
-    margin: 0.8rem auto 0.6rem;
-    width: 90%;
-    }
-
-    .bottom {
-    text-align: center;
-    font-size: 0.80rem;
-    color: #555;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-    .footerInner {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .brandBlock {
-        justify-content: center;
-    }
-    .column p { justify-content: center; }
-    .column h4 { margin-top: 1rem; }
-    }
+/* ---------- RESPONSIVE EXTRA ---------- */
+@media (max-width: 480px) {
+  .footerInner {
+    gap: 1.2rem;                   /* menos espacio en móviles muy chicos */
+  }
+  .column h4 { margin-top: 0.6rem; }
+}
