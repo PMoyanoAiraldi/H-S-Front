@@ -1,6 +1,6 @@
     .products {
     padding: 4rem 2rem;
-    background-color: #ffffff;
+    background-color: #f4f4f4;
     text-align: center;
     }
 
@@ -12,18 +12,72 @@
 
     .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 1.5rem;
     }
 
-    .card {
-    background-color: #f4f4f4;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    transition: transform 0.2s ease;
+    .productImage {
+    width: 100%;
+    max-height: 280px;
+    object-fit: contain;
+    margin-bottom: 1rem;
     }
 
-    .card:hover {
-    transform: translateY(-5px);
+    
+    .flipCard {
+        background-color: transparent;
+        width: 100%;
+        height: 300px;
+        perspective: 1000px;
+        cursor: pointer;
     }
+
+.flipCardInner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.flipped {
+    transform: rotateY(180deg);
+}
+
+
+.flipCardFront, .flipCardBack {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15); /*al usar 0 0 no se desplaza la sombra, 15px radio de difuminado cuanto más alto más suave*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.flipCardFront {
+    background-color: #f4f4f4;
+}
+
+.flipCardBack {
+    background-color: #444;
+    color: #f4f4f4;
+    transform: rotateY(180deg);
+}
+.flipCardBack ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.flipCardBack li {
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+    padding: 0.2rem 0;
+    text-align: start;
+    font-family: 'Lato', sans-serif;
+}

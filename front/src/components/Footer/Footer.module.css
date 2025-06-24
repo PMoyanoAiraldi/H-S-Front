@@ -4,18 +4,17 @@
   font-family: 'Lato', sans-serif;
   font-size: 0.9rem;
   color: #333;
-  padding-block: 1rem;
-  
+  padding-block: 1.5rem;
   
 }
 
 /* ---------- CONTENEDOR INTERNO ---------- */
 .footerInner {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   gap: 2.5rem;
-  max-width: 960px;
+  max-width: 1100px; 
   margin: 0 auto;
   padding: 2rem 1rem;
   flex-wrap: wrap;
@@ -30,14 +29,18 @@
 
 /* Primera columna más ancha */
 .column.brandColumn {
-  flex:  1 1 320px;
-  max-width: 360px;
+  flex: 1.5;
+  /* min-width: 260px; */
+  max-width: 500px;
+  max-height: max-content;
 }
 
 /* Otras columnas */
 .column.infoColumn {
-  flex: 1 1 220px;
-  max-width: 260px;
+  flex: 1;
+  /* min-width: 200px; */
+  max-width: 400px;
+  max-height: max-content;
 }
 
 /* ---------- BLOQUE LOGO + TEXTO ---------- */
@@ -45,7 +48,7 @@
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .logo {
@@ -84,9 +87,9 @@ a {
 /* ---------- DIVISOR + COPYRIGHT ---------- */
 .divider {
   border: none;
-  border-top: 1px solid #a4c867;
-  margin: 1.5rem auto 1rem;
-  width: min(95%, 960px);          /*coincide con el ancho máximo */
+  border-top: 1px solid #555;
+  margin: 1.4rem auto 0.8rem;
+ /* width: min(90%, 820px);           coincide con el ancho máximo */
 }
 
 .bottom {
