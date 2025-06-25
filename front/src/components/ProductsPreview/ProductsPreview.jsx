@@ -5,7 +5,7 @@ import {  FaAngleDoubleRight } from 'react-icons/fa';
     const products = [
     {
         id: 1,
-        title: 'Tipos de bombas',
+        title: 'Bombas',
         description: [
             'Bombas hidráulicas a pistones',
             'Bombas a paletas',
@@ -32,9 +32,19 @@ import {  FaAngleDoubleRight } from 'react-icons/fa';
     },
     {
         id: 3,
-        title: 'Lubricante Industrial',
-        description: 'Protección y rendimiento para maquinaria pesada.',
-        image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1746567434/product/lubricante.png',
+        title: 'Válvulas comandos',
+        description: [
+            'Válvula VCD 55',
+            'Válvula VCD 55S',
+            'Válvula VCD 55M',
+            'Válvula VCD 100',
+            'Válvula VCD 100M',
+            'Válvula VCD 150',
+            'Válvula VCD 150M',
+            'Válvula VCD 150STD',
+            'Válvula VCD Y ULP'
+        ],
+        image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1750886785/comando_hidraulico_-_sin_fondo_igip17.png',
     },
     ];
 
