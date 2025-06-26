@@ -4,8 +4,17 @@
   font-family: 'Lato', sans-serif;
   font-size: 0.9rem;
   color: #333;
-  padding-block: 1.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
   
+}
+
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: flex-start;
+  margin-top: 1rem;
 }
 
 /* ---------- CONTENEDOR INTERNO ---------- */
@@ -24,36 +33,46 @@
 .column {
   display: flex;
   flex-direction: column;
+  justify-content: space-between; /* Fuerza que los bloques se alineen mejor */
   gap: 0.4rem;
+  height: 100%; /* Para que todas tengan el mismo alto si el contenedor se lo permite */
 }
 
 /* Primera columna más ancha */
 .column.brandColumn {
   flex: 1.5;
-  /* min-width: 260px; */
   max-width: 500px;
-  max-height: max-content;
+  min-height: 240px; /* Fijás un mínimo para balancear con las otras */
 }
 
 /* Otras columnas */
 .column.infoColumn {
   flex: 1;
-  /* min-width: 200px; */
+  min-height: 240px; /* Fijás un mínimo para balancear con las otras */
   max-width: 400px;
-  max-height: max-content;
+  
 }
 
-/* ---------- BLOQUE LOGO + TEXTO ---------- */
+/* ---------- BLOQUE LOGO + FRASE ---------- */
 .brandBlock {
   display: flex;
+  align-items: center;         /* Alinea verticalmente logo + texto */
   gap: 1rem;
-  margin-bottom: 1rem;
-  align-items: flex-start;
+  margin-bottom: 1.2rem;
 }
 
+
 .logo {
-  width: 60px;                     /* fija el tamaño para no deformar */
+  width: 80px;                     /* fija el tamaño para no deformar */
   flex-shrink: 0;
+}
+
+.message {
+  max-width: 320px;
+  font-weight: 500;
+  line-height: 1.4;
+  font-size: 1rem;
+  color: #222;
 }
 
 /* ---------- HEADING DE CADA COLUMNA ---------- */
@@ -87,9 +106,9 @@ a {
 /* ---------- DIVISOR + COPYRIGHT ---------- */
 .divider {
   border: none;
-  border-top: 1px solid #555;
+  border-top: 0.5px solid #555;
   margin: 1.4rem auto 0.8rem;
- /* width: min(90%, 820px);           coincide con el ancho máximo */
+  width: min(90%, 1100px);           /*coincide con el ancho máximo */
 }
 
 .bottom {

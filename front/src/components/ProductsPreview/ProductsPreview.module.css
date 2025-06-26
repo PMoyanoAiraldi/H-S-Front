@@ -11,10 +11,10 @@
     }
 
     .title {
-        margin-top: 1rem;
+        margin-top: 3rem;
         text-align: left;
         font-family: 'Lato', sans-serif;
-        color: #013A81;
+        color: #333;
     }
 
     .grid {
@@ -26,7 +26,7 @@
 
     .productImage {
     width: 100%;
-    max-height: 350px;
+    max-height: 300px;
     object-fit: contain;
     margin-bottom: 1rem;
     }
@@ -38,6 +38,8 @@
         height: 350px;
         perspective: 1000px;
         cursor: pointer;
+        margin-left: 1rem;
+        gap: 2rem;
     }
 
 .flipCardInner {

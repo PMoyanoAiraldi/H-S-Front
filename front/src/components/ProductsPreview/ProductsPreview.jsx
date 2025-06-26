@@ -59,7 +59,7 @@ import {  FaAngleDoubleRight } from 'react-icons/fa';
         <div className={styles.flipCard} onClick={toggleFlip}>
         <div className={`${styles.flipCardInner} ${flipped ? styles.flipped : ''}`}>
             <div className={styles.flipCardFront}>
-            <h3>{product.title}</h3>
+            <h3 className={styles.title}>{product.title}</h3>
             <img src={product.image} alt={product.title} className={styles.productImage} />
             
             </div>

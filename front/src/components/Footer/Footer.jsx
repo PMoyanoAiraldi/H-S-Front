@@ -13,18 +13,19 @@
             <div className={styles.brandBlock}>
             <img src={logo} alt="Logo Hidráulica HS" className={styles.logo} />
             <p className={styles.message}>
-                Comprometidos con la eficiencia<br /> y calidad
+                Comprometidos con la eficiencia y calidad
                 en sistemas hidráulicos.
             </p>
         </div>
 
-        
+        <div className={styles.contactInfo}>
             <p><FontAwesomeIcon icon={faClock} /> Lunes a Viernes:</p>
             <p>8:00 a 12:00 / 15:00 a 19:00 Hs</p>
             <p><FontAwesomeIcon icon={faEnvelope} /> hidraulicahs@hotmail.com</p>
             <p><FontAwesomeIcon icon={faMapMarkerAlt} /> Sarmiento 129, Gálvez - Santa Fe</p>
             </div>
-
+            
+</div>
             {/* Columna 2 */}
             <div className={`${styles.column} ${styles.infoColumn}`}>
             <h4>VENTAS</h4>
