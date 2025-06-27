@@ -8,6 +8,7 @@ import AboutPage from "./views/AboutPage/AboutPage";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './styles/global.css'
+import LandbotWidget from "./components/Landbot/LandbotWidget";
 
 
 
@@ -28,6 +29,8 @@ function App() {
         <Route path="/aboutPage" element={<AboutPage />} /> 
     </Routes>
     </div>
+
+    <LandbotWidget/>
     <Footer/>
       
       
