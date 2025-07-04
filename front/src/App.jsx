@@ -10,6 +10,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import './styles/global.css'
 import LandbotWidget from "./components/Landbot/LandbotWidget";
 import Contact from "./components/Contact/Contact";
+import Login from "./components/Login/Login";
 
 
 
@@ -29,6 +30,7 @@ function App() {
         <Route path="/products" element={<ProductsPublicPage />} />
         <Route path="/aboutPage" element={<AboutPage />} />
         <Route path="/contact" element={<Contact />} /> 
+        <Route path="/login" element={<Login />} />
     </Routes>
     </div>
 

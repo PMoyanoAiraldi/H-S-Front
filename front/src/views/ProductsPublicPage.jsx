@@ -10,7 +10,7 @@ import CategoryFilter from '../components/CategoryFilter';
     useEffect(() => {
         // 🔁 Reemplazar con fetch a tu API
         const data = [
-        { id: 1, name: "Bombas a engranajes para cosechadoras", category: "Cosechadoras", imageUrl: "https://res.cloudinary.com/dl7hjkrhq/image/upload/v1746567434/product/bombaparatractorpng.png" },
+        { id: 1, name: "Bombas a engranajes para cosechadoras", category: "Cosechadoras", imageUrl: "https://res.cloudinary.com/dl7hjkrhq/image/upload/v1750806283/bomba_para_tractor_-_sn_fondo_zgskxj.png" },
         
         ];
         setProducts(data);
