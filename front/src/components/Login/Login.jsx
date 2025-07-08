@@ -49,15 +49,15 @@ const Login = () =>{
         <div className={styles.containerLogin}>
         <h1 className={styles.titleLogin}>Si eres cliente, ingresa con tus credenciales </h1>
         <form className={styles.form}>
-        <div>
+        
         <input className={styles.input} type="text" name="username" id="username"
         placeholder="Cliente" 
         onChange={handleChange} 
         value={input.username}/>
-        </div> {/*los input tienen la propiedad onChange, que se ejcuta cada vez que hay un cambio, se ejecuta por cada caracter que ingrese al input  */}
+         {/*los input tienen la propiedad onChange, que se ejcuta cada vez que hay un cambio, se ejecuta por cada caracter que ingrese al input  */}
         
         
-        <div className={styles.passwordContainer}>
+        
         <input className={styles.inputWithIcon} type={showPassword ? "text" : "password"} name="password" id="password"
         placeholder="Contraseña" 
         onChange={handleChange} 
@@ -70,7 +70,7 @@ const Login = () =>{
                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
         </span>
         
-        </div>
+        
         <div>
         <Link to="/products"><button type="button" className={styles.button} onClick={() => onLogin(input)} disabled={isButtonDisabled}>Ingresar</button></Link>
         <Link to="/"><button type="submit" className={styles.button} > Salir</button></Link>
