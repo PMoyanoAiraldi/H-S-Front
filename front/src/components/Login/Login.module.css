@@ -17,14 +17,13 @@ input {
     border: 1px solid #ccc;
     border-radius: 10px;
     font-size: 1rem;
-    font-family: inherit;
+    font-family: inherit; /*hereda la fuente del padre*/
     transition: all 0.3s ease;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
 }
 
 .containerLogin{
         width: 30%;
-        /* max-width: 600px; */
         margin: 0 auto;
         padding: 1rem;
         font-family: 'Lato', sans-serif;
@@ -63,7 +62,7 @@ input {
 .icon {
     position: absolute; 
     right: 1.5rem; 
-    top: 45%; 
+    top: 41%; 
     transform: translateY(-50%); 
     cursor: pointer;
     font-size: 1.1rem;
@@ -80,4 +79,9 @@ input {
     transition: all 0.3s ease;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
     
+}
+
+.oldPassword{
+    font-family: inherit;
+    font-size: 12px;
 }

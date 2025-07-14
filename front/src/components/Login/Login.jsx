@@ -69,7 +69,7 @@ const Login = () =>{
             >
                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
         </span>
-        
+        <span className={styles.oldPassword}>¿Olvidaste tu contraseña?</span> 
         
         <div>
         <Link to="/products"><button type="button" className={styles.button} onClick={() => onLogin(input)} disabled={isButtonDisabled}>Ingresar</button></Link>
