@@ -6,18 +6,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Swal from "sweetalert2";
-import styles from "./Login.module.css"
+import styles from "../RecoverPassword/RecoverPassword.module.css"
 
 
-const Login = () =>{
+
+const RecoverPassword = () =>{
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
 
     const onLogin = (userData) => {
-        axios.post(`http://localhost:3010/auth/login`, userData)
+        axios.post(`http://localhost:3010/users/recover`, userData)
         .then(resp => {
-            console.log("RESPUESTA DEL BACKEND:", resp.data.user); 
+            console.log("RESPUESTA DEL BACKEND:", resp.data); 
             if(resp.data.user)  {
                 localStorage.setItem('token', resp.data.token);
                 dispatch(login({ login: true, user: resp.data.user }));
@@ -27,14 +28,15 @@ const Login = () =>{
         })
         .catch(() => {
             Swal.fire('Error', 'Error al registrar los datos', 'error');
-            navigate("/login")
+            navigate("/recover")
             
         });
     };
 
     const [input, setInput] = useState({
         username: '',
-        password: ''
+        password: '',
+        cPassword: ''
     });
     const handleChange = (e) => { //a la funcion le debemos pasar un evento
         setInput({ //es una promesa
@@ -44,10 +46,10 @@ const Login = () =>{
 
     }
 
-    const isButtonDisabled = input.username === '' || input.password === '';
+    const isButtonDisabled = input.username === '' || input.password === '' || input.cPassword === ''
     return(
-        <div className={styles.containerLogin}>
-        <h1 className={styles.titleLogin}>Si eres cliente, ingresa con tus credenciales </h1>
+        <div className={styles.container}>
+        <h1 className={styles.title}>Recupera tus credenciales </h1>
         <form className={styles.form}>
         
         <input className={styles.input} type="text" name="username" id="username"
@@ -69,10 +71,21 @@ const Login = () =>{
             >
                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
         </span>
-        <Link to="/recover"><span className={styles.oldPassword}>¿Olvidaste tu contraseña?</span> </Link>
+
+        <input className={styles.inputWithIcon} type={showPassword ? "text" : "cPassword"} name="cPassword" id="cPassword"
+        placeholder="Confirmar contraseña" 
+        onChange={handleChange} 
+        value={input.cPassword}/>{/*el value indica el estado inicial de cada campo antes del cambio, enlazamos el estado con el valor */}
+        
+        <span
+                className={styles.icon}
+                onClick={() => setShowPassword(!showPassword)}
+            >
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+        </span>
         
         <div>
-        <Link to="/products"><button type="button" className={styles.button} onClick={() => onLogin(input)} disabled={isButtonDisabled}>Ingresar</button></Link>
+        <Link to="/login"><button type="button" className={styles.button} onClick={() => onLogin(input)} disabled={isButtonDisabled}>Guardar</button></Link>
         <Link to="/"><button type="submit" className={styles.button} > Salir</button></Link>
         </div>
         <p> ¿No estás registrado? Comunicate con administración (ver de poner el link del número)</p>
@@ -81,4 +94,4 @@ const Login = () =>{
     )
 }
 
-export default Login;
+export default RecoverPassword;

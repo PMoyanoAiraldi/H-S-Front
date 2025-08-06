@@ -11,6 +11,7 @@ import './styles/global.css'
 import LandbotWidget from "./components/Landbot/LandbotWidget";
 import Contact from "./components/Contact/Contact";
 import Login from "./components/Login/Login";
+import RecoverPassword from "./components/RecoverPassword/RecoverPassword";
 
 
 
@@ -31,6 +32,8 @@ function App() {
         <Route path="/aboutPage" element={<AboutPage />} />
         <Route path="/contact" element={<Contact />} /> 
         <Route path="/login" element={<Login />} />
+        <Route path="/recover" element={<RecoverPassword />} />
+      
     </Routes>
     </div>
 
