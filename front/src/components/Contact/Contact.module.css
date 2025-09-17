@@ -12,13 +12,19 @@
     }
 
     .containerContact{
-        width: 90%;
-        max-width: 600px;
+        /* width: 90%; */
+        max-width: 500px;
         margin: 0 auto;
+        margin-bottom: 4rem;
+        margin-top: 2rem;
         padding: 1rem;
         font-family: 'Lato', sans-serif;
         transform: translateY(20px);
         animation: fadeIn 1s ease-out forwards;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(12, 12, 12, 0.03);
+        
     }
 
     .titleContact {

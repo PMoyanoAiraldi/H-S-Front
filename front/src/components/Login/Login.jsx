@@ -17,16 +17,24 @@ const Login = () =>{
     const onLogin = (userData) => {
         axios.post(`http://localhost:3010/auth/login`, userData)
         .then(resp => {
-            console.log("RESPUESTA DEL BACKEND:", resp.data.user); 
+            
             if(resp.data.user)  {
                 localStorage.setItem('token', resp.data.token);
                 dispatch(login({ login: true, user: resp.data.user }));
+            console.log("RESPUESTA DEL BACKEND:", resp.data.user.user); 
+
+            if (resp.data.user.user.rol === "admin") {
+                navigate("/dashboard");  
+            } else {
+                navigate("/products");   
+            }    
             } else {
                 alert("Credenciales incorrectas");
             }
+        
         })
         .catch(() => {
-            Swal.fire('Error', 'Error al registrar los datos', 'error');
+            Swal.fire('Error', 'Error al ingresar los datos', 'error');
             navigate("/login")
             
         });
@@ -50,14 +58,14 @@ const Login = () =>{
         <h1 className={styles.titleLogin}>Si eres cliente, ingresa con tus credenciales </h1>
         <form className={styles.form}>
         
+        <div className={styles.inputContainer}>
         <input className={styles.input} type="text" name="username" id="username"
         placeholder="Cliente" 
         onChange={handleChange} 
         value={input.username}/>
-         {/*los input tienen la propiedad onChange, que se ejcuta cada vez que hay un cambio, se ejecuta por cada caracter que ingrese al input  */}
+        </div>
         
-        
-        
+        <div className={styles.inputContainer}>
         <input className={styles.inputWithIcon} type={showPassword ? "text" : "password"} name="password" id="password"
         placeholder="Contraseña" 
         onChange={handleChange} 
@@ -69,10 +77,12 @@ const Login = () =>{
             >
                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
         </span>
+        </div>
+
         <Link to="/recover"><span className={styles.oldPassword}>¿Olvidaste tu contraseña?</span> </Link>
         
         <div>
-        <Link to="/products"><button type="button" className={styles.button} onClick={() => onLogin(input)} disabled={isButtonDisabled}>Ingresar</button></Link>
+        <button type="button" className={styles.button} onClick={() => onLogin(input)} disabled={isButtonDisabled}>Ingresar</button>
         <Link to="/"><button type="submit" className={styles.button} > Salir</button></Link>
         </div>
         <p> ¿No estás registrado? Comunicate con administración (ver de poner el link del número)</p>

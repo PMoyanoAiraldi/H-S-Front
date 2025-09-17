@@ -52,14 +52,15 @@ const RecoverPassword = () =>{
         <h1 className={styles.title}>Recupera tus credenciales </h1>
         <form className={styles.form}>
         
+        <div className={styles.inputContainer}>
         <input className={styles.input} type="text" name="username" id="username"
         placeholder="Cliente" 
         onChange={handleChange} 
         value={input.username}/>
          {/*los input tienen la propiedad onChange, que se ejcuta cada vez que hay un cambio, se ejecuta por cada caracter que ingrese al input  */}
+        </div>
         
-        
-        
+        <div className={styles.inputContainer}>
         <input className={styles.inputWithIcon} type={showPassword ? "text" : "password"} name="password" id="password"
         placeholder="Contraseña" 
         onChange={handleChange} 
@@ -71,7 +72,9 @@ const RecoverPassword = () =>{
             >
                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
         </span>
+        </div>
 
+        <div className={styles.inputContainer}>
         <input className={styles.inputWithIcon} type={showPassword ? "text" : "cPassword"} name="cPassword" id="cPassword"
         placeholder="Confirmar contraseña" 
         onChange={handleChange} 
@@ -83,7 +86,7 @@ const RecoverPassword = () =>{
             >
                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
         </span>
-        
+        </div>
         <div>
         <Link to="/login"><button type="button" className={styles.button} onClick={() => onLogin(input)} disabled={isButtonDisabled}>Guardar</button></Link>
         <Link to="/"><button type="submit" className={styles.button} > Salir</button></Link>

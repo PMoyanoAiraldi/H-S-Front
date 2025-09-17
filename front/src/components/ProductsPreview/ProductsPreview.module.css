@@ -61,7 +61,7 @@
     height: 100%;
     backface-visibility: hidden;
     border-radius: 5px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15); /*al usar 0 0 no se desplaza la sombra, 15px radio de difuminado cuanto más alto más suave*/
+    box-shadow: 0 0 15px #A5CE37; /*al usar 0 0 no se desplaza la sombra, 15px radio de difuminado cuanto más alto más suave*/
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -74,8 +74,8 @@
 }
 
 .flipCardBack {
-    background-color: #444;
-    color: #f4f4f4;
+    background-color: #9abd39;
+    color: #333;
     transform: rotateY(180deg);
 }
 .flipCardBack ul {
