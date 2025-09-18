@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import styles from "./App.module.css"
 import LandingPage from './views/LandingPage';
-import ProductsPublicPage from './views/ProductsPublicPage';
+import ProductsPublicPage from './components/ProductsPublicPage/ProductsPublicPage';
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import AboutPage from "./views/AboutPage/AboutPage";
@@ -12,7 +12,7 @@ import LandbotWidget from "./components/Landbot/LandbotWidget";
 import Contact from "./components/Contact/Contact";
 import Login from "./components/Login/Login";
 import RecoverPassword from "./components/RecoverPassword/RecoverPassword";
-import Dashboard from "./components/Dashboard/Dashboard";
+import Dashboard from "./components/DashboardAdmin/DashboardAdmin";
 
 
 

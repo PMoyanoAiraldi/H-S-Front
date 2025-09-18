@@ -1,0 +1,6 @@
+.productsGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* o center */
+    gap: 1rem; /* espacio entre tarjetas */
+}
