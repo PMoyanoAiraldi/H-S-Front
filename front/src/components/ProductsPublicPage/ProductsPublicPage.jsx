@@ -1,37 +1,54 @@
 import { useEffect, useState } from 'react';
 import ProductCard from '../ProductCard/ProductCard';
-import CategoryFilter from '../CategoryFilter';
+import CategoryFilter from '../CategoryFilter/CategoryFilter';
+import { useDispatch, useSelector } from "react-redux";
+import { setCategories } from "../../redux/categoriesReducer";
+import { setProducts, setLoading, setError } from '../../redux/productsReducer';
 import axios from 'axios';
 import styles from './ProductsPublicPage.module.css'
 
 export default function ProductsPublicPage() {
-    const [products, setProducts] = useState([]);
     const [filtered, setFiltered] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const dispatch = useDispatch();
 
+    // Obtener datos del estado global (no acciones)
+    const { products, loading, error } = useSelector(state => state.products);
+    const { categories } = useSelector(state => state.categories);
+
+    useEffect(() => {
+    const fetchCategories = async () => {
+        try{
+            const response = await axios.get("http://localhost:3010/category"); 
+                dispatch(setCategories(response.data));
+            } catch (error) {
+                console.error('Error al cargar categorías:', error);
+            }
+        };
+        // Solo cargar si no hay categorías en el estado
+        if (categories.length === 0) {
+            fetchCategories();
+        }
+    }, [dispatch, categories.length]);
+
+    //Cargar productos
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                setLoading(true);
-                setError(null);
+                dispatch(setLoading(true));
+                dispatch(setError(null));
                 
-                // Llamada a tu API
                 const response = await axios.get('http://localhost:3010/products');
                 console.log('Datos recibidos de la API:', response.data);
                 
-                const data = await response.data;
-                
-                // Mapear los datos de tu API al formato que espera tu frontend
-                const mappedProducts = data.map(product => ({
+                // Mapear los datos de API al formato que espera el frontend
+                const mappedProducts = response.data.map(product => ({
                     id: product.id,
                     name: product.name,
                     description: product.description,
                     price: product.price,
                     stock: product.stock,
                     category: product.categoryName || 'Sin categoría',
-                    imageUrl: product.imgUrl || 'https://via.placeholder.com/300x200?text=No+Image',
+                    imageUrl: product.imgUrl,
                     state: product.state
                 }));
                 
@@ -39,43 +56,55 @@ export default function ProductsPublicPage() {
                 const activeProducts = mappedProducts.filter(product => product.state);
                 console.log("Productos mapeados:", mappedProducts);
                 
-                setProducts(activeProducts);
-                setFiltered(activeProducts);
-                
-                // Extraer categorías únicas
-                const uniqueCategories = [...new Set(activeProducts.map(p => p.category))];
-                setCategories(uniqueCategories);
-                
-            } catch (error) {
+                //Despachar la acción con los productos
+                dispatch(setProducts(activeProducts));
+
+                } catch (error) {
                 console.error('Error al cargar productos:', error);
-                setError('Error al cargar los productos. Intenta nuevamente.');
+                // Despachar la acción de error
+                dispatch(setError('Error al cargar los productos. Intenta nuevamente.'));
             } finally {
-                setLoading(false);
+                dispatch(setLoading(false));
             }
         };
+        
+    // Solo cargar si no hay productos en el estado
+        if (products.length === 0) {
+            fetchProducts();
+        }
+    }, [dispatch, products.length]);
 
-        fetchProducts();
-    }, []);
+    // Actualizar productos filtrados cuando cambien los productos
+    useEffect(() => {
+        setFiltered(products);
+    }, [products]);
 
+
+    // Función para filtrar por categoría
     const filterByCategory = (cat) => {
-        if (!cat) return setFiltered(products);
-        setFiltered(products.filter(p => p.category === cat));
+        if (!cat || cat === 'all') {
+            setFiltered(products);
+        } else {
+            setFiltered(products.filter(p => p.category === cat));
+        }
     };
 
+    //Verificar el estado loading (no la función)
     if (loading) {
         return (
-            <div className="p-6">
-                <div className="flex justify-center items-center h-64">
-                    <div className="text-lg">Cargando productos...</div>
+            <div className={styles.container}>
+                <div className={styles.loadingContainer}>
+                    Cargando productos...
                 </div>
             </div>
         );
     }
 
+    //Verificar el estado error (no la función)
     if (error) {
         return (
-            <div className="p-6">
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            <div className={styles.container}>
+                <div className={styles.errorContainer}>
                     {error}
                 </div>
             </div>
@@ -83,9 +112,12 @@ export default function ProductsPublicPage() {
     }
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">Productos</h1>
-            <CategoryFilter categories={categories} onSelect={filterByCategory} />
+        <div  className={styles.container}>
+            <h1 className={styles.title}>Nuestros Productos</h1>
+
+            <div className={styles.categoryFilterContainer}>
+                <CategoryFilter onSelect={filterByCategory} />
+            </div>
             
             {filtered.length === 0 ? (
                 <div className="text-center text-gray-500 py-8">
