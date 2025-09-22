@@ -112,22 +112,59 @@ export default function ProductsPublicPage() {
     }
 
     return (
-        <div  className={styles.container}>
-            <h1 className={styles.title}>Nuestros Productos</h1>
+        // <div  className={styles.container}>
+        //     <h1 className={styles.title}>Nuestros Productos</h1>
 
-            <div className={styles.categoryFilterContainer}>
-                <CategoryFilter onSelect={filterByCategory} />
-            </div>
+        //     <div className={styles.categoryFilterContainer}>
+        //         <CategoryFilter onSelect={filterByCategory} />
+        //     </div>
             
-            {filtered.length === 0 ? (
-                <div className="text-center text-gray-500 py-8">
-                    No hay productos disponibles
+        //     {filtered.length === 0 ? (
+        //         <div className="text-center text-gray-500 py-8">
+        //             No hay productos disponibles
+        //         </div>
+        //     ) : (
+        //         <div className={styles.productsGrid}>
+        //             {filtered.map(p => <ProductCard key={p.id} product={p} />)}
+        //         </div>
+        //     )}
+        // </div>
+
+        <div className={styles.container}>
+            {/* Sidebar de filtros */}
+            <div className={styles.sidebar}>
+                <div className={styles.sidebarTitle}>Filtros</div>
+                
+                {/* Aquí va tu componente CategoryFilter sin modificaciones */}
+                <div className={styles.categoryFilterContainer}>
+                    <CategoryFilter onSelect={filterByCategory} />
                 </div>
-            ) : (
-                <div className={styles.productsGrid}>
-                    {filtered.map(p => <ProductCard key={p.id} product={p} />)}
+                
+                {/* Puedes agregar más filtros aquí */}
+                <div className={styles.productCounter}>
+                    Mostrando {filtered.length} productos
                 </div>
-            )}
+            </div>
+
+            {/* Contenido principal */}
+            <div className={styles.mainContent}>
+                <div className={styles.header}>
+                    {/* <h1 className={styles.title}>Nuestros Productos</h1> */}
+                    <p className={styles.subtitle}>
+                        Explora nuestra amplia selección de productos
+                    </p>
+                </div>
+                
+                {filtered.length === 0 ? (
+                    <div className={styles.noProductsMessage}>
+                        No hay productos que coincidan con los filtros seleccionados
+                    </div>
+                ) : (
+                    <div className={styles.productsGrid}>
+                        {filtered.map(p => <ProductCard key={p.id} product={p} />)}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

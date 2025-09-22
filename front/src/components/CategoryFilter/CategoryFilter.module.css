@@ -1,0 +1,171 @@
+/* Contenedor principal de los selects */
+.selectContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    margin-bottom: 1.5rem;
+}
+
+/* Estilos para cada select */
+.selectBox {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    background-color: #fff;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    /* Estilo personalizado para la flecha del select */
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1.25rem;
+    padding-right: 2.5rem;
+}
+
+/* Estados hover y focus */
+.selectBox:hover {
+    border-color: #0099ff;
+    box-shadow: 0 2px 4px rgba(0, 153, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+.selectBox:focus {
+    outline: none;
+    border-color: #0099ff;
+    box-shadow: 0 0 0 3px rgba(0, 153, 255, 0.15);
+    transform: translateY(-1px);
+}
+
+/* Estilo para las opciones */
+.selectBox option {
+    padding: 0.75rem;
+    background-color: #fff;
+    color: #374151;
+    font-size: 0.9rem;
+}
+
+.selectBox option:hover {
+    background-color: #f8fafc;
+}
+
+/* Añadir etiquetas antes de cada select (opcional) */
+.selectBox:first-child::before {
+    content: "Categoría Principal";
+    position: absolute;
+    top: -0.5rem;
+    left: 0.75rem;
+    background-color: #fff;
+    padding: 0 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    z-index: 1;
+}
+
+.selectBox:last-child::before {
+    content: "Subcategoría";
+    position: absolute;
+    top: -0.5rem;
+    left: 0.75rem;
+    background-color: #fff;
+    padding: 0 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    z-index: 1;
+}
+
+/* Si prefieres sin etiquetas, usa estos estilos alternativos */
+.selectBox.primary {
+    border-color: #3b82f6;
+}
+
+.selectBox.secondary {
+    border-color: #10b981;
+}
+
+.selectBox.primary:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.selectBox.secondary:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+/* Efectos de animación suave */
+@keyframes selectFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.selectContainer {
+    animation: selectFadeIn 0.4s ease;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .selectContainer {
+        padding: 1rem;
+        gap: 1rem;
+    }
+    
+    .selectBox {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        padding-right: 2.25rem;
+    }
+    
+    .selectBox::before {
+        font-size: 0.75rem;
+    }
+}
+
+/* Variante con diseño horizontal para pantallas grandes */
+@media (min-width: 1024px) {
+    .selectContainer.horizontal {
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .selectContainer.horizontal .selectBox {
+        flex: 1;
+        max-width: 250px;
+    }
+}
+
+/* Estilo alternativo más compacto */
+.selectContainer.compact {
+    padding: 1rem;
+    gap: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.selectContainer.compact .selectBox {
+    padding: 0.625rem 0.875rem;
+    padding-right: 2.25rem;
+    font-size: 0.875rem;
+}

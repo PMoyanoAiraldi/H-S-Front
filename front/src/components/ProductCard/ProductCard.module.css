@@ -5,11 +5,17 @@
     background-color: #fff;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     transition: transform 0.2s, box-shadow 0.2s;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    flex: 1;
     flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
     text-align: center;
     margin: 1rem; /* espacio entre tarjetas */
+    gap: 20px;
+    flex: 1; /* ocupa el resto del espacio */
 }
 
 .container:hover {

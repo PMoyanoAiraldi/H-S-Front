@@ -13,4 +13,4 @@ export default function ProductCard({product}) {
         {/* <p className={styles.productPrice}>${product.price}</p>  !solo para clientes */}
         </div>
     );
-        }
+}
