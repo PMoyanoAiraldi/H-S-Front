@@ -13,6 +13,7 @@ import Contact from "./components/Contact/Contact";
 import Login from "./components/Login/Login";
 import RecoverPassword from "./components/RecoverPassword/RecoverPassword";
 import Dashboard from "./components/DashboardAdmin/DashboardAdmin";
+import Rexroth from "./components/Rexroth/Rexroth";
 
 
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/products" element={<ProductsPublicPage />} />
         <Route path="/aboutPage" element={<AboutPage />} />
         <Route path="/contact" element={<Contact />} /> 
+        <Route path="/rexroth" element={<Rexroth />} /> 
         <Route path="/login" element={<Login />} />
         <Route path="/recover" element={<RecoverPassword />} />
         <Route path="dashboard" element={<Dashboard />}/>

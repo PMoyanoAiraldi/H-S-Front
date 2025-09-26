@@ -16,6 +16,7 @@ export default function Navbar() {
             <li><NavLink to="/" className={({ isActive }) =>isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}>INICIO</NavLink></li>
             <li><NavLink to="/aboutPage" className={({ isActive }) =>isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}>NOSOTROS</NavLink></li>
             <li><NavLink to="/products" className={({ isActive }) =>isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}>PRODUCTOS</NavLink></li>
+            <li><NavLink to="/rexroth" className={({ isActive }) =>isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}>REXROTH</NavLink></li>
             <li><NavLink to="/contact" className={({ isActive }) =>isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}>CONTACTO</NavLink></li>
             
         </ul>
