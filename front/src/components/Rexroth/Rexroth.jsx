@@ -77,16 +77,23 @@ const ProductCard = ({ product }) => {
 const Rexroth = () => {
     return (
     <section className={styles.products}>
+        <h2 className={styles.sectionTitle}>REXROTH</h2>
+
+        <div className={styles.cardsContainer}>
         
-        <div className={styles.grid}>
-            
-            {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-        ))}
-            <div className={styles.centerTitle}>
-                <h2>REXROTH</h2>
-            </div>
+        {/* Fila 1 - 2 tarjetas */}
+        <div className={styles.row}>
+        <ProductCard product={products[0]} />
+        <ProductCard product={products[1]} />
         </div>
+
+        {/* Fila 2 - 3 tarjetas */}
+        <div className={styles.row}>
+        <ProductCard product={products[2]} />
+        <ProductCard product={products[3]} />
+        <ProductCard product={products[4]} />
+    </div>
+    </div>
     </section>
     );
 };

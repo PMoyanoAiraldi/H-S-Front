@@ -1,116 +1,71 @@
-    .products {
+.products {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 75vh;
     padding: 2rem;
-    background-color: #f4f4f4;
-    text-align: center;
-    min-height: 100vh;
+    background: linear-gradient(135deg, 
+    rgba(165, 206, 55, 0.15) 0%,
+    rgba(13, 71, 161, 0.08) 25%,
+    rgba(165, 206, 55, 0.12) 50%,
+    rgba(13, 71, 161, 0.05) 75%,
+    rgba(165, 206, 55, 0.18) 100%
+);
+    overflow: hidden;
+}
+
+.cardsContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 2.5rem;
+    z-index: 2;
+    margin-left: 8rem;
+}
+
+.row {
+    display: flex;
     justify-content: center;
-    }
+    align-items: center;
+    gap: 2.5rem;
+}
 
-    .products h2 {
-    color: #013A81;
-    margin-bottom: 2rem;
-    font-size: 2rem;
-    }
-
-    .title {
-        margin-top: 0.5rem;
-        text-align: center;
-        font-size: 16px;
-        font-family: 'Lato', sans-serif;
-        color: #333;
-        font-weight: bold;
-    }
-
-    .centerTitle {
+.sectionTitle {
     position: absolute;
+    left: 3rem;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 5;
+    transform: translateY(-50%);
+    font-size: 3rem;
+    font-weight: 700;
+    color: #0d47a1;
+    letter-spacing: 0.3rem;
+    text-shadow: 3px 3px 12px rgba(165, 206, 55, 0.4);
+    opacity: 0.9;
+    z-index: 1;
 }
 
-    .centerTitle h2 {
-        color: #013A81;
-        font-size: 2.2rem;
-        font-weight: bold;
-        font-family: 'Lato', sans-serif;
-        margin: 0;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .grid {
-        position: relative;
-        width: 580px;
-        height: 580px;
-        margin: 1.5rem auto;
-        /* display: flex;
-        align-items: center;
-        justify-content: center; */
-    }
-
-    .productImage {
-    width: 75%;
-    height: 75%;
-    object-fit: contain;
-    margin-bottom: 0.5rem;
-    }
-
-    
-    .flipCard {
-        background-color: transparent;
-        width: 180px;
-        height: 180px;
-        perspective: 1000px;
-        cursor: pointer;
-        position: absolute;
-        transition: all 0.3s ease;
-    }
-/* Posicionamiento circular perfecto usando matemáticas */
-/* Radio del círculo: 210px desde el centro */
-.flipCard:nth-child(1) {
-    /* Arriba - más alto para que se vea completamente */
-    top: -10px;
-    left: calc(50% - 85px);
+.flipCard {
+    width: 220px;
+    height: 220px;
+    cursor: pointer;
+    perspective: 1000px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 1;
 }
 
-.flipCard:nth-child(2) {
-    /* Superior derecha */
-    top: 70px;
-    right: 50px;
-}
-
-.flipCard:nth-child(3) {
-    /* Inferior derecha*/
-    bottom: 20px;
-    right: 90px;
-}
-
-.flipCard:nth-child(4) {
-    /* Inferior izquierda */
-    bottom: 60px;
-    left: 80px;
-}
-
-.flipCard:nth-child(5) {
-    /* Superior izquierda */
-    top: 60px;
-    left: 40px;
-}
-
-/* Efecto hover para darle más interactividad */
 .flipCard:hover {
-    transform: scale(1.05);
+    transform: scale(1.08) translateY(-8px);
     z-index: 10;
 }
+
 
 .flipCardInner {
     position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.6s;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
     transform-style: preserve-3d;
 }
 
@@ -118,97 +73,174 @@
     transform: rotateY(180deg);
 }
 
-
-.flipCardFront, .flipCardBack {
+.flipCardFront,
+.flipCardBack {
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden;
     border-radius: 50%;
-    box-shadow: 0 0 20px #A5CE37; /*al usar 0 0 no se desplaza la sombra, 15px radio de difuminado cuanto más alto más suave*/
+    backface-visibility: hidden;
+    box-shadow: 0 0 20px #A5CE37;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 1.5rem;
+    padding: 1rem;
+    text-align: center;
 }
 
 .flipCardFront {
-    background-color: #ffffff;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fdf3 100%);
     border: 3px solid #A5CE37;
 }
 
 .flipCardBack {
-    background-color: #444;
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
     color: #f4f4f4;
-    /* font-weight: bold; */
     transform: rotateY(180deg);
     padding: 1.2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.productImage {
+    width: 100%;
+    height: auto;
+    max-height: 110px;
+    object-fit: contain;
+    margin-bottom: 0.8rem;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+}
+
+.title {
+    font-size: 17px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-top: 0.5rem;
 }
 
 .flipCardBack ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    text-align: center;
+    max-height: 180px;
+    overflow-y: auto;
 }
 
 .flipCardBack li {
-    margin-bottom: 0.3rem;
-    font-size: 0.75rem;
-    padding: 0.1rem 0;
-    text-align: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
     font-family: 'Lato', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 0.5rem;
 }
+/* Scrollbar personalizado para la lista */
+    .flipCardBack ul::-webkit-scrollbar {
+    width: 4px;
+    }
 
-/* Responsive para pantallas más pequeñas */
-@media (max-width: 768px) {
-    .grid {
-        width: 400px;
-        height: 400px;
+    .flipCardBack ul::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
     }
-    
+
+    .flipCardBack ul::-webkit-scrollbar-thumb {
+    background: #A5CE37;
+    border-radius: 10px;
+    }
+
+/* Tablets */
+@media (max-width: 1024px) {
+    .sectionTitle {
+        font-size: 4rem;
+        left: 2rem;
+    }
+
+    .cardsContainer {
+        margin-left: 6rem;
+    }
+
     .flipCard {
-        width: 150px;
-        height: 150px;
+        width: 190px;
+        height: 190px;
     }
-    
+
+    .row {
+        gap: 2rem;
+    }
+    }
+
+    /* Móviles */
+    @media (max-width: 768px) {
+    .products {
+        min-height: 85vh;
+        padding: 1.5rem;
+    }
+
+    .sectionTitle {
+        position: static;
+        writing-mode: horizontal-tb;
+        transform: none;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+        letter-spacing: 0.1rem;
+    }
+
+    .cardsContainer {
+        margin-left: 0;
+        gap: 2rem;
+    }
+
+    .row {
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+
+    .flipCard {
+        width: 160px;
+        height: 160px;
+    }
+
     .productImage {
-        width: 60%;
-        height: 60%;
+        max-height: 85px;
+    }
+
+    .title {
+        font-size: 15px;
+    }
+    }
+
+    @media (max-width: 480px) {
+    .sectionTitle {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .flipCard {
+        width: 140px;
+        height: 140px;
+    }
+
+    .cardsContainer {
+        gap: 1.5rem;
+    }
+
+    .row {
+        gap: 1.2rem;
+    }
+
+    .productImage {
+        max-height: 70px;
+    }
+
+    .title {
+        font-size: 14px;
     }
 
     .flipCardBack li {
-        font-size: 0.7rem;
-        margin-bottom: 0.2rem;
-    }
-    
-    .flipCardFront, .flipCardBack {
-        padding: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .grid {
-        width: 300px;
-        height: 300px;
-    }
-    
-    .flipCard {
-        width: 120px;
-        height: 120px;
-    }
-    
-    .productImage {
-        width: 50%;
-        height: 50%;
-    }
-    .flipCardBack li {
-        font-size: 0.6rem;
-        margin-bottom: 0.1rem;
-    }
-    
-    .flipCardFront, .flipCardBack {
-        padding: 0.5rem;
+        font-size: 0.75rem;
     }
 }
