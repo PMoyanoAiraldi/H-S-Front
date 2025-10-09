@@ -1,10 +1,10 @@
 .products {
     position: relative;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     min-height: 75vh;
-    padding: 2rem;
+    padding: 2rem 2rem 4rem 2rem;
     background: linear-gradient(135deg, 
     rgba(165, 206, 55, 0.15) 0%,
     rgba(13, 71, 161, 0.08) 25%,
@@ -12,14 +12,14 @@
     rgba(13, 71, 161, 0.05) 75%,
     rgba(165, 206, 55, 0.18) 100%
 );
-    overflow: hidden;
+
 }
 
 .cardsContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2.5rem;
+    gap: 2rem;
     z-index: 2;
     margin-left: 8rem;
 }
@@ -28,18 +28,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2.5rem;
+    gap: 6rem;
+    position: relative;
+    flex-wrap: wrap;
 }
 
 .sectionTitle {
     position: absolute;
     left: 3rem;
-    top: 50%;
+    top: 42%;
     transform: translateY(-50%);
     font-size: 3rem;
     font-weight: 700;
     color: #0d47a1;
-    letter-spacing: 0.3rem;
+    letter-spacing: 0.25rem;
     text-shadow: 3px 3px 12px rgba(165, 206, 55, 0.4);
     opacity: 0.9;
     z-index: 1;
@@ -50,22 +52,27 @@
     height: 220px;
     cursor: pointer;
     perspective: 1000px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     z-index: 1;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+/* Cuando está volteada, aumentar z-index inmediatamente */
+.flipCard.isFlipped {
+    z-index: 50;
 }
 
 .flipCard:hover {
     transform: scale(1.08) translateY(-8px);
-    z-index: 10;
+    z-index: 100;
 }
-
 
 .flipCardInner {
     position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     transform-style: preserve-3d;
 }
 
@@ -80,7 +87,6 @@
     height: 100%;
     border-radius: 50%;
     backface-visibility: hidden;
-    box-shadow: 0 0 20px #A5CE37;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -92,6 +98,7 @@
 .flipCardFront {
     background: linear-gradient(135deg, #ffffff 0%, #f8fdf3 100%);
     border: 3px solid #A5CE37;
+    box-shadow: 0 0 20px #a5ce37;
 }
 
 .flipCardBack {
@@ -104,8 +111,7 @@
 
 .productImage {
     width: 100%;
-    height: auto;
-    max-height: 110px;
+    max-height: 145px;
     object-fit: contain;
     margin-bottom: 0.8rem;
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
@@ -118,13 +124,52 @@
     color: #2c3e50;
     margin-top: 0.5rem;
 }
+    .scrollBtn {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(165, 206, 55, 0.85);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    opacity: 0; /* Ocultas por defecto */
+    pointer-events: none;
+    }
+
+    .scrollBtn.visible {
+    opacity: 1;
+    pointer-events: auto;
+    }
+
+    .scrollBtn:hover {
+    background: #a5ce37;
+    transform: translateX(-50%) scale(1.1);
+    }
+
+    .scrollBtn.up {
+    top: 5px;
+    }
+
+    .scrollBtn.down {
+    bottom: 5px;
+}
 
 .flipCardBack ul {
     list-style: none;
     padding: 0;
     margin: 0;
     max-height: 180px;
-    overflow-y: auto;
+    overflow-y: hidden; /* lo ocultamos */
+    scroll-behavior: smooth;
 }
 
 .flipCardBack li {
@@ -136,25 +181,12 @@
     justify-content: flex-start;
     padding-left: 0.5rem;
 }
-/* Scrollbar personalizado para la lista */
-    .flipCardBack ul::-webkit-scrollbar {
-    width: 4px;
-    }
 
-    .flipCardBack ul::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    }
-
-    .flipCardBack ul::-webkit-scrollbar-thumb {
-    background: #A5CE37;
-    border-radius: 10px;
-    }
 
 /* Tablets */
 @media (max-width: 1024px) {
     .sectionTitle {
-        font-size: 4rem;
+        font-size: 3.2rem;
         left: 2rem;
     }
 
@@ -168,25 +200,25 @@
     }
 
     .row {
-        gap: 2rem;
+        gap: 3rem;
     }
-    }
+}
 
-    /* Móviles */
-    @media (max-width: 768px) {
+/* Móviles */
+@media (max-width: 768px) {
     .products {
-        min-height: 85vh;
-        padding: 1.5rem;
+        flex-direction: column;
+        min-height: auto;
+        padding: 2rem 1rem;
     }
 
     .sectionTitle {
         position: static;
-        writing-mode: horizontal-tb;
-        transform: none;
-        font-size: 2.5rem;
-        margin-bottom: 2rem;
         text-align: center;
-        letter-spacing: 0.1rem;
+        font-size: 2.4rem;
+        margin-bottom: 2rem;
+        transform: none;
+        text-shadow: none;
     }
 
     .cardsContainer {
@@ -196,7 +228,7 @@
 
     .row {
         flex-wrap: wrap;
-        gap: 1.5rem;
+        gap: 2rem;
     }
 
     .flipCard {
@@ -205,15 +237,15 @@
     }
 
     .productImage {
-        max-height: 85px;
+        max-height: 100px;
     }
 
     .title {
         font-size: 15px;
     }
-    }
+}
 
-    @media (max-width: 480px) {
+@media (max-width: 480px) {
     .sectionTitle {
         font-size: 2rem;
         margin-bottom: 1.5rem;
@@ -229,11 +261,11 @@
     }
 
     .row {
-        gap: 1.2rem;
+        gap: 1.5rem;
     }
 
     .productImage {
-        max-height: 70px;
+        max-height: 85px;
     }
 
     .title {
