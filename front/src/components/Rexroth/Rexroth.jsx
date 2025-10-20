@@ -57,7 +57,7 @@ const products = [
 ];
 
 
-// 👉 Subcomponente que maneja las flechas dinámicas
+//  Subcomponente que maneja las flechas dinámicas
 const ScrollableList = ({ items }) => {
     const listRef = useRef(null);
     const [showArrows, setShowArrows] = useState(false);

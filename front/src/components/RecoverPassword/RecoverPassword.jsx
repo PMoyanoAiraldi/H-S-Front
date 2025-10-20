@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import styles from "../RecoverPassword/RecoverPassword.module.css"
 
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3010';
 
 const RecoverPassword = () =>{
     const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const RecoverPassword = () =>{
     const [showPassword, setShowPassword] = useState(false);
 
     const onLogin = (userData) => {
-        axios.post(`http://localhost:3010/users/recover`, userData)
+        axios.post(`${API_URL}/users/recover`, userData)
         .then(resp => {
             console.log("RESPUESTA DEL BACKEND:", resp.data); 
             if(resp.data.user)  {

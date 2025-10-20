@@ -7,6 +7,8 @@ import { setProducts, setLoading, setError } from '../../redux/productsReducer';
 import axios from 'axios';
 import styles from './ProductsPublicPage.module.css'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3010';
+
 export default function ProductsPublicPage() {
     const [filtered, setFiltered] = useState([]);
     const dispatch = useDispatch();
@@ -18,7 +20,7 @@ export default function ProductsPublicPage() {
     useEffect(() => {
     const fetchCategories = async () => {
         try{
-            const response = await axios.get("http://localhost:3010/category"); 
+            const response = await axios.get(`${API_URL}/category`); 
                 dispatch(setCategories(response.data));
             } catch (error) {
                 console.error('Error al cargar categorías:', error);

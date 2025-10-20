@@ -128,21 +128,22 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(165, 206, 55, 0.85);
+    background: transparent;
     border: none;
-    border-radius: 50%;
-    color: #fff;
-    width: 26px;
-    height: 26px;
+    color: #A5CE37;
+    font-size: 1.1rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 10;
-    transition: all 0.25s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    opacity: 0; /* Ocultas por defecto */
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    opacity: 0;
     pointer-events: none;
+    outline: none;/*  elimina el borde de foco */
+    box-shadow: none;
+    appearance: none; /* elimina estilo nativo del botón */
+    -webkit-tap-highlight-color: transparent; /* elimina recuadro gris en móviles */
     }
 
     .scrollBtn.visible {
@@ -150,17 +151,23 @@
     pointer-events: auto;
     }
 
-    .scrollBtn:hover {
-    background: #a5ce37;
-    transform: translateX(-50%) scale(1.1);
-    }
-
+    .scrollBtn:hover,
+    .scrollBtn:focus,
+    .scrollBtn:active {
+    transform: translateX(-50%) scale(1.25);
+    color: #b9e24a;
+    background: none;
+    outline: none;
+    box-shadow: none;
+    font-size: 20px;
+}
+    
     .scrollBtn.up {
-    top: 5px;
+    top: -15px;
     }
 
     .scrollBtn.down {
-    bottom: 5px;
+    bottom: -15px;
 }
 
 .flipCardBack ul {

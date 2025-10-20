@@ -8,6 +8,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import styles from "./Login.module.css"
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3010';
+
 
 const Login = () =>{
     const dispatch = useDispatch();
@@ -15,7 +17,7 @@ const Login = () =>{
     const [showPassword, setShowPassword] = useState(false);
 
     const onLogin = (userData) => {
-        axios.post(`http://localhost:3010/auth/login`, userData)
+        axios.post(`${API_URL}/auth/login`, userData)
         .then(resp => {
             
             if(resp.data.user)  {
