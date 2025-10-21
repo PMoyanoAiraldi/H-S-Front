@@ -51,8 +51,8 @@ const products = [
     },
     {
         id: 5,
-        title: 'Varios',
-        image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1759957727/Varios_lld6fi.png',
+        title: 'Ognibene Power',
+        image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1761083289/Ognibene_power_recortado_cmyyxq.png',
     }
 ];
 
