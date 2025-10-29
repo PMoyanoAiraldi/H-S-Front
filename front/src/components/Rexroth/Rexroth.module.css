@@ -12,8 +12,17 @@
     rgba(13, 71, 161, 0.05) 75%,
     rgba(165, 206, 55, 0.18) 100%
 );
-
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1s ease-out forwards;
 }
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    }
 
 .cardsContainer {
     display: flex;

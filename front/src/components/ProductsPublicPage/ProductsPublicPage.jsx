@@ -39,7 +39,7 @@ export default function ProductsPublicPage() {
                 dispatch(setLoading(true));
                 dispatch(setError(null));
                 
-                const response = await axios.get('http://localhost:3010/products');
+                const response = await axios.get(`${API_URL}/products`);
                 console.log('Datos recibidos de la API:', response.data);
                 
                 // Mapear los datos de API al formato que espera el frontend
@@ -114,24 +114,6 @@ export default function ProductsPublicPage() {
     }
 
     return (
-        // <div  className={styles.container}>
-        //     <h1 className={styles.title}>Nuestros Productos</h1>
-
-        //     <div className={styles.categoryFilterContainer}>
-        //         <CategoryFilter onSelect={filterByCategory} />
-        //     </div>
-            
-        //     {filtered.length === 0 ? (
-        //         <div className="text-center text-gray-500 py-8">
-        //             No hay productos disponibles
-        //         </div>
-        //     ) : (
-        //         <div className={styles.productsGrid}>
-        //             {filtered.map(p => <ProductCard key={p.id} product={p} />)}
-        //         </div>
-        //     )}
-        // </div>
-
         <div className={styles.container}>
             {/* Sidebar de filtros */}
             <div className={styles.sidebar}>
