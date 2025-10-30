@@ -52,19 +52,20 @@
 }
 
 
-.link {
-  color: #333;               /* color inicial */
-  text-decoration: none;     /* quita subrayado */
-  font-weight: normal;       
-  transition: color 0.3s ease, font-weight 0.3s ease;
+.link,
+.link:visited  {
+  color: #333;
+  text-decoration: none;
+  font-weight: 400;
+  transition: text-shadow 0.15s ease;
+  display: inline-block;
 }
 
 .link:hover,
-.link:focus,
-.link:active {
-  font-weight: bold;
+.link:focus {
+  text-shadow: 0.6px 0 0 #333, -0.6px 0 0 #333;
   text-decoration: none;
-  color: #333; /* asegura que no cambie a azul */
+  color: #333;
 }
 
 /* ---------- BLOQUE LOGO + FRASE ---------- */
@@ -114,11 +115,6 @@
 a {
   color: inherit;
   text-decoration: none;
-}
-
-.column a:hover {
-  text-decoration: underline;
-  color: #007bff;
 }
 
 /* ---------- DIVISOR + COPYRIGHT ---------- */
