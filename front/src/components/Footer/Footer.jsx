@@ -1,4 +1,4 @@
-    import styles from './Footer.module.css';
+import styles from './Footer.module.css';
     import logo from '../../assets/LOGOHS.png';
     import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
     import {faClock,faEnvelope,faMapMarkerAlt,} from '@fortawesome/free-solid-svg-icons';
@@ -95,24 +95,27 @@
                 </a>
             </p>
 
-            <h4>COMPRAS</h4>
             <p>
                 <FontAwesomeIcon icon={faWhatsapp} />{' '}
-                <a href={createLink('549340415535037', 'compras')} target="_blank" rel="noopener noreferrer" className={styles.link}>
-                (03404) 15535037
+                <a href={createLink('549340415579696', 'ventas')} target="_blank" rel="noopener noreferrer" className={styles.link}>
+                (03404) 15579696
                 </a>
-                </p>
-            </div>
+            </p>
 
-            {/* Columna 3 */}
-            <div className={`${styles.column} ${styles.infoColumn}`}>
-            <h4>LOGÍSTICA</h4>
+
+                <h4>LOGÍSTICA</h4>
             <p>
                 <FontAwesomeIcon icon={faWhatsapp} /> {' '}
                 <a href={createLink('549340415579700', 'logistica')} target="_blank" rel="noopener noreferrer" className={styles.link}>
                 (03404) 15579700
                 </a>
             </p>
+    
+            </div>
+
+            {/* Columna 3 */}
+            <div className={`${styles.column} ${styles.infoColumn}`}>
+            
 
             <h4>ADMINISTRACIÓN</h4>
             <p>
