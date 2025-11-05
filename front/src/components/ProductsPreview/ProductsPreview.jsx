@@ -16,7 +16,7 @@ import {  FaAngleDoubleRight } from 'react-icons/fa';
             'Bombas hidráulicas para camiones volcadores, portacontenedores, compactadores ',
             
         ],
-        image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1750806283/bomba_para_tractor_-_sn_fondo_zgskxj.png',
+        image: 'https://res.cloudinary.com/dl7hjkrhq/image/upload/v1762378262/bomba-hidraulica-cosechadora-new-holland-16-55cm3-rev_n4x37c.png',
     },
     {
         id: 2,
