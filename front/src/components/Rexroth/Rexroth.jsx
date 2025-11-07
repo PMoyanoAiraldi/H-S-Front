@@ -46,7 +46,7 @@ const ScrollableList = ({ category, items }) => {
             </button>
         )}
 
-        <ul >
+        <ul ref={listRef}>
             {items.map((item, index) => (
             <li className={styles.items} key={index} onClick={(e) => { 
             e.stopPropagation(); 
