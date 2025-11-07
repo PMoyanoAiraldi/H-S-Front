@@ -14,6 +14,7 @@ import Login from "./components/Login/Login";
 import RecoverPassword from "./components/RecoverPassword/RecoverPassword";
 import Dashboard from "./components/DashboardAdmin/DashboardAdmin";
 import Rexroth from "./components/Rexroth/Rexroth";
+import ProductDetail from "./components/ProductDetail/ProductDetail";
 
 
 
@@ -37,6 +38,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/recover" element={<RecoverPassword />} />
         <Route path="dashboard" element={<Dashboard />}/>
+        <Route path="/product/:category/:brand" element={<ProductDetail />} />
       
     </Routes>
     </div>

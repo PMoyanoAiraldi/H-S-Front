@@ -42,6 +42,7 @@
     flex-wrap: wrap;
 }
 
+
 .sectionTitle {
     position: absolute;
     left: 3rem;
@@ -177,6 +178,14 @@
 
     .scrollBtn.down {
     bottom: -15px;
+}
+
+.items:hover {
+    transition: all 0.25s ease;
+    background-color: #C4ED68;
+    color: #1C2C3A;
+    box-shadow: 0 0 8px rgba(196, 237, 104, 0.5);
+    border-radius: 4px;
 }
 
 .flipCardBack ul {
