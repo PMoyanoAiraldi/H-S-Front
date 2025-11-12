@@ -32,6 +32,49 @@
     text-align: center;
 }
 
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    }
+
+    .breadcrumb a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    }
+
+    .breadcrumb a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+.breadcrumb span {
+    color: #999;
+}
+
+.current {
+    color: #333;
+    font-weight: 600;
+    }
+
+    .fadeIn {
+    animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Contenedor donde va tu CategoryFilter */
 .categoryFilterContainer {
     margin-bottom: 2rem;

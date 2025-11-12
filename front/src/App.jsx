@@ -35,10 +35,12 @@ function App() {
         <Route path="/aboutPage" element={<AboutPage />} />
         <Route path="/contact" element={<Contact />} /> 
         <Route path="/rexroth" element={<Rexroth />} /> 
+        <Route path="/rexroth/:category" element={<ProductDetail />} />
+        <Route path="/rexroth/:category/:brand" element={<ProductDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/recover" element={<RecoverPassword />} />
         <Route path="dashboard" element={<Dashboard />}/>
-        <Route path="/product/:category/:brand" element={<ProductDetail />} />
+        
       
     </Routes>
     </div>

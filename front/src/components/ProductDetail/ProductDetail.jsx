@@ -1,5 +1,6 @@
 //import { useParams } from "react-router-dom";
 import React, {  useState, useEffect } from 'react';
+import { Link, useParams } from "react-router-dom";
 import ProductCard from '../ProductCard/ProductCard';
 import CategoryFilter from '../CategoryFilter/CategoryFilter';
 import { useDispatch, useSelector } from "react-redux";
@@ -17,13 +18,15 @@ import styles from "../ProductDetail/ProductDetail.module.css"
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3010';
 
 const ProductDetail = () => {
+    const { category, brand } = useParams();
     const [filtered, setFiltered] = useState([]);
     const dispatch = useDispatch();
 
     // Obtener datos del estado global (no acciones)
-    const { products, loading, error } = useSelector(state => state.products);
-    const { categories } = useSelector(state => state.categories);
+    const { products, loading, error } = useSelector((state) => state.products);
+    const { categories } = useSelector((state) => state.categories);
 
+    //cargamos las categorias del seed del back
     useEffect(() => {
     const fetchCategories = async () => {
         try{
@@ -62,7 +65,7 @@ const ProductDetail = () => {
                 }));
                 
                 // Filtrar solo productos activos
-                const activeProducts = mappedProducts.filter(product => product.state);
+                const activeProducts = mappedProducts.filter((product) => product.state);
                 console.log("Productos mapeados:", mappedProducts);
                 
                 //Despachar la acción con los productos
@@ -94,7 +97,7 @@ const ProductDetail = () => {
         if (!cat || cat === 'all') {
             setFiltered(products);
         } else {
-            setFiltered(products.filter(p => p.category === cat));
+            setFiltered(products.filter((p) => p.category === cat));
         }
     };
 
@@ -121,8 +124,26 @@ const ProductDetail = () => {
     }
 
     return (
-        <div className={styles.container}>
-            {/* Sidebar de filtros */}
+        <div className={`${styles.container} ${styles.fadeIn}`}>
+
+            {/* Breadcrumb */}
+                <nav className={styles.breadcrumb}>
+                    <Link to="/rexroth">Rexroth</Link>
+                    {category && (
+                    <>
+                        <span>›</span>
+                        <Link to={`/rexroth/${category}`}>{category}</Link>
+                    </>
+                    )}
+                    {brand && (
+                    <>
+                        <span>›</span>
+                        <span className={styles.current}>{brand}</span>
+                    </>
+                    )}
+                </nav>
+
+           {/* Sidebar de filtros */}
             <div className={styles.sidebar}>
                 <div className={styles.sidebarTitle}>Filtros</div>
                 
@@ -159,11 +180,6 @@ const ProductDetail = () => {
         </div>
     );
 }
-
-        // <section style={{ padding: "2rem" }}>
-        // <h2>{category}</h2>
-        // <h3>{brand}</h3>
-        // </section>
 
 
 export default ProductDetail;

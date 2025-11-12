@@ -12,7 +12,7 @@ const ScrollableList = ({ category, items }) => {
     const [showArrows, setShowArrows] = useState(false);
 
     const handleClick = (brand) => {
-    navigate(`/product/${category}/${brand}`);
+    navigate(`/rexroth/${category}/${brand}`);
     };
 
     useEffect(() => {
@@ -89,7 +89,7 @@ const ProductCard = ({ product }) => {
             
             </div>
             {Array.isArray(product.description) ? (
-            <ScrollableList items={product.description} />
+            <ScrollableList category={product.title} items={product.description} />
             ) : (
             <div className={styles.flipCardBack}>
                 <p>{product.description || 'Información disponible próximamente'}</p>
