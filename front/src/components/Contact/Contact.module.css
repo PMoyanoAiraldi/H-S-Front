@@ -52,21 +52,22 @@ textarea {
 }
 
 button {
-    background: linear-gradient(135deg, #013A81, #015CDA);
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #0099ff, #00cc88);
     color: white;
-    padding: 0.9rem;
     border: none;
-    border-radius: 8px;
-    font-weight: bold;
+    border-radius: 10px;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 1rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    font-size: 0.95rem;
 }
 
 button:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 12px rgba(1, 58, 129, 0.2);
-    background-color: #2e69b1;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 153, 255, 0.4);
 }
 
 

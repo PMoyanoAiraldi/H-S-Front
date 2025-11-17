@@ -1,7 +1,6 @@
 //import { useParams } from "react-router-dom";
 import React, {  useState, useEffect } from 'react';
 import { Link, useParams } from "react-router-dom";
-import ProductCard from '../ProductCard/ProductCard';
 import CategoryFilter from '../CategoryFilter/CategoryFilter';
 import { useDispatch, useSelector } from "react-redux";
 import { setCategories } from "../../redux/categoriesReducer";
@@ -15,7 +14,7 @@ import styles from "../ProductDetail/ProductDetail.module.css"
 
     // const { category, brand } = useParams();
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3010';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3010'; //!Cayo el deploy, despues renovar.Se conecta a local
 
 const ProductDetail = () => {
     const { category, brand } = useParams();
@@ -28,14 +27,15 @@ const ProductDetail = () => {
 
     //cargamos las categorias del seed del back
     useEffect(() => {
-    const fetchCategories = async () => {
-        try{
-            const response = await axios.get(`${API_URL}/category`); 
+        const fetchCategories = async () => {
+            try{
+                const response = await axios.get(`${API_URL}/category`); 
                 dispatch(setCategories(response.data));
             } catch (error) {
                 console.error('Error al cargar categorías:', error);
             }
         };
+
         // Solo cargar si no hay categorías en el estado
         if (categories.length === 0) {
             fetchCategories();
@@ -101,6 +101,18 @@ const ProductDetail = () => {
         }
     };
 
+
+
+      // Formatear precio
+    // const formatPrice = (price) => {
+    //     return new Intl.NumberFormat('es-AR', {
+    //         style: 'currency',
+    //         currency: 'ARS',
+    //         minimumFractionDigits: 2
+    //     }).format(price);
+    // };
+
+
     //Verificar el estado loading (no la función)
     if (loading) {
         return (
@@ -124,10 +136,9 @@ const ProductDetail = () => {
     }
 
     return (
-        <div className={`${styles.container} ${styles.fadeIn}`}>
-
+        <>
             {/* Breadcrumb */}
-                <nav className={styles.breadcrumb}>
+            <nav className={styles.breadcrumb}>
                     <Link to="/rexroth">Rexroth</Link>
                     {category && (
                     <>
@@ -143,6 +154,7 @@ const ProductDetail = () => {
                     )}
                 </nav>
 
+            <div className={`${styles.container} ${styles.fadeIn}`}>
            {/* Sidebar de filtros */}
             <div className={styles.sidebar}>
                 <div className={styles.sidebarTitle}>Filtros</div>
@@ -160,12 +172,11 @@ const ProductDetail = () => {
 
             {/* Contenido principal */}
             <div className={styles.mainContent}>
-                <div className={styles.header}>
-                    {/* <h1 className={styles.title}>Nuestros Productos</h1> */}
+                {/* <div className={styles.header}>
                     <p className={styles.subtitle}>
-                        Explora nuestra amplia selección de productos
+                        Explora nuestra amplia selección de productos Rexroth
                     </p>
-                </div>
+                </div> */}
                 
                 {filtered.length === 0 ? (
                     <div className={styles.noProductsMessage}>
@@ -173,11 +184,66 @@ const ProductDetail = () => {
                     </div>
                 ) : (
                     <div className={styles.productsGrid}>
-                        {filtered.map(p => <ProductCard key={p.id} product={p} />)}
-                    </div>
-                )}
+                        {filtered.map((product) => (
+                                // Cada producto ahora es un productRow (fila horizontal)
+                                <div key={product.id} className={styles.productRow}>
+                                    
+                                    {/* COLUMNA 1: Imagen del producto */}
+                                    <img
+                                        src={product.imageUrl || '/placeholder-product.jpg'}
+                                        alt={product.name}
+                                        className={styles.productImage}
+                                        onError={(e) => {
+                                            e.target.src = '/placeholder-product.jpg';
+                                        }}
+                                    />
+
+                                    {/* COLUMNA 2: Información del producto */}
+                                    <div className={styles.productInfo}>
+                                        {/* Nombre */}
+                                        <h2 className={styles.productName}>
+                                            {product.name}
+                                        </h2>
+
+                                        {/* Descripción */}
+                                        <p className={styles.productDescription}>
+                                            {product.description || 'Sin descripción disponible'}
+                                        </p>
+
+                                        {/* Metadata: categoría y código */}
+                                        <div className={styles.productMeta}>
+                                            <span className={styles.categoryBadge}>
+                                                {product.category}
+                                            </span>
+
+                                            <span className={styles.productCode}>
+                                                Código: #{product.id}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {/* COLUMNA 3: Precio y botón de acción */}
+                                    <div className={styles.productActions}>
+                                        {/* Precio */}
+                                        {/* <p className={styles.productPrice}>
+                                            {formatPrice(product.price)}
+                                        </p> */}
+
+                                        {/* Botón ver detalles */}
+                                        <Link
+                                            to={`/producto/${product.id}`}
+                                            className={styles.viewDetailsBtn}
+                                        >
+                                            Ver detalles
+                                        </Link>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 
