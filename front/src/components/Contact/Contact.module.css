@@ -11,6 +11,23 @@
         }
     }
 
+    .container {
+        /* min-height: 100vh;
+        padding: 2rem 2rem; */
+        
+        background: linear-gradient(135deg, 
+        #f5f7ff 0%,   
+        #eef1fd 25%,  
+        #e8ecfc 50%,  
+        #e2e7fb 75%,  
+        #dce3fa 100%  
+    );
+    /* display: flex; 
+    flex-direction: column;
+    align-items: center; */
+    }
+    
+
     .containerContact{
         /* width: 90%; */
         max-width: 500px;

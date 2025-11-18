@@ -3,14 +3,14 @@ import styles from './AboutPage.module.css';
 
 export default function AboutPage() {
     return (
-        
+        <div className={styles.container}>
         <div className={styles.containerAbout}>
         <h1 className={styles.titleAbout}>Sobre nosotros</h1>
         <p className={styles.textAbout}> En Hidráulica HS SRL contamos con más de 13 años de trayectoria en el país, consolidándonos como una empresa joven pero con amplia experiencia en el rubro. Nos especializamos en la compra y venta de repuestos hidráulicos para los sectores agropecuario, vial, industrial y automotriz.
         Nuestro principal objetivo es brindar a nuestros clientes soluciones rápidas, eficientes y al mejor precio. Para lograrlo, ofrecemos una atención personalizada, una logística ágil y un amplio stock que nos permite responder de forma inmediata a sus necesidades.
         Trabajamos constantemente en la innovación y mejora de nuestros procesos, con el compromiso de superar las expectativas de quienes nos eligen. Porque para nosotros, la confianza de nuestros clientes es nuestro mayor logro.</p> 
 
-        
+        <h3 className={styles.mapTitle}>📍 Encuéntranos</h3>
         <div className={styles.mapContainerAbout}>
         <iframe
             title="Ubicación de Hidráulica HS SRL"
@@ -24,6 +24,6 @@ export default function AboutPage() {
             ></iframe>
         </div>
         </div>
-        
+        </div>
     );
 }

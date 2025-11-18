@@ -48,6 +48,7 @@ const Contact = () => {
     };
 
     return (
+        <div className={styles.container}>
         <div className={styles.containerContact}>
         <h1 className={styles.titleContact}>Envianos tu consulta</h1>
         <form ref={form} onSubmit={sendEmail} className={styles.form}>
@@ -87,6 +88,7 @@ const Contact = () => {
         </div>
     )}
         </form>
+        </div>
         </div>
     );
 };
