@@ -33,12 +33,12 @@ const Contact = () => {
         )
         .then(
             () => {
-            setStatusMessage("✅ Mensaje enviado correctamente ");
+            setStatusMessage("Mensaje enviado correctamente ");
             setStatusType("success");
             form.current.reset();
             },
             () => {
-            setStatusMessage("Hubo un error al enviar el mensaje ❌");
+            setStatusMessage("Hubo un error al enviar el mensaje");
             setStatusType("error");
         }
         )
@@ -48,6 +48,7 @@ const Contact = () => {
     };
 
     return (
+        <>
         <div className={styles.container}>
         <div className={styles.containerContact}>
         <h1 className={styles.titleContact}>Envianos tu consulta</h1>
@@ -78,18 +79,20 @@ const Contact = () => {
         <button className={styles.button} type="submit" disabled={loading}>
         {loading ? "Enviando..." : "Enviar"}
         </button>
-
-        {statusMessage && (
-        <div className={`${styles.popup} ${statusType === "success" ? styles.successBox : styles.errorBox}`}>
-            <span className={styles.closeButton} onClick={() => setStatusMessage("")}>
-        &times;
-    </span>
-    <p>{statusMessage}</p>
-        </div>
-    )}
         </form>
         </div>
         </div>
+
+        {statusMessage && (
+        <div className={`${styles.popup} ${statusType === "success" ? styles.successBox : styles.errorBox}`}>
+        <p>{statusMessage}</p>
+            <span className={styles.closeButton} onClick={() => setStatusMessage("")}>
+        &times;
+    </span>
+    
+        </div>
+    )}
+    </>
     );
 };
 
