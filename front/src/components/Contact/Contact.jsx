@@ -24,6 +24,12 @@ const Contact = () => {
         setStatusMessage("");
         setStatusType("");
 
+        setTimeout(() => {
+        setStatusMessage("Hubo un error al enviar el mensaje");
+        setStatusType("error");
+        setLoading(false);
+    }, 1000);
+
         emailjs
         .sendForm(
             import.meta.env.VITE_EMAILJS_SERVICE_ID,// ← reemplazar por tu Service ID real

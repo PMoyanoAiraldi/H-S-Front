@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCategories } from "../../redux/categoriesReducer";
 import { setProducts, setLoading, setError } from '../../redux/productsReducer';
 import axios from 'axios';
-import styles from "../ProductDetail/ProductDetail.module.css"
+import styles from "./RexrothDetail.module.css"
 
 
 
@@ -16,7 +16,7 @@ import styles from "../ProductDetail/ProductDetail.module.css"
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3010'; //!Cayo el deploy, despues renovar.Se conecta a local
 
-const ProductDetail = () => {
+const RexrothDetail = () => {
     const { category, brand } = useParams();
     const [filtered, setFiltered] = useState([]);
     const dispatch = useDispatch();
@@ -248,4 +248,4 @@ const ProductDetail = () => {
 }
 
 
-export default ProductDetail;
+export default RexrothDetail;
