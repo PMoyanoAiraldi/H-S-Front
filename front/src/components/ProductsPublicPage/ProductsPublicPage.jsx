@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import ProductCard from '../ProductCard/ProductCard';
-import CategoryFilter from '../CategoryFilter/CategoryFilter';
+import Filters from '../Filters/Filters';
 import { useDispatch, useSelector } from "react-redux";
-import { setCategories } from "../../redux/categoriesReducer";
+import { setLineas, setRubros, setMarcas } from "../../redux/filterReducer";
 import { setProducts, setLoading, setError } from '../../redux/productsReducer';
 import axios from 'axios';
 import styles from './ProductsPublicPage.module.css'
@@ -15,13 +15,20 @@ export default function ProductsPublicPage() {
 
     // Obtener datos del estado global (no acciones)
     const { products, loading, error } = useSelector(state => state.products);
-    const { categories } = useSelector(state => state.categories);
+    const { categories } = useSelector(state => state.filters);
 
     useEffect(() => {
     const fetchCategories = async () => {
         try{
-            const response = await axios.get(`${API_URL}/category`); 
-                dispatch(setCategories(response.data));
+            const [lineasRes, rubrosRes, marcasRes] = await Promise.all([
+                    axios.get(`${API_URL}/linea`),
+                    axios.get(`${API_URL}/rubro`),
+                    axios.get(`${API_URL}/marca`)
+                    ]);
+                    
+                    dispatch(setLineas(lineasRes.data));
+                    dispatch(setRubros(rubrosRes.data));
+                    dispatch(setMarcas(marcasRes.data));
             } catch (error) {
                 console.error('Error al cargar categorías:', error);
             }
