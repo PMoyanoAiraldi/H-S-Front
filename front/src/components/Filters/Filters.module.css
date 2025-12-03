@@ -2,12 +2,8 @@
 .selectContainer {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 2rem;
     padding: 1.5rem;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e2e8f0;
     margin-bottom: 1.5rem;
 }
 
@@ -23,14 +19,6 @@
     color: #374151;
     cursor: pointer;
     transition: all 0.3s ease;
-    
-    /* Estilo personalizado para la flecha del select */
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right 0.75rem center;
-    background-repeat: no-repeat;
-    background-size: 1.25rem;
-    padding-right: 2.5rem;
 }
 
 /* Estados hover y focus */
@@ -59,55 +47,6 @@
     background-color: #f8fafc;
 }
 
-/* Añadir etiquetas antes de cada select (opcional) */
-.selectBox:first-child::before {
-    content: "Categoría Principal";
-    position: absolute;
-    top: -0.5rem;
-    left: 0.75rem;
-    background-color: #fff;
-    padding: 0 0.5rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #64748b;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    z-index: 1;
-}
-
-.selectBox:last-child::before {
-    content: "Subcategoría";
-    position: absolute;
-    top: -0.5rem;
-    left: 0.75rem;
-    background-color: #fff;
-    padding: 0 0.5rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #64748b;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    z-index: 1;
-}
-
-/* Si prefieres sin etiquetas, usa estos estilos alternativos */
-.selectBox.primary {
-    border-color: #3b82f6;
-}
-
-.selectBox.secondary {
-    border-color: #10b981;
-}
-
-.selectBox.primary:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-}
-
-.selectBox.secondary:focus {
-    border-color: #10b981;
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
-}
 
 /* Efectos de animación suave */
 @keyframes selectFadeIn {
@@ -123,6 +62,21 @@
 
 .selectContainer {
     animation: selectFadeIn 0.4s ease;
+}
+
+.clearFiltersBtn {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.clearFiltersBtn:hover {
+    background-color: #e0e0e0;
 }
 
 /* Responsive para móviles */

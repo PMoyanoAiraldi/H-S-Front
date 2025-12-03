@@ -35,8 +35,8 @@ function App() {
         <Route path="/aboutPage" element={<AboutPage />} />
         <Route path="/contact" element={<Contact />} /> 
         <Route path="/rexroth" element={<Rexroth />} /> 
-        <Route path="/rexroth/:category" element={<RexrothDetail />} />
-        <Route path="/rexroth/:category/:brand" element={<RexrothDetail />} />
+        <Route path="/rexroth/:linea" element={<RexrothDetail />} />
+        <Route path="/rexroth/:linea/:brand" element={<RexrothDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/recover" element={<RecoverPassword />} />
         <Route path="dashboard" element={<Dashboard />}/>
