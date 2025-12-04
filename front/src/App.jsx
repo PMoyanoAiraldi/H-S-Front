@@ -15,6 +15,7 @@ import RecoverPassword from "./components/RecoverPassword/RecoverPassword";
 import Dashboard from "./components/DashboardAdmin/DashboardAdmin";
 import Rexroth from "./components/Rexroth/Rexroth";
 import RexrothDetail from "./components/RexrothDetail/RexrothDetail";
+import RexrothProductDetail from "./components/RexrothProductDetail/RexrothProductDetail"
 
 
 
@@ -37,6 +38,7 @@ function App() {
         <Route path="/rexroth" element={<Rexroth />} /> 
         <Route path="/rexroth/:linea" element={<RexrothDetail />} />
         <Route path="/rexroth/:linea/:brand" element={<RexrothDetail />} />
+        <Route path="/products/:id" element={<RexrothProductDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/recover" element={<RecoverPassword />} />
         <Route path="dashboard" element={<Dashboard />}/>

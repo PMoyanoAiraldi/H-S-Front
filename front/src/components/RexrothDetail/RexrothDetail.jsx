@@ -229,7 +229,7 @@ const RexrothDetail = () => {
 
                                     <div className={styles.productActions}>
                                         <Link
-                                            to={`/producto/${product.id}`}
+                                            to={`/products/${product.id}`}
                                             className={styles.viewDetailsBtn}
                                         >
                                             Ver detalles
