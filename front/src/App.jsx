@@ -32,13 +32,13 @@ function App() {
       <div className={styles.routesWrapper}>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/products" element={<ProductsPublicPage />} />
+        {/* <Route path="/products" element={<ProductsPublicPage />} /> */}
         <Route path="/aboutPage" element={<AboutPage />} />
         <Route path="/contact" element={<Contact />} /> 
         <Route path="/rexroth" element={<Rexroth />} /> 
         <Route path="/rexroth/:linea" element={<RexrothDetail />} />
         <Route path="/rexroth/:linea/:brand" element={<RexrothDetail />} />
-        <Route path="/products/:id" element={<RexrothProductDetail />} />
+        <Route path="/rexroth/products/:id" element={<RexrothProductDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/recover" element={<RecoverPassword />} />
         <Route path="dashboard" element={<Dashboard />}/>

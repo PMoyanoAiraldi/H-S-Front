@@ -1,4 +1,4 @@
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchProductById } from "../../redux/productsReducer";
@@ -7,35 +7,45 @@ import styles from "./RexrothProductDetal.module.css";
 const RexrothProductDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useDispatch();
     const [imageLoaded, setImageLoaded] = useState(false);
     const [imageError, setImageError] = useState(false);
 
-    // Obtener el producto del estado de Redux
-    const product = useSelector(state => 
+    //  Primero intentar obtener del state de navigate
+    const productFromState = location.state?.product;
+
+
+     // Luego buscar en Redux
+    const productFromRedux = useSelector(state => 
         state.products.products.find(p => p.id === id)
     );
+
+    // Usar el que esté disponible (prioridad al state)
+    const product = productFromState || productFromRedux;
+
     const loading = useSelector(state => state.products.loading);
     const error = useSelector(state => state.products.error);
+;
 
 
-
-    useEffect(() => {
-        console.log('Product:', product);
+useEffect(() => {
+        console.log('Product from state:', productFromState);
+        console.log('Product from Redux:', productFromRedux);
+        console.log('Final product:', product);
         console.log('Image URL:', product?.imgUrl);
-    }, [product]);
-
-    // Si no está en Redux, hacer fetch
+    }, [productFromState, productFromRedux, product]);
+    // Solo hacer fetch si NO tenemos el producto de ninguna fuente
     useEffect(() => {
-        if (!product && id) {
+        if (!product && id && !loading) {
             dispatch(fetchProductById(id));
         }
-    }, [id, product, dispatch]);
+    }, [id, product, dispatch, loading]);
 
-      // Reset image states when product changes
+      //Reset solo cuando cambia el ID del producto
     useEffect(() => {
-        setImageLoaded(false);
-        setImageError(false);
+            setImageLoaded(false);
+            setImageError(false);
     }, [product?.id]);
 
     const handleSolicitarPrecio = () => {
@@ -61,7 +71,7 @@ const RexrothProductDetail = () => {
         console.log('❌ Error al cargar imagen:', e);
         console.log('URL que falló:', product?.imgUrl);
         setImageError(true);
-        setImageLoaded(true);
+        setImageLoaded(false);
     };
 
     if (loading) {
@@ -72,7 +82,7 @@ const RexrothProductDetail = () => {
         );
     }
 
-    if (error || !product) {
+    if (error || (!product && !loading)) {
         return (
             <div className={styles.container}>
                 <div className={styles.error}>
@@ -89,45 +99,55 @@ const RexrothProductDetail = () => {
     return (
         <div className={styles.container}>
             {/* Breadcrumb */}
-            <nav className={styles.breadcrumb}>
+            {/* <nav className={styles.breadcrumb}>
                 <Link to="/rexroth">Rexroth</Link>
-                <span>›</span>
-                {product.lineaNombre && (
+                
+                {product?.linea && (
                     <>
-                        <Link to={`/rexroth?linea=${encodeURIComponent(product.lineaNombre)}`}>
-                            {product.lineaNombre}
-                        </Link>
                         <span>›</span>
+                        <Link to={`/rexroth?linea=${encodeURIComponent(product.linea)}`}>
+                            {product.linea}
+                        </Link>
                     </>
                 )}
-                <span className={styles.current}>{product.nombre}</span>
-            </nav>
+                
+                {product?.rubro && (
+                    <>
+                        <span>›</span>
+                        <Link to={`/rexroth?linea=${encodeURIComponent(product.linea)}&rubro=${encodeURIComponent(product.rubro)}`}>
+                            {product.rubro}
+                        </Link>
+                    </>
+                )}
+                
+                <span>›</span>
+                <span className={styles.current}>{product?.nombre}</span>
+            </nav> */}
 
             {/* Detalles del Producto */}
             <div className={styles.productDetail}>
-                    {!imageLoaded && !imageError && (
+                        <div className={styles.imageSection}>
+                {!imageLoaded && !imageError && product?.imgUrl && (
                         <div className={styles.imagePlaceholder}>
                             <div className={styles.spinner}></div>
                         </div>
                     )}
                     
-                    {imageError ? (
+                    {/* Si hay error o no hay URL */}
+                    {(imageError || !product?.imgUrl) && (
                         <div className={styles.noImage}>
-                            <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                <circle cx="8.5" cy="8.5" r="1.5"/>
-                                <polyline points="21 15 16 10 5 21"/>
-                            </svg>
                             <p>Imagen no disponible</p>
                         </div>
-                    ) : (
+                    )}
+                    
+                    {/* Imagen del producto - siempre renderizada para que intente cargar */}
+                    {product?.imgUrl && (
                         <img 
                             src={product.imgUrl} 
-                            alt={product.nombre}
-                            className={`${styles.productImage} ${imageLoaded ? styles.loaded : ''}`}
+                            alt={product.nombre || 'Producto'}
+                            className={`${styles.productImage} ${imageLoaded && !imageError ? styles.loaded : styles.hidden}`}
                             onLoad={handleImageLoad}
                             onError={handleImageError}
-                            style={{ display: imageLoaded ? 'block' : 'none' }}
                         />
                     )}
                 </div>
@@ -186,7 +206,7 @@ const RexrothProductDetail = () => {
                     </div>
                 </div>
             </div>
-        
+        </div>
     );
 };
 

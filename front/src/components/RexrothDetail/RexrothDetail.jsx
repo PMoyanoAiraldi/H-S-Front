@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Filters from '../Filters/Filters';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLineas, fetchRubros, fetchMarcas } from "../../redux/filterReducer";
@@ -11,6 +11,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3010';
 
 const RexrothDetail = () => {
     const { linea, brand } = useParams();
+    const navigate = useNavigate();
     const [activeFilters, setActiveFilters] = useState({
         linea: null,
         rubro: null,
@@ -76,9 +77,12 @@ const RexrothDetail = () => {
                     codigoAlternativo1: product.codigoAlternativo1,
                     codigoAlternativo2: product.codigoAlternativo2,
                     linea: product.linea?.nombre || 'Sin línea',
+                    lineaNombre: product.linea?.nombre || 'Sin línea',
                     rubro: product.rubro?.nombre || 'Sin rubro',
+                    rubroNombre: product.rubro?.nombre || 'Sin rubro',
                     marca: product.marca?.nombre|| 'Sin marca',
-                    imageUrl: product.imgUrl,
+                    marcaNombre: product.marca?.nombre|| 'Sin marca',
+                    imgUrl: product.imgUrl,
                     state: product.state
                 }));
                 
@@ -97,6 +101,12 @@ const RexrothDetail = () => {
 
     const handleFilterChange = (newFilters) => {
         setActiveFilters(newFilters);
+    };
+
+    const handleVerDetalle = (product) => {
+        navigate(`/rexroth/products/${product.id}`, {
+            state: { product } // Pasar el producto completo
+        });
     };
 
     if (loading) {
@@ -191,7 +201,7 @@ const RexrothDetail = () => {
                             {products.map((product) => (
                                 <div key={product.id} className={styles.productRow}>
                                     <img
-                                        src={product.imageUrl || '/placeholder-product.jpg'}
+                                        src={product.imgUrl || '/placeholder-product.jpg'}
                                         alt={product.nombre}
                                         className={styles.productImage}
                                         onError={(e) => {
@@ -228,12 +238,12 @@ const RexrothDetail = () => {
                                     </div>
 
                                     <div className={styles.productActions}>
-                                        <Link
-                                            to={`/products/${product.id}`}
+                                        <button
+                                            onClick={() => handleVerDetalle(product)}
                                             className={styles.viewDetailsBtn}
                                         >
                                             Ver detalles
-                                        </Link>
+                                        </button>
                                     </div>
                                 </div>
                             ))}
