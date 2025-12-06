@@ -9,8 +9,6 @@ const RexrothProductDetail = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
-    // const [imageLoaded, setImageLoaded] = useState(false);
-    // const [imageError, setImageError] = useState(false);
 
     //  Primero intentar obtener del state de navigate
     const productFromState = location.state?.product;
@@ -42,11 +40,6 @@ useEffect(() => {
         }
     }, [id, product, dispatch, loading]);
 
-      //Reset solo cuando cambia el ID del producto
-    // useEffect(() => {
-    //         setImageLoaded(false);
-    //         setImageError(false);
-    // }, [product?.id]);
 
     const handleSolicitarPrecio = () => {
         if (!product) return;
