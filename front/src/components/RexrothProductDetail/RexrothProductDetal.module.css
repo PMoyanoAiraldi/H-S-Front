@@ -136,24 +136,16 @@
     height: auto;
     max-height: 500px;
     object-fit: contain;
-    display: block;
-    opacity: 0;
-    transition: opacity 0.3s ease-in;
-    position: relative;
-    z-index: 1;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 
 
-/* Mostrar imagen cuando carga correctamente */
-.productImage.loaded {
-    opacity: 1;
-}
-
-.productImage.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
 /* ========== SECCIÓN DE INFO ========== */
 .infoSection {
     display: flex;

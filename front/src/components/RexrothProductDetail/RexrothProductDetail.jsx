@@ -1,6 +1,6 @@
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { fetchProductById } from "../../redux/productsReducer";
 import styles from "./RexrothProductDetal.module.css";
 
@@ -9,8 +9,8 @@ const RexrothProductDetail = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
-    const [imageLoaded, setImageLoaded] = useState(false);
-    const [imageError, setImageError] = useState(false);
+    // const [imageLoaded, setImageLoaded] = useState(false);
+    // const [imageError, setImageError] = useState(false);
 
     //  Primero intentar obtener del state de navigate
     const productFromState = location.state?.product;
@@ -43,10 +43,10 @@ useEffect(() => {
     }, [id, product, dispatch, loading]);
 
       //Reset solo cuando cambia el ID del producto
-    useEffect(() => {
-            setImageLoaded(false);
-            setImageError(false);
-    }, [product?.id]);
+    // useEffect(() => {
+    //         setImageLoaded(false);
+    //         setImageError(false);
+    // }, [product?.id]);
 
     const handleSolicitarPrecio = () => {
         if (!product) return;
@@ -57,22 +57,10 @@ useEffect(() => {
                         `Descripción: ${product.descripcion}%0A` +
                         `Línea: ${product.lineaNombre || 'N/A'}`;
         
-        const numeroWhatsApp = '5491234567890';
+        const numeroWhatsApp = '549340415535056';
         window.open(`https://wa.me/${numeroWhatsApp}?text=${mensaje}`, '_blank');
     };
 
-    const handleImageLoad = () => {
-        console.log('✅ Imagen cargada correctamente');
-        setImageLoaded(true);
-        setImageError(false);
-    };
-
-    const handleImageError = (e) => {
-        console.log('❌ Error al cargar imagen:', e);
-        console.log('URL que falló:', product?.imgUrl);
-        setImageError(true);
-        setImageLoaded(false);
-    };
 
     if (loading) {
         return (
@@ -127,29 +115,24 @@ useEffect(() => {
             {/* Detalles del Producto */}
             <div className={styles.productDetail}>
                         <div className={styles.imageSection}>
-                {!imageLoaded && !imageError && product?.imgUrl && (
-                        <div className={styles.imagePlaceholder}>
-                            <div className={styles.spinner}></div>
-                        </div>
-                    )}
+                {product?.imgUrl ? (
+        <img 
+            src={product.imgUrl} 
+            alt={product.nombre}
+            className={styles.productImage}
+        />
+    ) : (
+        <div className={styles.noImage}>
+            <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            <p>Imagen no disponible</p>
+        </div>
+    )}
                     
-                    {/* Si hay error o no hay URL */}
-                    {(imageError || !product?.imgUrl) && (
-                        <div className={styles.noImage}>
-                            <p>Imagen no disponible</p>
-                        </div>
-                    )}
-                    
-                    {/* Imagen del producto - siempre renderizada para que intente cargar */}
-                    {product?.imgUrl && (
-                        <img 
-                            src={product.imgUrl} 
-                            alt={product.nombre || 'Producto'}
-                            className={`${styles.productImage} ${imageLoaded && !imageError ? styles.loaded : styles.hidden}`}
-                            onLoad={handleImageLoad}
-                            onError={handleImageError}
-                        />
-                    )}
+                
                 </div>
 
                 <div className={styles.infoSection}>

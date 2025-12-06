@@ -77,11 +77,8 @@ const RexrothDetail = () => {
                     codigoAlternativo1: product.codigoAlternativo1,
                     codigoAlternativo2: product.codigoAlternativo2,
                     linea: product.linea?.nombre || 'Sin línea',
-                    lineaNombre: product.linea?.nombre || 'Sin línea',
                     rubro: product.rubro?.nombre || 'Sin rubro',
-                    rubroNombre: product.rubro?.nombre || 'Sin rubro',
                     marca: product.marca?.nombre|| 'Sin marca',
-                    marcaNombre: product.marca?.nombre|| 'Sin marca',
                     imgUrl: product.imgUrl,
                     state: product.state
                 }));
