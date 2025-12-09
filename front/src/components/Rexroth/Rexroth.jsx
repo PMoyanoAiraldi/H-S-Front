@@ -75,13 +75,33 @@ const ScrollableList = ({ category, items }) => {
 
 const ProductCard = ({ product }) => {
         const [flipped, setFlipped] = useState(false); //el estado de la tarjeta inicia en false, cuando hace click cambia a true
+        const cardRef = useRef(null);
 
         const toggleFlip = () => {
             setFlipped(!flipped);
     };
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            // Si la tarjeta está volteada Y el click fue fuera de ella
+            if (flipped && cardRef.current && !cardRef.current.contains(event.target)) {
+                setFlipped(false);
+            }
+        };
+
+        // Agregar el listener solo cuando la tarjeta está volteada
+        if (flipped) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        // Cleanup: remover el listener
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [flipped]);
+
     return (
-        <div className={`${styles.flipCard} ${flipped ? styles.isFlipped : ''}`} onClick={toggleFlip}>
+        <div ref={cardRef} className={`${styles.flipCard} ${flipped ? styles.isFlipped : ''}`} onClick={toggleFlip}>
         <div className={`${styles.flipCardInner} ${flipped ? styles.flipped : ''}`}>
             <div className={styles.flipCardFront}>
             <h3 className={styles.title}>{product.title}</h3>
