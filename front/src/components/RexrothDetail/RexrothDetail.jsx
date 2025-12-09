@@ -167,14 +167,21 @@ const RexrothDetail = () => {
                         )}
                         {/* Solo muestra la X si hay texto Y NO está buscando */}
                         {searchTerm && !isSearching && (
-                    <button
+                    <span
                         onClick={() => setSearchTerm('')}
                         className={styles.clearSearchBtn}
-                        type="button"
+                        role="button" //accesibilidad 
+                        tabIndex={0} //navegación con teclado
                         aria-label="Limpiar búsqueda"
+                        onKeyDown={(e) => { //para que funcione con Enter y Espacio
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                setSearchTerm('');
+                            }
+                        }}
                     >
                         ×
-                    </button>
+                    </span>
                     )}
                     </div>
 

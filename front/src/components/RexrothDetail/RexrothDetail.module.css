@@ -146,9 +146,9 @@
     right: 0.75rem;
     top: 50%;
     transform: translateY(-50%);
-    background-color: transparent !important; /* Forzar transparente */
-    background: none !important; /* Forzar sin fondo */
-    border: none !important;
+    background-color: transparent;
+    background: none; 
+    border: none;
     font-size: 1.4rem;
     font-weight: normal;
     color: #94a3b8;
@@ -162,25 +162,25 @@
     justify-content: center;
     transition: color 0.2s ease;
     line-height: 1;
-    box-shadow: none !important;
+    box-shadow: none;
 }
 
 .clearSearchBtn:hover {
     color: #475569;
-    background-color: transparent !important;
-    background: none !important;
+    background-color: transparent;
+    background: none;
 }
 
 .clearSearchBtn:active {
     color: #1e293b;
-    background-color: transparent !important;
-    background: none !important;
+    background-color: transparent;
+    background: none;
 }
 
 .clearSearchBtn:focus {
     outline: none;
-    background-color: transparent !important;
-    background: none !important;
+    background-color: transparent;
+    background: none;
 }
 
 
@@ -236,19 +236,29 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
     min-height: 400px;
     font-size: 1.2rem;
     color: #64748b;
     background-color: #f8fafc;
     border-radius: 12px;
     border: 2px dashed #cbd5e1;
+    position: relative;
 }
 
 .loadingContainer::before {
-    content: "⏳";
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    animation: fadeInUp 1s ease-out forwards;
+    content: "";
+    width: 50px;
+    height: 50px;
+    border: 4px solid #e2e8f0;
+    border-top-color: #0099ff;
+    border-radius: 50%;
+    margin-bottom: 1.5rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
 .errorContainer {
@@ -257,19 +267,44 @@
     justify-content: center;
     align-items: center;
     min-height: 400px;
+    width: 100%;
     color: #dc2626;
     background-color: #fef2f2;
     border: 2px solid #fecaca;
     border-radius: 12px;
     padding: 2rem;
-    /* margin: 2rem 0; */
     text-align: center;
+    gap: 1rem;
+    /* position: relative; */
 }
 
 .errorContainer::before {
-    content: "❌";
+    content: "X";
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1.5rem;
+    background: #dc2626;
+    border-radius: 50%;
+    /* position: relative; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
     font-size: 3rem;
-    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.errorContainer::after {
+    content: "X";
+    position: absolute;
+    top: 30px; 
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
 }
 
 /* Mensaje cuando no hay productos */
@@ -285,11 +320,14 @@
 }
 
 .noProductsMessage::before {
-    content: "🔍";
-    font-size: 3rem;
+    content: "∅";
+    font-size: 5rem;
+    color: #94a3b8;
     display: block;
     margin-bottom: 1rem;
+    font-weight: 300;
 }
+
 
 /* Contador de productos */
 .productCounter {
