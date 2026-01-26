@@ -15,6 +15,7 @@ const RecoverPassword = () =>{
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const onLogin = (userData) => {
         axios.post(`${API_URL}/users/recover`, userData)
@@ -76,16 +77,16 @@ const RecoverPassword = () =>{
         </div>
 
         <div className={styles.inputContainer}>
-        <input className={styles.inputWithIcon} type={showPassword ? "text" : "cPassword"} name="cPassword" id="cPassword"
+        <input className={styles.inputWithIcon} type={showConfirmPassword ? "text" : "password"} name="cPassword" id="cPassword"
         placeholder="Confirmar contraseña" 
         onChange={handleChange} 
         value={input.cPassword}/>{/*el value indica el estado inicial de cada campo antes del cambio, enlazamos el estado con el valor */}
         
         <span
                 className={styles.icon}
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             >
-                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
         </span>
         </div>
         <div>
