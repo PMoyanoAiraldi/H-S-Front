@@ -1,36 +1,34 @@
-    /* ----- FLECHAS DEL CARRUSEL ----- */
-    .slick-prev,
-    .slick-next {
+/* ----- FLECHAS DEL CARRUSEL ----- */
+.custom-arrow {
     position: absolute;
     top: 35%;
     transform: translateY(-50%);
-    z-index: 5;
-    font-size: 2rem;
-    color: black !important;
-    opacity: 1 !important;
-    padding: 5px;
-    border-radius: 50%;
+    z-index: 10;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: rgb(15, 15, 15);
 
-    }
+}
 
-    .slick-prev {
-    left: 10px;
-    }
-    .slick-next {
-    right: 10px;
-    }
+.custom-arrow:hover {
+    color: rgb(15, 15, 15);
+    transform: translateY(-50%) scale(1.1);
+    background-color: white;
+}
 
-    .slick-prev:hover,
-    .slick-next:hover {
-    transform: translateY(-50%) scale(1.1); /* sobresale un poquito */
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-    background-color: #f4f3f3;
-    color: black !important;
-    opacity: 1 !important;
-    }
+.custom-arrow.prev {
+    left: 5px;
+}
 
+.custom-arrow.next {
+    right: 5px;
+}
 
     /* ----- PUNTOS DEL CARRUSEL ----- */
     .slick-dots {

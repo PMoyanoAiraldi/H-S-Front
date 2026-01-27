@@ -30,19 +30,23 @@ function App() {
 
   useEffect(() => {
   const token = localStorage.getItem("token");
+  console.log("Token en localStorage:", token); 
 
   if (token) {
+    console.log("Haciendo petición a /auth/profile con token:", token);
     axios.get(`${API_URL}/auth/profile`, {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(res => {
+      console.log("Usuario restaurado desde token:", res.data);
       dispatch(login(res.data));
     })
-    .catch(() => {
+    .catch((error) => {
+      console.error("Error al obtener perfil:", error);
       localStorage.removeItem("token");
     });
   }
-}, []);
+}, [dispatch]);
 
 
   return (

@@ -19,13 +19,17 @@ const Login = () =>{
     const onLogin = (userData) => {
         axios.post(`${API_URL}/auth/login`, userData)
         .then(resp => {
+            console.log("Respuesta completa del backend:", resp.data);
             
-            if(resp.data.user)  {
-                localStorage.setItem('token', resp.data.token);
-                dispatch(login({user: resp.data.user.user }));
-            console.log("RESPUESTA DEL BACKEND:", resp.data.user.user); 
+            if(resp.data.user && resp.data.token)  {
+                console.log("Token recibido:", resp.data.token); // 👈 AGREGA ESTO
+            console.log("Usuario recibido:", resp.data.user);
 
-            if (resp.data.user.user.rol === "admin") {
+                localStorage.setItem('token', resp.data.token);
+                dispatch(login({user: resp.data.user }));
+            console.log("RESPUESTA DEL BACKEND:", resp.data.user); 
+
+            if (resp.data.user.rol === "admin") {
                 navigate("/dashboard");  
             } else {
                 navigate("/rexroth");   

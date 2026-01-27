@@ -48,7 +48,7 @@ export default function Navbar() {
             ) : (
                 <div className={styles.userMenu}>
                         <span className={styles.userName} onClick={toggleDropdown}>
-                            {user.user.nombre} <span className={dropdownOpen ? styles.arrowUp : styles.arrowDown}>▼</span>
+                            {user.nombre} <span className={dropdownOpen ? styles.arrowUp : styles.arrowDown}>▼</span>
                         </span>
                         {dropdownOpen && (
                             <div className={styles.dropdown}>

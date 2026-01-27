@@ -12,6 +12,23 @@ const products = [
     ];
 
 
+    const PrevArrow = (props) => {
+    const { onClick } = props;
+    return (
+        <div className="custom-arrow prev" onClick={onClick}>
+            <ChevronLeft size={24} />
+        </div>
+    );
+};
+
+const NextArrow = (props) => {
+    const { onClick } = props;
+    return (
+        <div className="custom-arrow next" onClick={onClick}>
+            <ChevronRight size={24} />
+        </div>
+    );
+};
 
 const Carousel = () => {
     const settings = {
@@ -25,8 +42,8 @@ const Carousel = () => {
         pauseOnHover: true,      // pausa si paso el mouse encima
         pauseOnFocus: true,      // pausa si hago foco en los botones
         arrows: true ,            // para que los botones prev/next estén visibles y funcionen
-        prevArrow: <ChevronLeft className="custom-arrow prev" />,
-        nextArrow: <ChevronRight className="custom-arrow next" />,
+        prevArrow: <PrevArrow />,
+        nextArrow: <NextArrow />,
     };
 
 
