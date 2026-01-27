@@ -22,13 +22,13 @@ const Login = () =>{
             
             if(resp.data.user)  {
                 localStorage.setItem('token', resp.data.token);
-                dispatch(login({ login: true, user: resp.data.user }));
+                dispatch(login({user: resp.data.user.user }));
             console.log("RESPUESTA DEL BACKEND:", resp.data.user.user); 
 
             if (resp.data.user.user.rol === "admin") {
                 navigate("/dashboard");  
             } else {
-                navigate("/products");   
+                navigate("/rexroth");   
             }    
             } else {
                 alert("Credenciales incorrectas");

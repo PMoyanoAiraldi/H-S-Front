@@ -16,12 +16,33 @@ import Dashboard from "./components/DashboardAdmin/DashboardAdmin";
 import Rexroth from "./components/Rexroth/Rexroth";
 import RexrothDetail from "./components/RexrothDetail/RexrothDetail";
 import RexrothProductDetail from "./components/RexrothProductDetail/RexrothProductDetail"
+import axios from "axios";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "./redux/userReducer";
 
 
 
-
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3010';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    axios.get(`${API_URL}/auth/profile`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(res => {
+      dispatch(login(res.data));
+    })
+    .catch(() => {
+      localStorage.removeItem("token");
+    });
+  }
+}, []);
 
 
   return (

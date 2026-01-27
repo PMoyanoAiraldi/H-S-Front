@@ -1,4 +1,4 @@
-    .navbar {
+.navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -11,23 +11,100 @@
     width: 100%;
     max-width: 100%;
     font-family: 'Lato', sans-serif;
-    
-    }
+}
 
-    .logo {
+.logo {
     flex: 0 0 auto; /* Que no crezca ni se encoja, tamaño natural */
     display: flex;
     justify-content: flex-start; 
     align-items: center;
-    }
+}
 
-    .logoImg {
+.logoImg {
     width: 150px;
     object-fit: contain;
 
-    }
+}
 
-    .links {
+.userMenu {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+}
+
+.userName {
+    font-size: 16px;
+    font-weight: 600;
+    color: #221F20;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    user-select: none;
+}
+
+.arrowDown {
+    font-size: 10px;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.arrowUp {
+    font-size: 10px;
+    transition: transform 0.3s ease;
+    display: inline-block;
+    transform: rotate(180deg);
+}
+
+.dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 0.5rem;
+    min-width: 180px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+    padding: 0.5rem 0;
+    z-index: 9999;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* .userMenu:hover .dropdown {
+    display: block;
+} */
+
+.dropdown button {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #221F20;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown button:hover {
+    background-color: #f0f0f0;
+    color: #00ADEF;
+}
+
+.links {
     display: flex;
     gap: 3rem;
     list-style: none;
@@ -39,58 +116,58 @@
     color: #ece9ea;
     transition: all 0.2s ease-in-out;
     font-size: 25px;
-    }
+}
 
-    .links li a {
+.links li a {
     color: #221F20;
     font-weight: 500;
     font-size: 1rem;
     text-decoration: none;
     transition: color 0.3s ease;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
     border-radius: 0 0 0 0;
     user-select: none;
-    }
+}
 
-    .links li a:hover {
+.links li a:hover {
     background-color: #00ADEF;
     color: #ece9ea;
-    }
+}
 
 
-    .navLink {
+.navLink {
     color: #ece9ea;
     font-weight: 600;
     font-size: 1rem;
     text-decoration: none;
     transition: color 0.2s ease;
-    }
+}
 
-    .navLink:hover {
+.navLink:hover {
     color: #00ADEF;
 }
 
-    .active {
-        background-color: #00ADEF;
-        color: white !important;
-        border-radius: 10px 10px 0 0;
-        transform: translateY(-5px);
-        font-weight: 700;
-        box-shadow: 0 4px 8px #ece9ea;
-    }
+.active {
+    background-color: #00ADEF;
+    color: white !important;
+    border-radius: 10px 10px 0 0;
+    transform: translateY(-5px);
+    font-weight: 700;
+    box-shadow: 0 4px 8px #ece9ea;
+}
 
-    .links li.active {
-        position: relative;
-        background-color: #00ADEF;
-        color: #ece9ea;
-        padding: 0.5rem;
-        border-radius: 0 0 0 0;
-        box-shadow: 0 4px 4px #00ADEF;
-        transform: translateY(-8px);
-        font-weight: 700;
-    }
+.links li.active {
+    position: relative;
+    background-color: #00ADEF;
+    color: #ece9ea;
+    padding: 0.5rem;
+    border-radius: 0 0 0 0;
+    box-shadow: 0 4px 4px #00ADEF;
+    transform: translateY(-8px);
+    font-weight: 700;
+}
 
-    .links li:hover:not(.active) {
+.links li:hover:not(.active) {
     color: #ece9ea;
     background-color: #00ADEF;
     opacity: 1;
@@ -98,22 +175,22 @@
     cursor: pointer;
 }
 
-    .loginAccess {
+.loginAccess {
     display: flex;
     align-items: center;
-    }
+}
 
-    .loginLink {
+.loginLink {
     font-size: 1.2rem;
     color: #00ADEF;
     /* transition: color 0.2s ease; */
     display: flex;
     align-items: center;
-    }
+}
 
-    .loginLink:hover {
+.loginLink:hover {
     color: #007bbd;
-    }
+}
 
     
 
