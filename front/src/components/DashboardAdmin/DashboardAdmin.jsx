@@ -1,6 +1,5 @@
-// components/AdminLayout/AdminLayout.jsx
 import { useState } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/userReducer';
 import { Users, Package, LogOut, Menu, X } from 'lucide-react';
@@ -10,6 +9,7 @@ const DashboardAdmin = () => {
     const user = useSelector(state => state.user.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const [sidebarOpen, setSidebarOpen] = useState(true);
 
     const handleLogout = () => {
@@ -18,12 +18,16 @@ const DashboardAdmin = () => {
         navigate("/");
     };
 
+    const isActive = (path) => {
+        return location.pathname === path;
+    };
+
     return (
-        <div className={styles.adminLayout}>
+        <div className={styles.dashboardContainer}>
             {/* Sidebar */}
-            <aside className={`${styles.sidebar} ${sidebarOpen ? styles.open : styles.closed}`}>
+            <aside className={`${styles.sidebar} ${!sidebarOpen ? styles.closed : ''}`}>
                 <div className={styles.sidebarHeader}>
-                    <h2>Admin Panel</h2>
+                    {sidebarOpen && <h2>Admin Panel</h2>}
                     <button 
                         className={styles.toggleBtn} 
                         onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -32,26 +36,30 @@ const DashboardAdmin = () => {
                     </button>
                 </div>
 
-                <nav className={styles.sidebarNav}>
-                    <Link to="/dashboard/usuarios" className={styles.navItem}>
+                <nav className={styles.nav}>
+                    <Link 
+                        to="/dashboard/usuarios" 
+                        className={`${styles.navLink} ${isActive('/dashboard/usuarios') ? styles.active : ''}`}
+                    >
                         <Users size={20} />
                         {sidebarOpen && <span>Usuarios</span>}
                     </Link>
-                    <Link to="/dashboard/productos" className={styles.navItem}>
+                    <Link 
+                        to="/dashboard/productos" 
+                        className={`${styles.navLink} ${isActive('/dashboard/productos') ? styles.active : ''}`}
+                    >
                         <Package size={20} />
                         {sidebarOpen && <span>Productos Rexroth</span>}
                     </Link>
                 </nav>
 
                 <div className={styles.sidebarFooter}>
-                    <div className={styles.userInfo}>
-                        {sidebarOpen && (
-                            <>
-                                <p className={styles.userName}>{user?.nombre}</p>
-                                <p className={styles.userRole}>{user?.rol}</p>
-                            </>
-                        )}
-                    </div>
+                    {sidebarOpen && (
+                        <div className={styles.userInfo}>
+                            <p className={styles.userName}>{user?.nombre}</p>
+                            <p className={styles.userRole}>{user?.rol}</p>
+                        </div>
+                    )}
                     <button className={styles.logoutBtn} onClick={handleLogout}>
                         <LogOut size={20} />
                         {sidebarOpen && <span>Cerrar sesión</span>}
@@ -60,7 +68,7 @@ const DashboardAdmin = () => {
             </aside>
 
             {/* Main Content */}
-            <main className={styles.mainContent}>
+            <main className={`${styles.mainContent} ${!sidebarOpen ? styles.expanded : ''}`}>
                 <Outlet />
             </main>
         </div>
