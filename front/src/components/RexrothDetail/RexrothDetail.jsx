@@ -4,7 +4,7 @@ import Filters from '../Filters/Filters';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLineas, fetchRubros, fetchMarcas } from "../../redux/filterReducer";
 import { setProducts, setLoading, setError } from '../../redux/productsReducer';
-import axios from 'axios';
+import axiosInstance from '../../api/axiosConfig';
 import styles from "./RexrothDetail.module.css";
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3010';
@@ -23,6 +23,7 @@ const RexrothDetail = () => {
     
     const dispatch = useDispatch();
     const { products, loading, error } = useSelector((state) => state.products);
+    const { login: isAuthenticated } = useSelector((state) => state.user);
     
     // Debounce del search (espera 500ms después de dejar de escribir)
     useEffect(() => {
@@ -64,10 +65,11 @@ const RexrothDetail = () => {
                 params.append('page', '1');
                 params.append('limit', '100'); // Traer todos los productos
                 
-                const url = `${API_URL}/products?${params.toString()}`; //Convierte todo a string:
-
-
-                const response = await axios.get(url);
+                const endpoint = isAuthenticated 
+                        ? `${API_URL}/products?${params.toString()}`       // Usuario logueado
+                        : `${API_URL}/products/public?${params.toString()}`; // Usuario sin login //Convierte todo a string:
+                
+                const response = await axiosInstance.get(endpoint);
             
                 const mappedProducts = response.data.data.map(product => ({
                     id: product.id,
@@ -80,7 +82,8 @@ const RexrothDetail = () => {
                     rubro: product.rubro?.nombre || 'Sin rubro',
                     marca: product.marca?.nombre|| 'Sin marca',
                     imgUrl: product.imgUrl,
-                    state: product.state
+                    state: product.state,
+                    precios: product.precios || []
                 }));
                 
                 //const activeProducts = mappedProducts.filter((product) => product.state);
@@ -94,7 +97,7 @@ const RexrothDetail = () => {
             }
         };
         fetchProducts();
-    }, [dispatch, activeFilters, debouncedSearch]); // Se ejecuta cada vez que cambian los filtros o la búsqueda
+    }, [dispatch, activeFilters, debouncedSearch, isAuthenticated]); // Se ejecuta cada vez que cambian los filtros o la búsqueda
 
     const handleFilterChange = (newFilters) => {
         setActiveFilters(newFilters);
@@ -239,6 +242,20 @@ const RexrothDetail = () => {
                                                 Código: #{product.codigoAlternativo2}
                                             </span>
                                         </div>
+                                        {/* Mostrar precio si está autenticado */}
+                                {isAuthenticated && product.precios?.length > 0 && (
+                                    <div className={styles.priceContainer}>
+                                        <span className={styles.priceLabel}>Precio:</span>
+                                        <span className={styles.priceValue}>
+                                            ${product.precios[0].precio.toLocaleString('es-AR')}
+                                        </span>
+                                        {product.precios[0].listaPrecio && (
+                                            <span className={styles.priceList}>
+                                                (Lista {product.precios[0].listaPrecio})
+                                            </span>
+                                        )}
+                                    </div>
+                                )}
                                     </div>
 
                                     <div className={styles.productActions}>
