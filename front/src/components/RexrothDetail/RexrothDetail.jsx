@@ -249,11 +249,7 @@ const RexrothDetail = () => {
                                         <span className={styles.priceValue}>
                                             ${product.precios[0].precio.toLocaleString('es-AR')}
                                         </span>
-                                        {product.precios[0].listaPrecio && (
-                                            <span className={styles.priceList}>
-                                                (Lista {product.precios[0].listaPrecio})
-                                            </span>
-                                        )}
+                                        
                                     </div>
                                 )}
                                     </div>

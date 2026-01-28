@@ -13,6 +13,9 @@ const RexrothProductDetail = () => {
     //  Primero intentar obtener del state de navigate
     const productFromState = location.state?.product;
 
+     // Obtener información del usuario logueado
+    const user = useSelector(state => state.user?.user);
+    const isCliente = user?.rol === 'cliente';
 
      // Luego buscar en Redux
     const productFromRedux = useSelector(state => 
@@ -22,17 +25,23 @@ const RexrothProductDetail = () => {
     // Usar el que esté disponible (prioridad al state)
     const product = productFromState || productFromRedux;
 
+     // Extraer precio 
+    const precio = product?.precios?.[0]?.precio || product?.precio;
+
+
     const loading = useSelector(state => state.products.loading);
     const error = useSelector(state => state.products.error);
-;
 
+    useEffect(() => {
+        console.log('=== DEBUG ===');
+        console.log('User from Redux:', user);
+        console.log('isCliente:', isCliente);
+        console.log('Product:', product);
+        console.log('Product precios array:', product?.precios);
+        console.log('Precio extraído:', precio);
+        console.log('Should show price?:', isCliente && precio);
+    }, [user, isCliente, product, precio]);
 
-useEffect(() => {
-        console.log('Product from state:', productFromState);
-        console.log('Product from Redux:', productFromRedux);
-        console.log('Final product:', product);
-        console.log('Image URL:', product?.imgUrl);
-    }, [productFromState, productFromRedux, product]);
     // Solo hacer fetch si NO tenemos el producto de ninguna fuente
     useEffect(() => {
         if (!product && id && !loading) {
@@ -107,36 +116,48 @@ useEffect(() => {
 
             {/* Detalles del Producto */}
             <div className={styles.productDetail}>
-                        <div className={styles.imageSection}>
-                {product?.imgUrl ? (
-        <img 
-            src={product.imgUrl} 
-            alt={product.nombre}
-            className={styles.productImage}
-        />
-    ) : (
-        <div className={styles.noImage}>
-            <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                <circle cx="8.5" cy="8.5" r="1.5"/>
-                <polyline points="21 15 16 10 5 21"/>
-            </svg>
-            <p>Imagen no disponible</p>
-        </div>
-    )}
-                    
-                
+                <div className={styles.imageSection}>
+                    {product?.imgUrl ? (
+                        <img 
+                            src={product.imgUrl} 
+                            alt={product.nombre}
+                            className={styles.productImage}
+                        />
+                    ) : (
+                        <div className={styles.noImage}>
+                            <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                            <p>Imagen no disponible</p>
+                        </div>
+                    )}
                 </div>
 
                 <div className={styles.infoSection}>
                     <h1 className={styles.productTitle}>{product.nombre}</h1>
-                    
+
+                     {/* Mostrar precio o botón según tipo de usuario */}
+                    {isCliente && precio ? (
+                        <div className={styles.priceDisplay}>
+                            <span className={styles.priceLabel}>Precio:</span>
+                            <span className={styles.priceValue}>
+                                ${Number(precio).toLocaleString('es-AR', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                })}
+                            </span>
+                            
+                        </div>
+                    ) : (
                         <button 
-                        className={styles.priceButton}
-                        onClick={handleSolicitarPrecio}
-                    >
-                        Solicitar Precio
-                    </button>
+                            className={styles.priceButton}
+                            onClick={handleSolicitarPrecio}
+                        >
+                            Solicitar Precio
+                        </button>
+                    )}
 
                     <div className={styles.detailsTable}>
                         <h2>DETALLES DE PRODUCTO</h2>

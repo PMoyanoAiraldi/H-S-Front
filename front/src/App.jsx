@@ -15,7 +15,7 @@ import RecoverPassword from "./components/RecoverPassword/RecoverPassword";
 import Rexroth from "./components/Rexroth/Rexroth";
 import RexrothDetail from "./components/RexrothDetail/RexrothDetail";
 import RexrothProductDetail from "./components/RexrothProductDetail/RexrothProductDetail"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "./redux/userReducer";
 import DashboardAdmin from "./components/DashboardAdmin/DashboardAdmin";
@@ -29,6 +29,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3010';
 
 function App() {
   const dispatch = useDispatch();
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
 
   useEffect(() => {
   const token = localStorage.getItem("token");
@@ -40,14 +41,22 @@ function App() {
     .then(res => {
       console.log("Usuario restaurado desde token:", res.data);
       dispatch(login({user: res.data}));
+      setIsLoadingUser(false);
     })
     .catch((error) => {
       console.error("Error al obtener perfil:", error);
       localStorage.removeItem("token");
+      setIsLoadingUser(false);
     });
-  }
+  }else {
+      setIsLoadingUser(false);
+    }
 }, [dispatch]);
 
+
+if (isLoadingUser) {
+    return <div>Cargando...</div>; // O un spinner
+  }
 
   return (
       <Routes>
