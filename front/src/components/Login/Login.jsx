@@ -4,9 +4,9 @@ import { useDispatch } from "react-redux";
 import { login } from "../../redux/userReducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
 import Swal from "sweetalert2";
 import styles from "./Login.module.css"
+import axiosInstance from "../../api/axiosConfig";
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3010';
 
@@ -17,12 +17,12 @@ const Login = () =>{
     const [showPassword, setShowPassword] = useState(false);
 
     const onLogin = (userData) => {
-        axios.post(`${API_URL}/auth/login`, userData)
+        axiosInstance.post(`${API_URL}/auth/login`, userData) //Usamos la instancia para el manejo de errores
         .then(resp => {
             console.log("Respuesta completa del backend:", resp.data);
             
             if(resp.data.user && resp.data.token)  {
-                console.log("Token recibido:", resp.data.token); // 👈 AGREGA ESTO
+                console.log("Token recibido:", resp.data.token); 
             console.log("Usuario recibido:", resp.data.user);
 
                 localStorage.setItem('token', resp.data.token);
@@ -35,14 +35,14 @@ const Login = () =>{
                 navigate("/rexroth");   
             }    
             } else {
-                alert("Credenciales incorrectas");
+                Swal.fire('Error', 'Credenciales incorrectas', 'error');
             }
         
         })
-        .catch(() => {
-            Swal.fire('Error', 'Error al ingresar los datos', 'error');
-            navigate("/login")
-            
+        .catch((error) => {
+            if (error.response?.status !== 401) { 
+                Swal.fire('Error', 'Error al ingresar los datos', 'error');
+            }
         });
     };
 

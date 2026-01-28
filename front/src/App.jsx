@@ -12,17 +12,16 @@ import LandbotWidget from "./components/Landbot/LandbotWidget";
 import Contact from "./components/Contact/Contact";
 import Login from "./components/Login/Login";
 import RecoverPassword from "./components/RecoverPassword/RecoverPassword";
-import Dashboard from "./components/DashboardAdmin/DashboardAdmin";
 import Rexroth from "./components/Rexroth/Rexroth";
 import RexrothDetail from "./components/RexrothDetail/RexrothDetail";
 import RexrothProductDetail from "./components/RexrothProductDetail/RexrothProductDetail"
-import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "./redux/userReducer";
 import DashboardAdmin from "./components/DashboardAdmin/DashboardAdmin";
 import UsuariosAdmin from "./components/UsuariosAdmin/UsuariosAdmin";
 import ProductosAdmin from "./components/ProductosAdmin/ProductosAdmin";
+import axiosInstance from "./api/axiosConfig";
 
 
 
@@ -37,12 +36,10 @@ function App() {
 
   if (token) {
     console.log("Haciendo petición a /auth/profile con token:", token);
-    axios.get(`${API_URL}/auth/profile`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+    axiosInstance.get('/auth/profile') 
     .then(res => {
       console.log("Usuario restaurado desde token:", res.data);
-      dispatch(login(res.data));
+      dispatch(login({user: res.data}));
     })
     .catch((error) => {
       console.error("Error al obtener perfil:", error);
