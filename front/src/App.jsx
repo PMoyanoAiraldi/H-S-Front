@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import styles from "./App.module.css"
 import LandingPage from './views/LandingPage';
 import ProductsPublicPage from './components/ProductsPublicPage/ProductsPublicPage';
@@ -20,6 +20,9 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "./redux/userReducer";
+import DashboardAdmin from "./components/DashboardAdmin/DashboardAdmin";
+import UsuariosAdmin from "./components/UsuariosAdmin/UsuariosAdmin";
+import ProductosAdmin from "./components/ProductosAdmin/ProductosAdmin";
 
 
 
@@ -50,35 +53,37 @@ function App() {
 
 
   return (
-    <div className={styles.app}>
-      
-      <Navbar/>
-
-      <div className={styles.routesWrapper}>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        {/* <Route path="/products" element={<ProductsPublicPage />} /> */}
-        <Route path="/aboutPage" element={<AboutPage />} />
-        <Route path="/contact" element={<Contact />} /> 
-        <Route path="/rexroth" element={<Rexroth />} /> 
-        <Route path="/rexroth/products/:id" element={<RexrothProductDetail />} />
-        <Route path="/rexroth/:linea" element={<RexrothDetail />} />
-        <Route path="/rexroth/:linea/:brand" element={<RexrothDetail />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/recover" element={<RecoverPassword />} />
-        <Route path="dashboard" element={<Dashboard />}/>
-        
-      
-    </Routes>
-    </div>
+      {/* Rutas con Navbar + Footer */}
+      <Route path="/*" element={
+        <div className={styles.app}>
+          <Navbar />
+          <div className={styles.routesWrapper}>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="aboutPage" element={<AboutPage />} />
+              <Route path="contact" element={<Contact />} /> 
+              <Route path="rexroth" element={<Rexroth />} /> 
+              <Route path="rexroth/products/:id" element={<RexrothProductDetail />} />
+              <Route path="rexroth/:linea" element={<RexrothDetail />} />
+              <Route path="rexroth/:linea/:brand" element={<RexrothDetail />} />
+              <Route path="login" element={<Login />} />
+              <Route path="recover" element={<RecoverPassword />} />
+            </Routes>
+          </div>
+          <LandbotWidget />
+          <Footer />
+        </div>
+      } />      
 
-    <LandbotWidget/>
-    <Footer/>
-      
-      
-        
-    </div>
-  )
+      {/* Rutas de Admin (con AdminLayout, sin navbar/footer) */}
+      <Route path="/dashboard" element={<DashboardAdmin />}>
+        <Route index element={<Navigate to="/dashboard/usuarios" replace />} />
+        <Route path="usuarios" element={<UsuariosAdmin />} />
+        <Route path="productos" element={<ProductosAdmin />} />
+      </Route>
+    </Routes>
+  );
 }
 
 export default App

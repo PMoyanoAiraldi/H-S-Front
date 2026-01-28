@@ -1,0 +1,130 @@
+/* components/AdminLayout/AdminLayout.module.css */
+.adminLayout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #1a1a1a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease;
+    position: fixed;
+    height: 100vh;
+    z-index: 100;
+}
+
+.sidebar.closed {
+    width: 70px;
+}
+
+.sidebarHeader {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+}
+
+.sidebarHeader h2 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.toggleBtn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.sidebarNav {
+    flex: 1;
+    padding: 1rem 0;
+}
+
+.navItem {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    color: #ccc;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.navItem:hover {
+    background-color: #00ADEF;
+    color: white;
+}
+
+.navItem.active {
+    background-color: #00ADEF;
+    color: white;
+}
+
+.sidebarFooter {
+    border-top: 1px solid #333;
+    padding: 1rem;
+}
+
+.userInfo {
+    padding: 0.5rem 0.5rem 1rem;
+}
+
+.userName {
+    font-weight: 600;
+    margin: 0;
+}
+
+.userRole {
+    font-size: 0.85rem;
+    color: #999;
+    margin: 0.25rem 0 0;
+    text-transform: capitalize;
+}
+
+.logoutBtn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: none;
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: #ccc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logoutBtn:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+.mainContent {
+    flex: 1;
+    margin-left: 250px;
+    padding: 2rem;
+    transition: margin-left 0.3s ease;
+}
+
+.sidebar.closed ~ .mainContent {
+    margin-left: 70px;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+    
+    .mainContent {
+        margin-left: 70px;
+    }
+}
