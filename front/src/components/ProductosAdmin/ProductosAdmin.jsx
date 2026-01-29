@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Search, Plus, Edit2, Power, X, Upload, Package } from 'lucide-react';
+import { Search, Plus, Edit2, Power, X, Upload, Package, ExternalLink } from 'lucide-react';
 import Swal from 'sweetalert2';
 import styles from './ProductosAdmin.module.css';
 
@@ -9,40 +9,99 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3010';
 const ProductosAdmin = () => {
     const [productos, setProductos] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const [lineasDisponibles, setLineasDisponibles] = useState([]);
+    const [marcasDisponibles, setMarcasDisponibles] = useState([]);
+    const [rubrosDisponibles, setRubrosDisponibles] = useState([]);
+
     const [searchTerm, setSearchTerm] = useState('');
     const [filterLinea, setFilterLinea] = useState('todas');
     const [filterMarca, setFilterMarca] = useState('todas');
+    const [filterRubro, setFilterRubro] = useState('todos');
     const [filterEstado, setFilterEstado] = useState('todos');
     const [showModal, setShowModal] = useState(false);
     const [modalMode, setModalMode] = useState('create');
     const [currentProduct, setCurrentProduct] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
+
+    const [showLineaModal, setShowLineaModal] = useState(false);
+    const [showMarcaModal, setShowMarcaModal] = useState(false);
+    const [showRubroModal, setShowRubroModal] = useState(false);
+    const [newEntityName, setNewEntityName] = useState('');
+    const [newEntityCode, setNewEntityCode] = useState('');
+
     const [formData, setFormData] = useState({
         nombre: '',
         descripcion: '',
         codigo: '',
         codigoAlternativo1: '',
         codigoAlternativo2: '',
-        lineaNombre: '',
-        marcaNombre: '',
+        lineaId:'',
+        marcaId:'',
+        rubroId:'',
+        // lineaNombre: '',
+        // marcaNombre: '',
+        // rubroNombre:'',
         precio: '',
         imgUrl: null
     });
 
     // Obtener listas únicas para filtros
-    const lineas = [...new Set(productos.map(p => p.lineaNombre).filter(Boolean))];
-    const marcas = [...new Set(productos.map(p => p.marcaNombre).filter(Boolean))];
+    const lineas = [...new Set(productos.map(p => p.linea.nombre).filter(Boolean))];
+    const marcas = [...new Set(productos.map(p => p.marca.nombre).filter(Boolean))];
+    const rubros = [...new Set(productos.map(p => p.rubro.nombre).filter(Boolean))];
 
     useEffect(() => {
         fetchProductos();
+        fetchLineas();    
+        fetchMarcas();    
+        fetchRubros();    
     }, []);
+
+    const fetchLineas = async () => {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`${API_URL}/linea/admin/all`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        setLineasDisponibles(response.data);
+    } catch (error) {
+        console.error('Error al obtener líneas:', error);
+    }
+    };
+
+    // Función para cargar marcas
+    const fetchMarcas = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.get(`${API_URL}/marca/admin/all`, {
+                headers: { Authorization: `Bearer ${token}` }
+        });
+        setMarcasDisponibles(response.data);
+        } catch (error) {
+            console.error('Error al obtener marcas:', error);
+        }
+    };
+
+    // Función para cargar rubros
+    const fetchRubros = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.get(`${API_URL}/rubro/admin/all`, {
+                headers: { Authorization: `Bearer ${token}` }
+        });
+        setRubrosDisponibles(response.data);
+        } catch (error) {
+            console.error('Error al obtener rubros:', error);
+        }
+    };
 
     const fetchProductos = async () => {
         try {
             const token = localStorage.getItem('token');
             console.log('Fetching products...');
             
-            const response = await axios.get(`${API_URL}/products`, {
+            const response = await axios.get(`${API_URL}/products/admin/all`, {
                 headers: { Authorization: `Bearer ${token}` },
                 params: { page: 1, limit: 1000 }
             });
@@ -60,9 +119,59 @@ const ProductosAdmin = () => {
         }
     };
 
+    //  Función para crear nueva línea/marca/rubro
+const handleCreateEntity = async (type) => {
+    if (!newEntityName.trim() || !newEntityCode.trim()) {
+        Swal.fire('Error', 'El nombre y código son obligatorios', 'error');
+        return;
+    }
+
+    try {
+        const token = localStorage.getItem('token');
+        const endpoint = type ;
+        
+        const response = await axios.post(
+            `${API_URL}/${endpoint}`,
+            {   nombre: newEntityName.trim(),
+                codigo: parseInt(newEntityCode, 10) // Convertir a número entero
+            },
+            { headers: { Authorization: `Bearer ${token}` }}
+        );
+
+        Swal.fire('¡Éxito!', `${type.charAt(0).toUpperCase() + type.slice(1)} creada correctamente`, 'success');
+        
+        // Recargar la lista correspondiente y seleccionar automáticamente
+        if (type === 'linea') {
+            await fetchLineas();
+            setFormData(prev => ({ ...prev, lineaId: response.data.id }));
+            setShowLineaModal(false);
+        } else if (type === 'marca') {
+            await fetchMarcas();
+            setFormData(prev => ({ ...prev, marcaId: response.data.id }));
+            setShowMarcaModal(false);
+        } else if (type === 'rubro') {
+            await fetchRubros();
+            setFormData(prev => ({ ...prev, rubroId: response.data.id }));
+            setShowRubroModal(false);
+        }
+        
+        setNewEntityName('');
+        setNewEntityCode('');
+    } catch (error) {
+        console.error(`Error al crear ${type}:`, error);
+        if (error.response?.status === 409 || error.response?.data?.message?.includes('duplicado')) {
+            Swal.fire('Error', 'Ya existe una entidad con ese código', 'error');
+        } else {
+            Swal.fire('Error', error.response?.data?.message || `No se pudo crear la ${type}`, 'error');
+        }
+    }
+};
+
+
     const handleOpenModal = (mode, product = null) => {
         setModalMode(mode);
         setCurrentProduct(product);
+        console.log(" product en en habdleOpenModal", product)
         
         if (mode === 'edit' && product) {
             setFormData({
@@ -71,8 +180,12 @@ const ProductosAdmin = () => {
                 codigo: product.codigo || '',
                 codigoAlternativo1: product.codigoAlternativo1 || '',
                 codigoAlternativo2: product.codigoAlternativo2 || '',
-                lineaNombre: product.lineaNombre || '',
-                marcaNombre: product.marcaNombre || '',
+                // lineaNombre: product.linea.nombre || '',
+                // marcaNombre: product.marca.nombre || '',
+                // rubroNombre: product.rubro.nombre || '',
+                lineaId: product.linea?.id || '',    // Usar ID en lugar de nombre
+                marcaId: product.marca?.id || '',    // Usar ID en lugar de nombre
+                rubroId: product.rubro?.id || '',    // Usar ID en lugar de nombre
                 precio: product.precios?.[0]?.precio || '',
                 imgUrl: null
             });
@@ -84,8 +197,12 @@ const ProductosAdmin = () => {
                 codigo: '',
                 codigoAlternativo1: '',
                 codigoAlternativo2: '',
-                lineaNombre: '',
-                marcaNombre: '',
+                // lineaNombre: '',
+                // marcaNombre: '',
+                // rubroNombre: '',
+                lineaId: '',
+                marcaId: '',
+                rubroId: '',
                 precio: '',
                 imgUrl: null
             });
@@ -106,6 +223,7 @@ const ProductosAdmin = () => {
             codigoAlternativo2: '',
             lineaNombre: '',
             marcaNombre: '',
+            rubroNombre: '',
             precio: '',
             imgUrl: null
         });
@@ -212,9 +330,8 @@ const ProductosAdmin = () => {
                     { headers: { Authorization: `Bearer ${token}` }}
                 );
 
-                setProductos(productos.map(prod => 
-                    prod.id === productId ? { ...prod, state: !currentState } : prod
-                ));
+                 // Recargar productos desde el servidor en lugar de actualizar manualmente
+                await fetchProductos();
 
                 Swal.fire(
                     '¡Actualizado!',
@@ -229,16 +346,17 @@ const ProductosAdmin = () => {
     };
 
     const productosFiltrados = productos.filter(product => {
-        console.log("Products en daschboar product", product.linea.nombre)
+        console.log("Products en daschboar product", product)
         const matchSearch = product.nombre?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             product.codigo?.toLowerCase().includes(searchTerm.toLowerCase());
         const matchLinea = filterLinea === 'todas' || product.linea.nombre === filterLinea;
+        const matchRubro = filterRubro === 'todos' || product.rubro.nombre === filterRubro;
         const matchMarca = filterMarca === 'todas' || product.marca.nombre === filterMarca;
         const matchEstado = filterEstado === 'todos' || 
             (filterEstado === 'activo' && product.state) || 
             (filterEstado === 'inactivo' && !product.state);
         
-        return matchSearch && matchLinea && matchMarca && matchEstado;
+        return matchSearch && matchLinea && matchMarca && matchRubro && matchEstado;
     });
 
     if (loading) {
@@ -258,14 +376,23 @@ const ProductosAdmin = () => {
                         {productos.length} productos registrados
                     </p>
                 </div>
-                <button 
-                    className={styles.createBtn}
-                    onClick={() => handleOpenModal('create')}
-                >
-                    <Plus size={20} />
-                    Nuevo Producto
-                </button>
-            </div>
+                <div className={styles.headerButtons}>
+        <button 
+            className={styles.viewSiteBtn}
+            onClick={() => window.open('/rexroth/products', '_blank')}
+        >
+            <ExternalLink size={20} />
+            Ver Sitio
+        </button>
+        <button 
+            className={styles.createBtn}
+            onClick={() => handleOpenModal('create')}
+        >
+            <Plus size={20} />
+            Nuevo Producto
+        </button>
+    </div>
+</div>
 
             <div className={styles.filters}>
                 <div className={styles.searchBox}>
@@ -286,6 +413,17 @@ const ProductosAdmin = () => {
                     <option value="todas">Todas las líneas</option>
                     {lineas.map(linea => (
                         <option key={linea} value={linea}>{linea}</option>
+                    ))}
+                </select>
+
+                <select 
+                    value={filterRubro} 
+                    onChange={(e) => setFilterRubro(e.target.value)}
+                    className={styles.select}
+                >
+                    <option value="todos">Todos los rubros</option>
+                    {rubros.map(rubro => (
+                        <option key={rubro} value={rubro}>{rubro}</option>
                     ))}
                 </select>
 
@@ -319,6 +457,7 @@ const ProductosAdmin = () => {
                             <th>Código</th>
                             <th>Nombre</th>
                             <th>Línea</th>
+                            <th>Rubro</th>
                             <th>Marca</th>
                             <th>Precio</th>
                             <th>Estado</th>
@@ -353,6 +492,7 @@ const ProductosAdmin = () => {
                                     <td className={styles.productCode}>{product.codigo}</td>
                                     <td className={styles.productName}>{product.nombre}</td>
                                     <td>{product.linea.nombre || '-'}</td>
+                                    <td>{product.rubro.nombre || '-'}</td>
                                     <td>{product.marca.nombre || '-'}</td>
                                     <td className={styles.price}>
                                         {product.precios?.[0]?.precio 
@@ -414,6 +554,12 @@ const ProductosAdmin = () => {
                 </div>
             </div>
 
+                
+
+
+
+
+
             {showModal && (
                 <div className={styles.modalOverlay} onClick={handleCloseModal}>
                     <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
@@ -474,25 +620,75 @@ const ProductosAdmin = () => {
 
                                 <div className={styles.formGroup}>
                                     <label>Línea</label>
-                                    <input
-                                        type="text"
-                                        name="lineaNombre"
-                                        value={formData.lineaNombre}
+                                        <div className={styles.selectWithButton}>
+                                    <select
+                                        name="lineaId"
+                                        value={formData.lineaId}
                                         onChange={handleInputChange}
-                                        placeholder="Ej: BOMBAS A PISTONES REXROTH"
-                                    />
+                                    >
+                                        <option value="">Seleccionar línea...</option>
+                                        {lineasDisponibles.map(linea => (
+                                            <option key={linea.id} value={linea.id}>{linea.nombre}</option>
+                                        ))}
+                                    </select>
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowLineaModal(true)}
+                                        className={styles.addBtn}
+                                        title="Crear nueva línea"
+                                    >
+                                        <Plus size={18} />
+                                    </button>
                                 </div>
+                            </div>
 
                                 <div className={styles.formGroup}>
-                                    <label>Marca</label>
-                                    <input
-                                        type="text"
-                                        name="marcaNombre"
-                                        value={formData.marcaNombre}
+                                <label>Rubro</label>
+                                <div className={styles.selectWithButton}>
+                                    <select
+                                        name="rubroId"
+                                        value={formData.rubroId}
                                         onChange={handleInputChange}
-                                        placeholder="Ej: REXROTH"
-                                    />
+                                    >
+                                        <option value="">Seleccionar rubro...</option>
+                                        {rubrosDisponibles.map(rubro => (
+                                            <option key={rubro.id} value={rubro.id}>{rubro.nombre}</option>
+                                        ))}
+                                    </select>
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowRubroModal(true)}
+                                        className={styles.addBtn}
+                                        title="Crear nuevo rubro"
+                                    >
+                                        <Plus size={18} />
+                                    </button>
                                 </div>
+                            </div>
+
+                                <div className={styles.formGroup}>
+                                <label>Marca</label>
+                                <div className={styles.selectWithButton}>
+                                    <select
+                                        name="marcaId"
+                                        value={formData.marcaId}
+                                        onChange={handleInputChange}
+                                    >
+                                        <option value="">Seleccionar marca...</option>
+                                        {marcasDisponibles.map(marca => (
+                                            <option key={marca.id} value={marca.id}>{marca.nombre}</option>
+                                        ))}
+                                    </select>
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowMarcaModal(true)}
+                                        className={styles.addBtn}
+                                        title="Crear nueva marca"
+                                    >
+                                        <Plus size={18} />
+                                    </button>
+                                </div>
+                            </div>
 
                                 <div className={styles.formGroup}>
                                     <label>Precio</label>
@@ -552,6 +748,174 @@ const ProductosAdmin = () => {
                     </div>
                 </div>
             )}
+
+            {/* Modal para crear Línea */}
+            {showLineaModal && (
+                <div className={`${styles.modalOverlay} ${styles.smallModalOverlay}`} onClick={() => {
+                    setShowLineaModal(false)
+                    setNewEntityName('');
+                    setNewEntityCode('');
+                    }}
+                    >
+                <div className={styles.smallModal} onClick={(e) => e.stopPropagation()}>
+                    <h3>Nueva Línea</h3>
+                    <input
+                        type="text"
+                            placeholder="Nombre de la línea"
+                            value={newEntityName}
+                            onChange={(e) => setNewEntityName(e.target.value)}
+                            onKeyPress={(e) => e.key === 'Enter' && handleCreateEntity('linea')}
+                            autoFocus
+                        />
+
+                        <div className={styles.formGroup}>
+                            <label>Código *</label>
+                            <input
+                                type="text"
+                                placeholder="Ej: 001"
+                                value={newEntityCode}
+                                onChange={(e) =>{
+                                // Solo permite números
+                                const value = e.target.value.replace(/[^0-9]/g, '');
+                                setNewEntityCode(value);
+                                }}
+                                onKeyPress={(e) => e.key === 'Enter' && handleCreateEntity('linea')}
+                                maxLength={10}
+                            />
+                        </div>
+                            <div className={styles.smallModalActions}>
+                                <button 
+                                    onClick={() => {
+                                        setShowLineaModal(false);
+                                        setNewEntityName('');
+                                    }} 
+                                    className={styles.cancelBtn}
+                                >
+                                    Cancelar
+                                </button>
+                                <button 
+                                    onClick={() => handleCreateEntity('linea')} 
+                                    className={styles.submitBtn}
+                                >
+                                    Crear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Modal para crear Marca */}
+                {showMarcaModal && (
+                    <div className={`${styles.modalOverlay} ${styles.smallModalOverlay}`} onClick={() => {
+                        setShowLineaModal(false)
+                        setNewEntityName('');
+                        setNewEntityCode('');
+                    }}
+                    >
+                        <div className={styles.smallModal} onClick={(e) => e.stopPropagation()}>
+                            <h3>Nueva Marca</h3>
+                            <input
+                                type="text"
+                                placeholder="Nombre de la marca"
+                                value={newEntityName}
+                                onChange={(e) => setNewEntityName(e.target.value)}
+                                onKeyPress={(e) => e.key === 'Enter' && handleCreateEntity('marca')}
+                                autoFocus
+                            />
+                            <div className={styles.formGroup}>
+                                <label>Código *</label>
+                                <input
+                                    type="text"
+                                    placeholder="Ej: 001"
+                                    value={newEntityCode}
+                                    onChange={(e) => {
+                                    // Solo permite números
+                                    const value = e.target.value.replace(/[^0-9]/g, '');
+                                    setNewEntityCode(value);
+                                }}
+                                    onKeyPress={(e) => e.key === 'Enter' && handleCreateEntity('marca')}
+                                    maxLength={10}
+                                />
+                            </div>
+
+                            <div className={styles.smallModalActions}>
+                                <button 
+                                    onClick={() => {
+                                        setShowMarcaModal(false);
+                                        setNewEntityName('');
+                                    }} 
+                                    className={styles.cancelBtn}
+                                >
+                                    Cancelar
+                                </button>
+                                <button 
+                                    onClick={() => handleCreateEntity('marca')} 
+                                    className={styles.submitBtn}
+                                >
+                                    Crear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Modal para crear Rubro */}
+                {showRubroModal && (
+                    <div className={`${styles.modalOverlay} ${styles.smallModalOverlay}`} onClick={() => {
+                        setShowRubroModal(false)
+                        setNewEntityName('');
+                        setNewEntityCode('');
+                        }}
+                        >
+                        <div className={styles.smallModal} onClick={(e) => e.stopPropagation()}>
+                            <h3>Nuevo Rubro</h3>
+                            <input
+                                type="text"
+                                placeholder="Nombre del rubro"
+                                value={newEntityName}
+                                onChange={(e) => setNewEntityName(e.target.value)}
+                                onKeyPress={(e) => e.key === 'Enter' && handleCreateEntity('rubro')}
+                                autoFocus
+                            />
+                        <div className={styles.formGroup}>
+                        <label>Código *</label>
+                        <input
+                            type="text"
+                            placeholder="Ej: 001"
+                            value={newEntityCode}
+                            onChange={(e) => {
+                            // Solo permite números
+                                    const value = e.target.value.replace(/[^0-9]/g, '');
+                                    setNewEntityCode(value);
+                                }}
+                            onKeyPress={(e) => e.key === 'Enter' && handleCreateEntity('rubro')}
+                            maxLength={10}
+
+                        />
+                    </div>
+
+                            <div className={styles.smallModalActions}>
+                                <button 
+                                    onClick={() => {
+                                        setShowRubroModal(false);
+                                        setNewEntityName('');
+                                    }} 
+                                    className={styles.cancelBtn}
+                                >
+                                    Cancelar
+                                </button>
+                                <button 
+                                    onClick={() => handleCreateEntity('rubro')} 
+                                    className={styles.submitBtn}
+                                >
+                                    Crear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+
         </div>
     );
 };

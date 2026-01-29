@@ -46,6 +46,36 @@
     box-shadow: 0 4px 12px rgba(0, 173, 239, 0.3);
 }
 
+.viewSiteBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    background: white;
+    color: #00ADEF;
+    border: 2px solid #00ADEF;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.viewSiteBtn:hover {
+    background: #00ADEF;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 173, 239, 0.3);
+}
+
+/* Ajusta el header para acomodar ambos botones */
+.headerButtons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
 .loading {
     text-align: center;
     padding: 3rem;
@@ -53,22 +83,128 @@
     color: #666;
 }
 
+
+/* Contenedor flex para select + botón */
+.selectWithButton {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+/* Select dentro del grupo */
+.formGroup select {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.formGroup select:focus {
+    outline: none;
+    border-color: #00ADEF;
+}
+
+/* Botón de agregar (plus verde) */
+.addBtn {
+    padding: 0.75rem;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.addBtn:hover {
+    background: #218838;
+    transform: scale(1.05);
+}
+
+/* Modal pequeño para crear entidades */
+.smallModal {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    z-index: 10002;
+}
+
+.smallModal h3 {
+    margin: 0 0 1rem 0;
+    color: #1a1a1a;
+}
+
+.smallModal input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.smallModal input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.smallModalActions {
+    display: flex;
+    gap: 1rem;
+}
+
+.smallModalActions button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+/* Overlay específico para modales pequeños */
+.smallModalOverlay {
+    z-index: 10001; /* Mayor que el modal principal */
+}
+
 /* Filtros */
 .filters {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
 }
 
 .searchBox {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
     background: white;
     border: 1px solid #e0e0e0;
-    border-radius: 8px;
+    border-radius: 6px;
     transition: border-color 0.3s ease;
 }
 
@@ -78,23 +214,26 @@
 
 .searchBox svg {
     color: #999;
+    width: 18px;
+    height: 18px;
 }
 
 .searchBox input {
     flex: 1;
     border: none;
     outline: none;
-    font-size: 1rem;
+    font-size: 0.75rem;
 }
 
 .select {
-    padding: 0.75rem 1rem;
+    padding: 0.4rem 0.6rem;
     border: 1px solid #e0e0e0;
-    border-radius: 8px;
+    border-radius: 6px;
     background: white;
-    font-size: 1rem;
+    font-size: 0.85rem;
     cursor: pointer;
     transition: border-color 0.3s ease;
+    height: auto;
 }
 
 .select:focus {
