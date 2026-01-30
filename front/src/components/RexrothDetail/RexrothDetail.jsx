@@ -238,9 +238,9 @@ const RexrothDetail = () => {
                                             <span className={styles.productCode}>
                                                 Código: #{product.codigoAlternativo1}
                                             </span>
-                                            <span className={styles.productCode}>
+                                            {/*<span className={styles.productCode}>
                                                 Código: #{product.codigoAlternativo2}
-                                            </span>
+                                            </span>*/}
                                         </div>
                                         {/* Mostrar precio si está autenticado */}
                                 {isAuthenticated && product.precios?.length > 0 && (

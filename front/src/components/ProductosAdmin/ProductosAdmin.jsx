@@ -43,6 +43,7 @@ const ProductosAdmin = () => {
         // marcaNombre: '',
         // rubroNombre:'',
         precio: '',
+        listaPrecio: '1', //Por defecto ponemos la lista 1
         imgUrl: null
     });
 
@@ -263,48 +264,146 @@ const handleCreateEntity = async (type) => {
         e.preventDefault();
         
         if (!formData.nombre || !formData.codigo) {
-            Swal.fire('Error', 'Nombre y código son obligatorios', 'error');
+            Swal.fire({
+            title: 'Error',
+            text: 'Nombre y código son obligatorios',
+            icon: 'error'
+            });
             return;
         }
 
-        try {
-            const token = localStorage.getItem('token');
-            const submitData = new FormData();
-            
-            Object.keys(formData).forEach(key => {
-                if (formData[key] && key !== 'imgUrl') {
-                    submitData.append(key, formData[key]);
+         // Validar que el código sea numérico
+        if (!/^\d+$/.test(formData.codigo)) {
+        Swal.fire({
+            title: 'Error',
+            text: 'El código debe ser numérico',
+            icon: 'error'
+        });
+        return;
+    }
+
+      // Validar códigos alternativos si se proporcionan
+    // if (formData.codigoAlternativo1 && !/^\d+$/.test(formData.codigoAlternativo1)) {
+    //     Swal.fire({
+    //         title: 'Error',
+    //         text: 'El código alternativo 1 debe ser numérico',
+    //         icon: 'error'
+    //     });
+    //     return;
+    // }
+
+    // if (formData.codigoAlternativo2 && !/^\d+$/.test(formData.codigoAlternativo2)) {
+    //     Swal.fire({
+    //         title: 'Error',
+    //         text: 'El código alternativo 2 debe ser numérico',
+    //         icon: 'error'
+    //     });
+    //     return;
+    // }
+
+    try {
+        const token = localStorage.getItem('token');
+        const submitData = new FormData();
+        
+        // Campos obligatorios
+        submitData.append('nombre', formData.nombre.trim());
+        submitData.append('codigo', parseInt(formData.codigo, 10));
+        
+        // Campos opcionales - solo enviar si tienen valor
+        if (formData.descripcion?.trim()) {
+            submitData.append('descripcion', formData.descripcion.trim());
+        }
+        
+        if (formData.codigoAlternativo1?.trim()) {
+            submitData.append('codigoAlternativo1', formData.codigoAlternativo1.trim());
+        }
+        
+        if (formData.codigoAlternativo2?.trim()) {
+            submitData.append('codigoAlternativo2', formData.codigoAlternativo2.trim());
+        }
+        
+        if (formData.lineaId?.trim()) {
+            submitData.append('lineaId', formData.lineaId);
+        }
+        
+        if (formData.marcaId?.trim()) {
+            submitData.append('marcaId', formData.marcaId);
+        }
+        
+        if (formData.rubroId?.trim()) {
+            submitData.append('rubroId', formData.rubroId);
+        }
+        
+        // Precio y lista de precio
+        if (formData.precio && formData.precio.toString().trim() !== '') {
+            const precioValue = parseFloat(formData.precio);
+            if (!isNaN(precioValue)) {
+                submitData.append('precio', precioValue);
+                submitData.append('listaPrecio', parseInt(formData.listaPrecio || '1', 10));
+            }
+        }
+        
+        // Imagen
+        if (formData.imgUrl instanceof File) {
+            submitData.append('file', formData.imgUrl);
+        }
+
+        // Log para debug
+        console.log('Datos a enviar:');
+        for (let pair of submitData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
+        if (modalMode === 'create') {
+            await axios.post(`${API_URL}/products`, submitData, {
+                headers: { 
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
                 }
             });
-            
-            if (formData.imgUrl instanceof File) {
-                submitData.append('imgUrl', formData.imgUrl);
-            }
-
-            if (modalMode === 'create') {
-                await axios.post(`${API_URL}/products`, submitData, {
-                    headers: { 
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-                Swal.fire('¡Éxito!', 'Producto creado correctamente', 'success');
-            } else {
-                await axios.put(`${API_URL}/products/${currentProduct.id}`, submitData, {
-                    headers: { 
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-                Swal.fire('¡Éxito!', 'Producto actualizado correctamente', 'success');
-            }
-            
-            handleCloseModal();
-            fetchProductos();
+            Swal.fire({
+                title: '¡Éxito!',
+                text: 'Producto creado correctamente',
+                icon: 'success'
+            });
+        } else {
+            await axios.put(`${API_URL}/products/${currentProduct.id}`, submitData, {
+                headers: { 
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            Swal.fire({
+                title: '¡Éxito!',
+                text: 'Producto actualizado correctamente',
+                icon: 'success'
+            });
+        }
+        
+        handleCloseModal();
+        fetchProductos();
         } catch (error) {
             console.error('Error al guardar producto:', error);
-            Swal.fire('Error', error.response?.data?.message || 'No se pudo guardar el producto', 'error');
+               console.error('Error response:', error.response?.data); // Para ver qué devuelve el backend
+        
+        // Convertir el mensaje de error a string
+        let errorMessage = 'No se pudo guardar el producto';
+        if (error.response?.data) {
+            if (typeof error.response.data === 'string') {
+                errorMessage = error.response.data;
+            } else if (error.response.data.message) {
+                errorMessage = Array.isArray(error.response.data.message) 
+                    ? error.response.data.message.join(', ')
+                    : error.response.data.message;
+            }
         }
+        
+        Swal.fire({
+            title: 'Error',
+            text: errorMessage,
+            icon: 'error'
+        });
+    }
     };
 
     const handleToggleState = async (productId, currentState, productName) => {
@@ -699,6 +798,17 @@ const handleCreateEntity = async (type) => {
                                         value={formData.precio}
                                         onChange={handleInputChange}
                                         placeholder="0.00"
+                                    />
+                                </div>
+                                
+                                <div className={styles.formGroup}>
+                                    <label>Lista de Precio</label>
+                                    <input
+                                        type="number"
+                                        name="listaPrecio"
+                                        value={formData.listaPrecio}
+                                        onChange={handleInputChange}
+                                        placeholder="1"
                                     />
                                 </div>
 

@@ -79,3 +79,6 @@
     }
 
 
+.swal2-container {
+    z-index: 10003;
+}
