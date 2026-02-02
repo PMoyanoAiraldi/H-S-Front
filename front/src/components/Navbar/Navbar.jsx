@@ -24,6 +24,14 @@ export default function Navbar() {
         setDropdownOpen(!dropdownOpen);
     };
 
+    const handleProfile = () => {
+        // Redirige al dashboard si es administrador
+        if (user && user.rol === 'admin') {
+            navigate("/dashboard");
+        }
+        setDropdownOpen(false);
+    };
+
 
     return (
         <nav className={styles.navbar}>
@@ -52,6 +60,9 @@ export default function Navbar() {
                         </span>
                         {dropdownOpen && (
                             <div className={styles.dropdown}>
+                                {user.rol === 'admin' && (
+                                    <button onClick={handleProfile}>Mi Perfil</button>
+                                )}
                                 <button onClick={handleLogout}>Cerrar sesión</button>
                             </div>
                         )}

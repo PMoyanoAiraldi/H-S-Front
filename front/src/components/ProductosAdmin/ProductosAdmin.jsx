@@ -447,7 +447,7 @@ const handleCreateEntity = async (type) => {
     const productosFiltrados = productos.filter(product => {
         console.log("Products en daschboar product", product)
         const matchSearch = product.nombre?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            product.codigo?.toLowerCase().includes(searchTerm.toLowerCase());
+            product.codigo?.toString().toLowerCase().includes(searchTerm.toLowerCase());
         const matchLinea = filterLinea === 'todas' || product.linea.nombre === filterLinea;
         const matchRubro = filterRubro === 'todos' || product.rubro.nombre === filterRubro;
         const matchMarca = filterMarca === 'todas' || product.marca.nombre === filterMarca;
@@ -456,7 +456,9 @@ const handleCreateEntity = async (type) => {
             (filterEstado === 'inactivo' && !product.state);
         
         return matchSearch && matchLinea && matchMarca && matchRubro && matchEstado;
-    });
+    }).sort((a, b) => a.nombre.localeCompare(b.nombre, 'es-AR'));
+
+    //El .sort() se aplica después del .filter(), así que cada vez que se agregue un producto nuevo y se recargue la lista con fetchProductos(), automáticamente se ordena. localeCompare con 'es-AR' se encarga de ordenar correctamente las letras con acentos y la ñ.
 
     if (loading) {
         return (

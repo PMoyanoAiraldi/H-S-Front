@@ -15,8 +15,11 @@ const RexrothProductDetail = () => {
 
      // Obtener información del usuario logueado
     const user = useSelector(state => state.user?.user);
+    const isAdmin = user?.rol === 'admin'; 
     const isCliente = user?.rol === 'cliente';
 
+
+    const seePrice = isAdmin || isCliente
      // Luego buscar en Redux
     const productFromRedux = useSelector(state => 
         state.products.products.find(p => p.id === id)
@@ -40,7 +43,7 @@ const RexrothProductDetail = () => {
         console.log('Product precios array:', product?.precios);
         console.log('Precio extraído:', precio);
         console.log('Should show price?:', isCliente && precio);
-    }, [user, isCliente, product, precio]);
+    }, [user, isCliente, isAdmin, seePrice, product, precio]);
 
     // Solo hacer fetch si NO tenemos el producto de ninguna fuente
     useEffect(() => {
@@ -139,7 +142,7 @@ const RexrothProductDetail = () => {
                     <h1 className={styles.productTitle}>{product.nombre}</h1>
 
                      {/* Mostrar precio o botón según tipo de usuario */}
-                    {isCliente && precio ? (
+                    {seePrice && precio ? (
                         <div className={styles.priceDisplay}>
                             <span className={styles.priceLabel}>Precio:</span>
                             <span className={styles.priceValue}>
