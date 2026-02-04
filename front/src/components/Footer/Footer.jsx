@@ -5,6 +5,8 @@ import styles from './Footer.module.css';
     import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
     const Footer = () => {
+        const currentYear = new Date().getFullYear();
+
         const messages = {
                 ventas:
                 'Hola 👋 Me comunico desde el sitio web de Hidráulica HS y quisiera consultar por un producto.',
@@ -145,7 +147,7 @@ import styles from './Footer.module.css';
         <hr className={styles.divider} />
 
         <div className={styles.bottom}>
-            <p>© 2025 Hidráulica HS SRL. Todos los derechos reservados.</p>
+            <p>© {currentYear} Hidráulica HS SRL. Todos los derechos reservados.</p>
         </div>
         </footer>
     );
