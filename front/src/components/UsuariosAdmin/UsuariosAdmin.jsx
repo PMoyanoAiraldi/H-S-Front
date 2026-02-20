@@ -13,18 +13,24 @@ const UsuariosAdmin = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filterRol, setFilterRol] = useState('todos');
     const [filterEstado, setFilterEstado] = useState('todos');
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    
 
     useEffect(() => {
-        fetchUsuarios();
-    }, []);
+        fetchUsuarios(page);
+    }, [page]);
 
-    const fetchUsuarios = async () => {
+    const fetchUsuarios = async (pageNumber = 1) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`${API_URL}/users`, {
+            const response = await axios.get(`${API_URL}/users?page=${pageNumber}&limit=100`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setUsuarios(response.data);
+            setUsuarios(response.data.data);
+            setTotalPages(response.data.totalPages);
+            setPage(response.data.page);
+
             setLoading(false);
         } catch (error) {
             console.error('Error al obtener usuarios:', error);
@@ -32,6 +38,30 @@ const UsuariosAdmin = () => {
             setLoading(false);
         }
     };
+
+    const getPages = () => {
+        const pages = [];
+        const maxVisible = 5;
+
+        let start = Math.max(1, page - 2);
+        let end = Math.min(totalPages, page + 2);
+
+        if (page <= 3) {
+            end = Math.min(totalPages, maxVisible);
+        }
+
+        if (page > totalPages - 3) {
+            start = Math.max(1, totalPages - maxVisible + 1);
+        }
+
+        for (let i = start; i <= end; i++) {
+            pages.push(i);
+        }
+
+        return { start, end, pages };
+    };
+
+    const { start, end, pages } = getPages();
 
     const handleToggleState = async (userId, currentState, userName) => {
         const action = currentState ? 'desactivar' : 'activar';
@@ -212,6 +242,50 @@ const UsuariosAdmin = () => {
                         )}
                     </tbody>
                 </table>
+            </div>
+            
+
+            <div className={styles.pagination}>
+                
+                <button
+                    onClick={() => setPage(page - 1)}
+                    disabled={page === 1}
+                >
+                    ‹
+                </button>
+
+                {start > 1 && (
+                    <>
+                        <button onClick={() => setPage(1)}>1</button>
+                        {start > 2 && <span>...</span>}
+                    </>
+                )}
+
+            {pages.map(p => (
+                <button
+                    key={p}
+                    onClick={() => setPage(p)}
+                    className={p === page ? styles.activePage : ''}
+                >
+                    {p}
+                </button>
+            ))}
+
+            {end < totalPages && (
+                <>
+                    {end < totalPages - 1 && <span>...</span>}
+                    <button onClick={() => setPage(totalPages)}>
+                        {totalPages}
+                    </button>
+                </>
+            )}
+
+            <button
+                onClick={() => setPage(page + 1)}
+                disabled={page === totalPages}
+            >
+                ›
+            </button>
             </div>
 
             <div className={styles.stats}>

@@ -214,6 +214,33 @@
     color: #00ADEF;
 }
 
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    background: #1E1E2D;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.pagination button:hover {
+    background: #1A344A;
+}
+
+.activePage {
+    background: #ddd;
+    color: #00ADEF;
+    border-color: #ddd;
+}
+
 @media (max-width: 768px) {
     .filters {
         flex-direction: column;
