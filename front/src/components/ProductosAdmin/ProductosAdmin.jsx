@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import styles from './ProductosAdmin.module.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3010';
+const LIMIT = 1000;
 
 const ProductosAdmin = () => {
     const [productos, setProductos] = useState([]);
@@ -30,6 +31,11 @@ const ProductosAdmin = () => {
     const [newEntityName, setNewEntityName] = useState('');
     const [newEntityCode, setNewEntityCode] = useState('');
 
+    // Paginación
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalProductos, setTotalProductos] = useState(0); // total real de la DB
+
     const [formData, setFormData] = useState({
         nombre: '',
         descripcion: '',
@@ -39,33 +45,38 @@ const ProductosAdmin = () => {
         lineaId:'',
         marcaId:'',
         rubroId:'',
-        // lineaNombre: '',
-        // marcaNombre: '',
-        // rubroNombre:'',
         precio: '',
         listaPrecio: '1', //Por defecto ponemos la lista 1
         imgUrl: null
     });
 
+
     // Obtener listas únicas para filtros
-    const lineas = [...new Set(productos.map(p => p.linea.nombre).filter(Boolean))];
-    const marcas = [...new Set(productos.map(p => p.marca.nombre).filter(Boolean))];
-    const rubros = [...new Set(productos.map(p => p.rubro.nombre).filter(Boolean))];
+    const lineas = [...new Set(productos.map(p => p.linea?.nombre).filter(Boolean))];
+    const marcas = [...new Set(productos.map(p => p.marca?.nombre).filter(Boolean))];
+    const rubros = [...new Set(productos.map(p => p.rubro?.nombre).filter(Boolean))];
 
     useEffect(() => {
-        fetchProductos();
-        fetchLineas();    
-        fetchMarcas();    
-        fetchRubros();    
+        fetchProductos(page);  
+    }, [page]);
+
+
+    useEffect(() => {
+        // Cargar listas de lineas/marcas/rubros solo una vez, sin afectar la paginación de productos
+        fetchLineas();
+        fetchMarcas();
+        fetchRubros();
     }, []);
 
     const fetchLineas = async () => {
     try {
         const token = localStorage.getItem('token');
         const response = await axios.get(`${API_URL}/linea/admin/all`, {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${token}` },
+            params: { page: 1, limit: 9999 } // traer todas para los selects
         });
-        setLineasDisponibles(response.data);
+        // El backend puede devolver array o { data: [...] }
+            setLineasDisponibles(response.data.data || response.data);
     } catch (error) {
         console.error('Error al obtener líneas:', error);
     }
@@ -76,9 +87,10 @@ const ProductosAdmin = () => {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get(`${API_URL}/marca/admin/all`, {
-                headers: { Authorization: `Bearer ${token}` }
+                headers: { Authorization: `Bearer ${token}` },
+                params: { page: 1, limit: 9999 } // traer todas para los selects
         });
-        setMarcasDisponibles(response.data);
+            setMarcasDisponibles(response.data.data || response.data);
         } catch (error) {
             console.error('Error al obtener marcas:', error);
         }
@@ -89,29 +101,31 @@ const ProductosAdmin = () => {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.get(`${API_URL}/rubro/admin/all`, {
-                headers: { Authorization: `Bearer ${token}` }
+                headers: { Authorization: `Bearer ${token}` },
+                params: { page: 1, limit: 9999 }
         });
-        setRubrosDisponibles(response.data);
+            setRubrosDisponibles(response.data.data || response.data);
         } catch (error) {
             console.error('Error al obtener rubros:', error);
         }
     };
 
-    const fetchProductos = async () => {
+    const fetchProductos = async (pageNumber = 1) => {
         try {
+            setLoading(true);
             const token = localStorage.getItem('token');
             console.log('Fetching products...');
             
             const response = await axios.get(`${API_URL}/products/admin/all`, {
                 headers: { Authorization: `Bearer ${token}` },
-                params: { page: 1, limit: 1000 }
+                params: { page: pageNumber, limit: LIMIT }
             });
             
             console.log('Products response:', response.data);
-            
-            // El backend puede devolver { data: [...] } o directamente [...]
-            const productosData = response.data.data || response.data;
-            setProductos(Array.isArray(productosData) ? productosData : []);
+            // El backend devuelve { data, total, page, lastPage }
+            setProductos(response.data.data || []);
+            setTotalProductos(response.data.total || 0);
+            setTotalPages(response.data.lastPage || 1);
             setLoading(false);
         } catch (error) {
             console.error('Error al obtener productos:', error);
@@ -119,6 +133,33 @@ const ProductosAdmin = () => {
             setLoading(false);
         }
     };
+
+    const getPages = () => {
+        const pages = [];
+        const maxVisible = 5;
+        let start = Math.max(1, page - 2);
+        let end = Math.min(totalPages, page + 2);
+
+        if (page <= 3) {
+            end = Math.min(totalPages, maxVisible);
+        }
+
+        if (page > totalPages - 3) {
+            start = Math.max(1, totalPages - maxVisible + 1);
+        }
+
+        for (let i = start; i <= end; i++) {
+            pages.push(i);
+        }
+
+        return { start, end, pages };
+    };
+
+    const { start, end, pages } = getPages();
+
+    // Productos mostrados en esta página vs total en la DB
+    const productosDesdePage = (page - 1) * LIMIT + 1;
+    const productosHastaPage = Math.min(page * LIMIT, totalProductos);
 
     //  Función para crear nueva línea/marca/rubro
 const handleCreateEntity = async (type) => {
@@ -128,11 +169,9 @@ const handleCreateEntity = async (type) => {
     }
 
     try {
-        const token = localStorage.getItem('token');
-        const endpoint = type ;
-        
+        const token = localStorage.getItem('token');        
         const response = await axios.post(
-            `${API_URL}/${endpoint}`,
+            `${API_URL}/${type}`,
             {   nombre: newEntityName.trim(),
                 codigo: parseInt(newEntityCode, 10) // Convertir a número entero
             },
@@ -181,9 +220,6 @@ const handleCreateEntity = async (type) => {
                 codigo: product.codigo || '',
                 codigoAlternativo1: product.codigoAlternativo1 || '',
                 codigoAlternativo2: product.codigoAlternativo2 || '',
-                // lineaNombre: product.linea.nombre || '',
-                // marcaNombre: product.marca.nombre || '',
-                // rubroNombre: product.rubro.nombre || '',
                 lineaId: product.linea?.id || '',    // Usar ID en lugar de nombre
                 marcaId: product.marca?.id || '',    // Usar ID en lugar de nombre
                 rubroId: product.rubro?.id || '',    // Usar ID en lugar de nombre
@@ -198,9 +234,6 @@ const handleCreateEntity = async (type) => {
                 codigo: '',
                 codigoAlternativo1: '',
                 codigoAlternativo2: '',
-                // lineaNombre: '',
-                // marcaNombre: '',
-                // rubroNombre: '',
                 lineaId: '',
                 marcaId: '',
                 rubroId: '',
@@ -381,7 +414,7 @@ const handleCreateEntity = async (type) => {
         }
         
         handleCloseModal();
-        fetchProductos();
+        fetchProductos(page);
         } catch (error) {
             console.error('Error al guardar producto:', error);
                console.error('Error response:', error.response?.data); // Para ver qué devuelve el backend
@@ -430,7 +463,7 @@ const handleCreateEntity = async (type) => {
                 );
 
                  // Recargar productos desde el servidor en lugar de actualizar manualmente
-                await fetchProductos();
+                await fetchProductos(page);
 
                 Swal.fire(
                     '¡Actualizado!',
@@ -444,13 +477,14 @@ const handleCreateEntity = async (type) => {
         }
     };
 
+    // ─── FILTROS (client-side sobre la página actual) ──────────────
     const productosFiltrados = productos.filter(product => {
         console.log("Products en daschboar product", product)
         const matchSearch = product.nombre?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             product.codigo?.toString().toLowerCase().includes(searchTerm.toLowerCase());
-        const matchLinea = filterLinea === 'todas' || product.linea.nombre === filterLinea;
-        const matchRubro = filterRubro === 'todos' || product.rubro.nombre === filterRubro;
-        const matchMarca = filterMarca === 'todas' || product.marca.nombre === filterMarca;
+        const matchLinea = filterLinea === 'todas' || product.linea?.nombre === filterLinea;
+        const matchRubro = filterRubro === 'todos' || product.rubro?.nombre === filterRubro;
+        const matchMarca = filterMarca === 'todas' || product.marca?.nombre === filterMarca;
         const matchEstado = filterEstado === 'todos' || 
             (filterEstado === 'activo' && product.state) || 
             (filterEstado === 'inactivo' && !product.state);
@@ -470,31 +504,37 @@ const handleCreateEntity = async (type) => {
 
     return (
         <div className={styles.container}>
+        {/* HEADER */}
             <div className={styles.header}>
                 <div>
-                    <h1>Gestión de Productos Rexroth</h1>
+                    <h1>Gestión de Productos</h1>
                     <p className={styles.subtitle}>
-                        {productos.length} productos registrados
+                        {/* Mostrando X-Y de Z productos */}
+                        Mostrando {productosDesdePage}–{productosHastaPage} de {totalProductos} productos
+                        {productosFiltrados.length !== productos.length && (
+                            <span> · <strong>{productosFiltrados.length}</strong> con filtros aplicados</span>
+                        )}
                     </p>
                 </div>
                 <div className={styles.headerButtons}>
-        <button 
-            className={styles.viewSiteBtn}
-            onClick={() => window.open('/rexroth/products', '_blank')}
-        >
-            <ExternalLink size={20} />
-            Ver Sitio
-        </button>
-        <button 
-            className={styles.createBtn}
-            onClick={() => handleOpenModal('create')}
-        >
-            <Plus size={20} />
-            Nuevo Producto
-        </button>
-    </div>
-</div>
+                    <button 
+                        className={styles.viewSiteBtn}
+                        onClick={() => window.open('/rexroth/products', '_blank')}
+                    >
+                            <ExternalLink size={20} />
+                            Ver Sitio
+                        </button>
+                        <button 
+                        className={styles.createBtn}
+                        onClick={() => handleOpenModal('create')}
+                    >
+                        <Plus size={20} />
+                        Nuevo Producto
+                    </button>
+                </div>
+            </div>
 
+             {/* FILTROS */}
             <div className={styles.filters}>
                 <div className={styles.searchBox}>
                     <Search size={20} />
@@ -550,6 +590,7 @@ const handleCreateEntity = async (type) => {
                 </select>
             </div>
 
+            {/* TABLA */}
             <div className={styles.tableContainer}>
                 <table className={styles.table}>
                     <thead>
@@ -592,9 +633,9 @@ const handleCreateEntity = async (type) => {
                                     </td>
                                     <td className={styles.productCode}>{product.codigo}</td>
                                     <td className={styles.productName}>{product.nombre}</td>
-                                    <td>{product.linea.nombre || '-'}</td>
-                                    <td>{product.rubro.nombre || '-'}</td>
-                                    <td>{product.marca.nombre || '-'}</td>
+                                    <td>{product.linea?.nombre || '-'}</td>
+                                    <td>{product.rubro?.nombre || '-'}</td>
+                                    <td>{product.marca?.nombre || '-'}</td>
                                     <td className={styles.price}>
                                         {product.precios?.[0]?.precio 
                                             ? `$${Number(product.precios[0].precio).toLocaleString('es-AR', {
@@ -634,6 +675,7 @@ const handleCreateEntity = async (type) => {
                 </table>
             </div>
 
+            {/* STATS */}
             <div className={styles.stats}>
                 <div className={styles.statCard}>
                     <span className={styles.statLabel}>Productos activos</span>
@@ -649,17 +691,38 @@ const handleCreateEntity = async (type) => {
                 </div>
                 <div className={styles.statCard}>
                     <span className={styles.statLabel}>Total productos</span>
-                    <span className={styles.statValue}>
-                        {productos.length}
-                    </span>
+                    <span className={styles.statValue}>{totalProductos}</span>
                 </div>
             </div>
 
-                
+            {/* PAGINACIÓN */}
+            {totalPages > 1 && (
+                <div className={styles.pagination}>
+                    <button onClick={() => setPage(page - 1)} disabled={page === 1}>‹</button>
 
+                    {start > 1 && (
+                        <>
+                            <button onClick={() => setPage(1)}>1</button>
+                            {start > 2 && <span>...</span>}
+                        </>
+                    )}
 
+                    {pages.map(p => (
+                        <button key={p} onClick={() => setPage(p)} className={p === page ? styles.activePage : ''}>
+                            {p}
+                        </button>
+                    ))}
 
+                    {end < totalPages && (
+                        <>
+                            {end < totalPages - 1 && <span>...</span>}
+                            <button onClick={() => setPage(totalPages)}>{totalPages}</button>
+                        </>
+                    )}
 
+                    <button onClick={() => setPage(page + 1)} disabled={page === totalPages}>›</button>
+                </div>
+            )}
 
             {showModal && (
                 <div className={styles.modalOverlay} onClick={handleCloseModal}>
@@ -860,6 +923,7 @@ const handleCreateEntity = async (type) => {
                     </div>
                 </div>
             )}
+
 
             {/* Modal para crear Línea */}
             {showLineaModal && (
