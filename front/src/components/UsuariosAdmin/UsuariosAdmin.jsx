@@ -15,6 +15,11 @@ const UsuariosAdmin = () => {
     const [filterEstado, setFilterEstado] = useState('todos');
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalUsuarios, setTotalUsuarios] = useState(0);
+
+    const LIMIT_USERS = 100;
+    const usuariosDesdePage = (page - 1) * LIMIT_USERS + 1;
+    const usuariosHastaPage = Math.min(page * LIMIT_USERS, totalUsuarios);
     
 
     useEffect(() => {
@@ -30,6 +35,7 @@ const UsuariosAdmin = () => {
             setUsuarios(response.data.data);
             setTotalPages(response.data.totalPages);
             setPage(response.data.page);
+            setTotalUsuarios(response.data.total);
 
             setLoading(false);
         } catch (error) {
@@ -134,7 +140,10 @@ const UsuariosAdmin = () => {
             <div className={styles.header}>
                 <h1>Gestión de Usuarios</h1>
                 <p className={styles.subtitle}>
-                    {usuarios.length} usuarios registrados
+                    Mostrando {usuariosDesdePage}–{usuariosHastaPage} de {totalUsuarios} usuarios
+                {usuariosFiltrados.length !== usuarios.length && (
+                    <span> · <strong>{usuariosFiltrados.length}</strong> con filtros aplicados</span>
+                )}
                 </p>
             </div>
 

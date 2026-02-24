@@ -26,45 +26,63 @@
 }
 
 .filters {
-    display: flex;
-    gap: 1rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 0.75rem;
     margin-bottom: 2rem;
-    flex-wrap: wrap;
+    align-items: stretch;
 }
 
 .searchBox {
-    flex: 1;
-    min-width: 300px;
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.75rem 1rem;
+    padding: 0 1rem;
+    height: 38px;
     background: white;
     border: 1px solid #ddd;
     border-radius: 8px;
+    box-sizing: border-box;
 }
 
 .searchBox input {
     flex: 1;
-    border: none;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    font-size: 0.85rem;
+    height: 100%;
+    background: transparent; /*por si hay un estilo global*/
+}
+
+.searchBox:focus-within {
+    border-color: #00ADEF;
     outline: none;
-    font-size: 1rem;
+    box-shadow: none;
 }
 
 .select {
-    padding: 0.75rem 1rem;
+    padding: 0 1rem;
+    height: 38px;
     border: 1px solid #ddd;
     border-radius: 8px;
     background: white;
-    font-size: 1rem;
+    font-size: 0.85rem;
     cursor: pointer;
-    min-width: 180px;
+    box-sizing: border-box;
+    width: 100%;
+    appearance: auto;
+}
+
+.select:focus {
+    outline: none;
+    border-color: #00ADEF;
 }
 
 .tableContainer {
     background: white;
     border-radius: 12px;
-    overflow: hidden;
+    overflow-x: auto;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
 }

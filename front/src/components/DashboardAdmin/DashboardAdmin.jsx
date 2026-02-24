@@ -49,7 +49,7 @@ const DashboardAdmin = () => {
                         className={`${styles.navLink} ${isActive('/dashboard/productos') ? styles.active : ''}`}
                     >
                         <Package size={20} />
-                        {sidebarOpen && <span>Productos Rexroth</span>}
+                        {sidebarOpen && <span>Productos </span>}
                     </Link>
                 </nav>
 

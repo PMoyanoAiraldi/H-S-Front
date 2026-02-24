@@ -195,17 +195,20 @@
     grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
     gap: 0.75rem;
     margin-bottom: 1.5rem;
+    align-items: stretch; /* ← todos la misma altura */
 }
 
 .searchBox {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.4rem 0.75rem;
+    padding: 0 0.75rem;
+    height: 38px; /* ← altura fija */
     background: white;
     border: 1px solid #e0e0e0;
     border-radius: 6px;
     transition: border-color 0.3s ease;
+    box-sizing: border-box;
 }
 
 .searchBox:focus-within {
@@ -214,26 +217,32 @@
 
 .searchBox svg {
     color: #999;
+    flex-shrink: 0;
     width: 18px;
     height: 18px;
 }
 
 .searchBox input {
     flex: 1;
-    border: none;
-    outline: none;
-    font-size: 0.75rem;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    font-size: 0.85rem;
+    height: 100%;
 }
 
 .select {
-    padding: 0.4rem 0.6rem;
+    padding: 0 0.6rem;
+    height: 38px; /* ← misma altura que searchBox */
     border: 1px solid #e0e0e0;
     border-radius: 6px;
     background: white;
     font-size: 0.85rem;
     cursor: pointer;
     transition: border-color 0.3s ease;
-    height: auto;
+    box-sizing: border-box;
+    width: 100%;                /* ← ocupa todo el ancho de su celda */
+    appearance: auto;
 }
 
 .select:focus {
@@ -245,7 +254,7 @@
 .tableContainer {
     background: white;
     border-radius: 12px;
-    overflow: hidden;
+    overflow-x: auto;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     margin-bottom: 2rem;
 }
@@ -260,7 +269,7 @@
 }
 
 .table th {
-    padding: 1rem;
+    padding: 0.6rem 0.75rem;
     text-align: left;
     font-weight: 600;
     color: #495057;
@@ -268,12 +277,14 @@
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    font-size: 0.85rem;
 }
 
 .table td {
-    padding: 1rem;
+    padding: 0.6rem 0.75rem;;
     border-bottom: 1px solid #f0f0f0;
     vertical-align: middle;
+    font-size: 0.85rem;
 }
 
 .table tbody tr {
@@ -314,7 +325,7 @@
 .productName {
     font-weight: 600;
     color: #1a1a1a;
-    max-width: 300px;
+    max-width: 200px;
 }
 
 .price {
