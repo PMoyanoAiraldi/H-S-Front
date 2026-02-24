@@ -57,8 +57,13 @@ const ProductosAdmin = () => {
     const rubros = [...new Set(productos.map(p => p.rubro?.nombre).filter(Boolean))];
 
     useEffect(() => {
+    setPage(1);
+    }, [searchTerm, filterLinea, filterRubro, filterMarca, filterEstado]);
+
+
+    useEffect(() => {
         fetchProductos(page);  
-    }, [page]);
+    }, [page, searchTerm, filterLinea, filterRubro, filterMarca, filterEstado]);
 
 
     useEffect(() => {
@@ -116,9 +121,18 @@ const ProductosAdmin = () => {
             const token = localStorage.getItem('token');
             console.log('Fetching products...');
             
+            const params = { 
+            page: pageNumber, 
+            limit: LIMIT,
+            ...(searchTerm && { search: searchTerm }),
+            ...(filterLinea !== 'todas' && { linea: filterLinea }),
+            ...(filterRubro !== 'todos' && { rubro: filterRubro }),
+            ...(filterMarca !== 'todas' && { marca: filterMarca }),
+        };
+
             const response = await axios.get(`${API_URL}/products/admin/all`, {
                 headers: { Authorization: `Bearer ${token}` },
-                params: { page: pageNumber, limit: LIMIT }
+                params
             });
             
             console.log('Products response:', response.data);
@@ -477,19 +491,12 @@ const handleCreateEntity = async (type) => {
         }
     };
 
-    // ─── FILTROS (client-side sobre la página actual) ──────────────
-    const productosFiltrados = productos.filter(product => {
-        console.log("Products en daschboar product", product)
-        const matchSearch = product.nombre?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            product.codigo?.toString().toLowerCase().includes(searchTerm.toLowerCase());
-        const matchLinea = filterLinea === 'todas' || product.linea?.nombre === filterLinea;
-        const matchRubro = filterRubro === 'todos' || product.rubro?.nombre === filterRubro;
-        const matchMarca = filterMarca === 'todas' || product.marca?.nombre === filterMarca;
+    // ─── FILTROS (filtra todas las coincidencias, no solo de la página actual) ──────────────
+        const productosFiltrados = productos.filter(product => {
         const matchEstado = filterEstado === 'todos' || 
             (filterEstado === 'activo' && product.state) || 
             (filterEstado === 'inactivo' && !product.state);
-        
-        return matchSearch && matchLinea && matchMarca && matchRubro && matchEstado;
+        return matchEstado;
     }).sort((a, b) => a.nombre.localeCompare(b.nombre, 'es-AR'));
 
     //El .sort() se aplica después del .filter(), así que cada vez que se agregue un producto nuevo y se recargue la lista con fetchProductos(), automáticamente se ordena. localeCompare con 'es-AR' se encarga de ordenar correctamente las letras con acentos y la ñ.
