@@ -1,7 +1,7 @@
 // components/UsuariosAdmin/UsuariosAdmin.jsx
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Search, UserCheck, UserX, Calendar, Clock } from 'lucide-react';
+import { Search, X, UserCheck, UserX, Calendar, Clock } from 'lucide-react';
 import Swal from 'sweetalert2';
 import styles from './UsuariosAdmin.module.css';
 
@@ -11,6 +11,7 @@ const UsuariosAdmin = () => {
     const [usuarios, setUsuarios] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [debouncedSearch, setDebouncedSearch] = useState('');
     const [filterRol, setFilterRol] = useState('todos');
     const [filterEstado, setFilterEstado] = useState('todos');
     const [page, setPage] = useState(1);
@@ -23,14 +24,35 @@ const UsuariosAdmin = () => {
     
 
     useEffect(() => {
+    const timer = setTimeout(() => {
+        setDebouncedSearch(searchTerm);
+    }, 500);
+    return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    useEffect(() => {
+        setPage(1);
+    }, [debouncedSearch, filterRol, filterEstado]);
+
+    useEffect(() => {
         fetchUsuarios(page);
-    }, [page]);
+    }, [page, debouncedSearch, filterRol, filterEstado]);
 
     const fetchUsuarios = async (pageNumber = 1) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`${API_URL}/users?page=${pageNumber}&limit=100`, {
-                headers: { Authorization: `Bearer ${token}` }
+
+            const params = {
+            page: pageNumber,
+            limit: 100,
+            ...(debouncedSearch && { search: debouncedSearch }),
+            ...(filterRol !== 'todos' && { rol: filterRol }),
+            ...(filterEstado !== 'todos' && { state: filterEstado === 'activo' ? 'active' : 'inactive' }),
+        };
+
+            const response = await axios.get(`${API_URL}/users`, {
+                headers: { Authorization: `Bearer ${token}` },
+                params
             });
             setUsuarios(response.data.data);
             setTotalPages(response.data.totalPages);
@@ -157,6 +179,16 @@ const UsuariosAdmin = () => {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
+
+                    {searchTerm && (
+                        <button
+                            type="button"
+                            onClick={() => setSearchTerm('')}
+                            className={styles.clearBtn}
+                        >
+                            <X size={16} />
+                        </button>
+                    )}
                 </div>
 
                 <select 

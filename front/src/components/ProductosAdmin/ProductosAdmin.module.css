@@ -230,7 +230,21 @@
     font-size: 0.85rem;
     height: 100%;
 }
+.clearBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    color: #999;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+}
 
+.clearBtn:hover {
+    color: #dc3545;
+}
 .select {
     padding: 0 0.6rem;
     height: 38px; /* ← misma altura que searchBox */

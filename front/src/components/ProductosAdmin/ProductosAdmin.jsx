@@ -16,6 +16,7 @@ const ProductosAdmin = () => {
     const [rubrosDisponibles, setRubrosDisponibles] = useState([]);
 
     const [searchTerm, setSearchTerm] = useState('');
+    const [debouncedSearch, setDebouncedSearch] = useState('');
     const [filterLinea, setFilterLinea] = useState('todas');
     const [filterMarca, setFilterMarca] = useState('todas');
     const [filterRubro, setFilterRubro] = useState('todos');
@@ -56,14 +57,23 @@ const ProductosAdmin = () => {
     const marcas = [...new Set(productos.map(p => p.marca?.nombre).filter(Boolean))];
     const rubros = [...new Set(productos.map(p => p.rubro?.nombre).filter(Boolean))];
 
+    // Debounce: espera 500ms después de que el usuario para de escribir
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+
     useEffect(() => {
     setPage(1);
-    }, [searchTerm, filterLinea, filterRubro, filterMarca, filterEstado]);
+    }, [debouncedSearch, filterLinea, filterRubro, filterMarca, filterEstado]);
 
 
     useEffect(() => {
         fetchProductos(page);  
-    }, [page, searchTerm, filterLinea, filterRubro, filterMarca, filterEstado]);
+    }, [page, debouncedSearch, filterLinea, filterRubro, filterMarca, filterEstado]);
 
 
     useEffect(() => {
@@ -117,14 +127,14 @@ const ProductosAdmin = () => {
 
     const fetchProductos = async (pageNumber = 1) => {
         try {
-            setLoading(true);
+            // setLoading(true);
             const token = localStorage.getItem('token');
             console.log('Fetching products...');
             
             const params = { 
             page: pageNumber, 
             limit: LIMIT,
-            ...(searchTerm && { search: searchTerm }),
+            ...(debouncedSearch && { search: debouncedSearch }),
             ...(filterLinea !== 'todas' && { linea: filterLinea }),
             ...(filterRubro !== 'todos' && { rubro: filterRubro }),
             ...(filterMarca !== 'todas' && { marca: filterMarca }),
@@ -551,6 +561,15 @@ const handleCreateEntity = async (type) => {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
+                    {searchTerm && (
+                        <button
+                            type="button"
+                            onClick={() => setSearchTerm('')}
+                            className={styles.clearBtn}
+                        >
+                            <X size={16} />
+                        </button>
+                    )}
                 </div>
 
                 <select 
