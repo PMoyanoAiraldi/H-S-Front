@@ -6,11 +6,16 @@ import { fetchLineas, fetchRubros, fetchMarcas } from "../../redux/filterReducer
 import { setProducts, setLoading, setError } from '../../redux/productsReducer';
 import axiosInstance from '../../api/axiosConfig';
 import styles from "./RexrothDetail.module.css";
+import { BRAND_SEARCH_MAP } from '../../data/productsData';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3010';
 
 const RexrothDetail = () => {
     const { linea, brand } = useParams();
+
+    // Determiná si es Ognibene
+    const isOgnibene = linea === 'Ognibene Power';
+
     const navigate = useNavigate();
     const [activeFilters, setActiveFilters] = useState({
         linea: null,
@@ -24,6 +29,11 @@ const RexrothDetail = () => {
     const dispatch = useDispatch();
     const { products, loading, error } = useSelector((state) => state.products);
     const { login: isAuthenticated } = useSelector((state) => state.user);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalProducts, setTotalProducts] = useState(0);
+    const LIMIT = 20;
     
     // Debounce del search (espera 500ms después de dejar de escribir)
     useEffect(() => {
@@ -45,6 +55,11 @@ const RexrothDetail = () => {
         dispatch(fetchMarcas());
     }, [dispatch]);
 
+    // Resetear a página 1 cuando cambian filtros o búsqueda
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [activeFilters, debouncedSearch]);
+
      // Cargar productos con filtros del backend
     useEffect(() => {
         const fetchProducts = async () => {
@@ -55,15 +70,24 @@ const RexrothDetail = () => {
                 // Crea un objeto para construir query params de forma segura
                 const params = new URLSearchParams();
                 
+                // Si viene de Ognibene Power → filtrar por marca REXROTH-OBNIBENE
+                if (isOgnibene) {
+                    params.append('marca', 'REXROTH -OBNIBENE'); // nombre exacto en tu DB
+                }
+                // Si viene con una marca de tractor (ej: John Deere) → buscar por abreviatura
+                else if (brand) {
+                    const searchKey = BRAND_SEARCH_MAP[brand.toUpperCase()] || brand;
+                    params.append('search', searchKey);
+                }
                 
                 if (activeFilters.linea) params.append('linea', activeFilters.linea); //Agrega un parámetro (key=value), params.append('key', 'value')
                 if (activeFilters.rubro) params.append('rubro', activeFilters.rubro);
                 if (activeFilters.marca) params.append('marca', activeFilters.marca);
                 if (debouncedSearch) params.append('search', debouncedSearch);;
                 
-                // Paginación 
-                params.append('page', '1');
-                params.append('limit', '100'); // Traer todos los productos
+                // Paginación dinámica
+                params.append('page', currentPage.toString());
+                params.append('limit', LIMIT.toString()); // Traer todos los productos
                 
                 const endpoint = isAuthenticated 
                         ? `${API_URL}/products?${params.toString()}`       // Usuario logueado
@@ -88,6 +112,12 @@ const RexrothDetail = () => {
                 
                 //const activeProducts = mappedProducts.filter((product) => product.state);
                 dispatch(setProducts(mappedProducts));
+                
+
+                 // Guardar totales desde la respuesta del backend
+                const { total, lastPage } = response.data;
+                setTotalProducts(total || 0);
+                setTotalPages(lastPage || 1);
 
             } catch (error) {
                 console.error('Error al cargar productos:', error);
@@ -97,7 +127,7 @@ const RexrothDetail = () => {
             }
         };
         fetchProducts();
-    }, [dispatch, activeFilters, debouncedSearch, isAuthenticated]); // Se ejecuta cada vez que cambian los filtros o la búsqueda
+    }, [dispatch, activeFilters, debouncedSearch, isAuthenticated, currentPage]); // Se ejecuta cada vez que cambian los filtros o la búsqueda
 
     const handleFilterChange = (newFilters) => {
         setActiveFilters(newFilters);
@@ -194,7 +224,7 @@ const RexrothDetail = () => {
                     />
                     
                     <div className={styles.productCounter}>
-                        Mostrando {products.length} productos
+                        Mostrando {products.length} de {totalProducts} productos
                         {loading && <span className={styles.loadingDot}>●</span>}
                     </div>
                 </div>
@@ -264,6 +294,69 @@ const RexrothDetail = () => {
                                     </div>
                                 </div>
                             ))}
+                        </div>
+                    )}
+
+                    {/* Paginación */}
+                    {totalPages > 1 && (
+                        <div className={styles.pagination}>
+                            <button
+                                onClick={() => setCurrentPage(prev => prev - 1)}
+                                disabled={currentPage === 1}
+                                className={styles.pageBtn}
+                            >
+                                ‹
+                            </button>
+                                                
+                               {/* Números de página */}
+                        {(() => {
+                            const pages = [];
+                            const showPages = [];
+
+                            // Siempre mostrar primera página
+                            showPages.push(1);
+
+                            // Páginas alrededor de la actual
+                            for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+                                showPages.push(i);
+                            }
+
+                            // Siempre mostrar última página
+                            if (totalPages > 1) showPages.push(totalPages);
+
+                            // Eliminar duplicados y ordenar
+                            const uniquePages = [...new Set(showPages)].sort((a, b) => a - b);
+
+                            uniquePages.forEach((page, index) => {
+                                // Agregar "..." si hay salto
+                                if (index > 0 && page - uniquePages[index - 1] > 1) {
+                                    pages.push(
+                                        <span key={`dots-${index}`} className={styles.pageDots}>...</span>
+                                    );
+                                }
+
+                                pages.push(
+                                    <button
+                                        key={page}
+                                        onClick={() => setCurrentPage(page)}
+                                        className={`${styles.pageBtn} ${currentPage === page ? styles.pageBtnActive : ''}`}
+                                    >
+                                        {page}
+                                    </button>
+                                );
+                            });
+
+                            return pages;
+                        })()}
+                            
+                            <button
+                                onClick={() => setCurrentPage(prev => prev + 1)}
+                                disabled={currentPage === totalPages}
+                                className={styles.pageBtn}
+                            >
+                                ›
+                            </button>
+                            
                         </div>
                     )}
                 </div>

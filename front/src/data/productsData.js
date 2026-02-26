@@ -51,3 +51,21 @@ export const products = [
     }
 ];
 
+// Mapeo de marca → término de búsqueda en nombre del producto
+export const BRAND_SEARCH_MAP = {
+    'JOHN DEERE': 'JD',
+    'MASSEY FERGUSON': 'MF',
+    'NEW HOLLAND': 'NH',
+    'DEUTZ': 'DEUTZ',
+    'FIAT': 'FIAT',
+    'CASE IH': 'CASE',
+    'VASSALLI': 'VASSALLI',
+    'DON ROQUE': 'DON ROQUE',
+    'AGCO ALLIS': 'AGCO',
+    'VALTRA': 'VALTRA',
+    'PLA': 'PLA',
+    'METALFOR': 'METALFOR',
+    'JACTO': 'JACTO',
+    'PAUNY': 'PAUNY',
+};
+
