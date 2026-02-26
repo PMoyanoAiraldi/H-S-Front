@@ -148,7 +148,7 @@ const Rexroth = () => {
     useEffect(() => {
         const fetchAplicaciones = async () => {
             try {
-                const response = await axiosInstance.get(`${API_URL}/aplicaciones`);
+                const response = await axiosInstance.get(`${API_URL}/aplicacion`);
                 // Ordenar por codigo para mantener el orden correcto
                 const sorted = response.data.sort((a, b) => a.codigo - b.codigo);
                 setAplicaciones(sorted);
