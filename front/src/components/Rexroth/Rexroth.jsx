@@ -2,8 +2,12 @@ import React, {  useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from "./Rexroth.module.css";
 import { FaAngleDoubleRight, FaAngleUp, FaAngleDown } from 'react-icons/fa';
-import { products } from '../../data/productsData';
+import axiosInstance from '../../api/axiosConfig';
+import { BRAND_SEARCH_MAP, APLICACION_MARCAS } from '../../data/productsData';
 
+
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3010';
 
 //  Subcomponente que maneja las flechas dinámicas
 const ScrollableList = ({ category, items }) => {
@@ -73,9 +77,14 @@ const ScrollableList = ({ category, items }) => {
     );
 };
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ aplicacion }) => {
+        const navigate = useNavigate();
         const [flipped, setFlipped] = useState(false); //el estado de la tarjeta inicia en false, cuando hace click cambia a true
         const cardRef = useRef(null);
+
+
+         // Marcas del front según la aplicación
+        const marcas = APLICACION_MARCAS[aplicacion.nombre] || [];
 
         const toggleFlip = () => {
             setFlipped(!flipped);
@@ -100,22 +109,32 @@ const ProductCard = ({ product }) => {
         };
     }, [flipped]);
 
+      // Si no tiene marcas (ej: Sembradoras, Ognibene Power) navega directo al hacer click
+    const handleCardClick = () => {
+        if (marcas.length === 0) {
+            navigate(`/rexroth/${aplicacion.nombre}`);
+            return;
+        }
+        toggleFlip();
+    };
+
+
     return (
-        <div ref={cardRef} className={`${styles.flipCard} ${flipped ? styles.isFlipped : ''}`} onClick={toggleFlip}>
+        <div ref={cardRef} className={`${styles.flipCard} ${flipped ? styles.isFlipped : ''}`} onClick={handleCardClick}>
         <div className={`${styles.flipCardInner} ${flipped ? styles.flipped : ''}`}>
             <div className={styles.flipCardFront}>
-            <h3 className={styles.title}>{product.title}</h3>
-            <img src={product.image} alt={product.title} className={styles.productImage} />
-            
+            <h3 className={styles.title}>{aplicacion.nombre}</h3>
+            <img src={aplicacion.imgUrl} alt={aplicacion.nombre} className={styles.productImage} />
             </div>
-            {Array.isArray(product.description) ? (
-            <ScrollableList category={product.title} items={product.description} />
-            ) : (
-            <div className={styles.flipCardBack}>
-                <p>{product.description || 'Información disponible próximamente'}</p>
+
+            {marcas.length > 0 ? (
+                    <ScrollableList category={aplicacion.nombre} items={marcas} />
+                ) : (
+                    <div className={styles.flipCardBack}>
+                        <p>Información disponible próximamente</p>
+                    </div>
+                )}
             </div>
-            )}
-        </div>
         </div>
     );
     };
@@ -123,6 +142,32 @@ const ProductCard = ({ product }) => {
 
 
 const Rexroth = () => {
+    const [aplicaciones, setAplicaciones] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchAplicaciones = async () => {
+            try {
+                const response = await axiosInstance.get(`${API_URL}/aplicaciones`);
+                // Ordenar por codigo para mantener el orden correcto
+                const sorted = response.data.sort((a, b) => a.codigo - b.codigo);
+                setAplicaciones(sorted);
+            } catch (error) {
+                console.error('Error al cargar aplicaciones:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchAplicaciones();
+    }, []);
+
+    if (loading) return <div>Cargando...</div>;
+
+    // Dividir en 2 filas: primeras 2 y últimas 3
+    const fila1 = aplicaciones.slice(0, 2);
+    const fila2 = aplicaciones.slice(2);
+
+
     return (
     <section className={styles.products}>
         <h2 className={styles.sectionTitle}>REXROTH</h2>
@@ -131,15 +176,12 @@ const Rexroth = () => {
         
         {/* Fila 1 - 2 tarjetas */}
         <div className={styles.row}>
-        <ProductCard product={products[0]} />
-        <ProductCard product={products[1]} />
+        {fila1.map(ap => <ProductCard key={ap.id} aplicacion={ap} />)}
         </div>
 
         {/* Fila 2 - 3 tarjetas */}
         <div className={styles.row}>
-        <ProductCard product={products[2]} />
-        <ProductCard product={products[3]} />
-        <ProductCard product={products[4]} />
+        {fila2.map(ap => <ProductCard key={ap.id} aplicacion={ap} />)}
     </div>
     </div>
     </section>
